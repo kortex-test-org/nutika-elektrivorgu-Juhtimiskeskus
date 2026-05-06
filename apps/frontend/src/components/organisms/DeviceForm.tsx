@@ -133,7 +133,12 @@ export function DeviceForm(props: DeviceFormProps) {
       </div>
 
       <div className="flex items-center gap-2">
-        <input id="isCritical" type="checkbox" {...register("isCritical")} className="h-4 w-4" />
+        <input
+          id="isCritical"
+          type="checkbox"
+          {...register("isCritical")}
+          className="h-4 w-4 rounded border border-input bg-background accent-violet-600 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        />
         <Label htmlFor="isCritical" className="font-normal cursor-pointer">
           Kriitiline seade (ei lülitata automaatselt välja)
         </Label>
