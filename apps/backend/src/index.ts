@@ -1,6 +1,6 @@
 import { cors } from "@elysiajs/cors"
 import { swagger } from "@elysiajs/swagger"
-import { logger } from "@smartgrid/shared"
+import { logger } from "@smartgrid/shared/logger"
 import { Elysia } from "elysia"
 import cron from "node-cron"
 import { config } from "./config"

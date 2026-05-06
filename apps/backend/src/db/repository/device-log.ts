@@ -1,4 +1,5 @@
-import { db, deviceCommandsLog } from "@smartgrid/shared"
+import { deviceCommandsLog } from "@smartgrid/shared"
+import { db } from "@smartgrid/shared/db"
 import { desc, eq } from "drizzle-orm"
 
 export const insertCommandLog = async (data: {

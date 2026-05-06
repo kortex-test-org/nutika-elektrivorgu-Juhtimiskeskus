@@ -1,4 +1,5 @@
-import { db, users } from "@smartgrid/shared"
+import { users } from "@smartgrid/shared"
+import { db } from "@smartgrid/shared/db"
 import { eq } from "drizzle-orm"
 
 export const getUserByEmail = async (email: string) => {

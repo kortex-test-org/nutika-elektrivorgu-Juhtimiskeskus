@@ -1,4 +1,4 @@
-import { logger } from "@smartgrid/shared"
+import { logger } from "@smartgrid/shared/logger"
 import { updateDevice } from "../db/repository/device"
 import { insertCommandLog } from "../db/repository/device-log"
 import { wsManager } from "../ws/manager"

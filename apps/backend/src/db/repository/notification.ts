@@ -1,4 +1,5 @@
-import { db, notificationSettings } from "@smartgrid/shared"
+import { notificationSettings } from "@smartgrid/shared"
+import { db } from "@smartgrid/shared/db"
 import { eq, isNotNull } from "drizzle-orm"
 
 export const getNotificationSettings = async (userId: string) => {

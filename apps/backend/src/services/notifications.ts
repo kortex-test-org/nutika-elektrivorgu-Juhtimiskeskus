@@ -1,4 +1,4 @@
-import { logger } from "@smartgrid/shared"
+import { logger } from "@smartgrid/shared/logger"
 import { getNotificationSettings } from "../db/repository/notification"
 
 const sendTelegramMessage = async (chatId: string, message: string): Promise<void> => {

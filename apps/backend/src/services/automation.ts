@@ -1,4 +1,4 @@
-import { logger } from "@smartgrid/shared"
+import { logger } from "@smartgrid/shared/logger"
 import { getAllActiveDevices } from "../db/repository/device"
 import { getAllSettingsWithThreshold } from "../db/repository/notification"
 import { getLatestPrice } from "../db/repository/price"

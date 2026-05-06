@@ -1,4 +1,4 @@
-import { logger } from "@smartgrid/shared"
+import { logger } from "@smartgrid/shared/logger"
 import { getLatestPrice, upsertPrices } from "../db/repository/price"
 
 const ELERING_API_URL = "https://dashboard.elering.ee/api/nps/price"

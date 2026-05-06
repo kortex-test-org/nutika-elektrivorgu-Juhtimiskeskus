@@ -1,4 +1,4 @@
-import { logger } from "@smartgrid/shared"
+import { logger } from "@smartgrid/shared/logger"
 import { Elysia } from "elysia"
 import { wsManager } from "./manager"
 

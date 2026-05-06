@@ -1,4 +1,5 @@
-import { db, prices } from "@smartgrid/shared"
+import { prices } from "@smartgrid/shared"
+import { db } from "@smartgrid/shared/db"
 import { and, desc, gte, lte } from "drizzle-orm"
 
 export const getLatestPrice = async () => {

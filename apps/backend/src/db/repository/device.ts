@@ -1,4 +1,5 @@
-import { db, devices } from "@smartgrid/shared"
+import { devices } from "@smartgrid/shared"
+import { db } from "@smartgrid/shared/db"
 import { and, eq } from "drizzle-orm"
 
 export const getDevicesByUserId = async (userId: string) => {
