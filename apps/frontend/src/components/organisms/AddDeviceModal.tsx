@@ -38,7 +38,7 @@ export function AddDeviceModal() {
           Lisa seade
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg border-white/10 bg-[#0f0f1a]">
+      <DialogContent className="sm:max-w-lg border-white/10 bg-background/60 backdrop-blur-xl">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold text-white">Lisa uus seade</DialogTitle>
         </DialogHeader>
