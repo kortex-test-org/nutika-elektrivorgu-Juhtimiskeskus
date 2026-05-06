@@ -36,7 +36,7 @@ export default function DevicesPage() {
         {/* Header */}
         <div className="flex items-center justify-between animate-fade-up">
           <div>
-            <h1 className="text-3xl font-bold bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
               Seadmed
             </h1>
             <p className="text-sm text-muted-foreground mt-1">Halda ühendatud seadmeid</p>

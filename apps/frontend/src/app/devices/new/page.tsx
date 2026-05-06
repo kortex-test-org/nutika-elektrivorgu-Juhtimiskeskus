@@ -23,7 +23,7 @@ export default function NewDevicePage() {
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-lg">
-      <h1 className="text-2xl font-bold mb-6 bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
+      <h1 className="text-2xl font-bold mb-6 w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
         Lisa uus seade
       </h1>
       <DeviceForm mode="create" onSubmit={onSubmit} isLoading={createMutation.isPending} />
