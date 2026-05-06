@@ -1,9 +1,14 @@
+import { useAuthStore } from "@/stores/authStore"
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001"
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  const token = useAuthStore.getState().token
+  const authHeader: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {}
+
   const response = await fetch(`${BASE_URL}${path}`, {
     credentials: "include",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: { "Content-Type": "application/json", ...authHeader, ...options?.headers },
     ...options,
   })
 

@@ -27,6 +27,7 @@ export function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const setUser = useAuthStore((s) => s.setUser)
+  const setToken = useAuthStore((s) => s.setToken)
   const { toast } = useToast()
 
   const {
@@ -41,6 +42,8 @@ export function LoginForm() {
     try {
       const result = await api.post<LoginResponse>("/api/auth/login", data)
       setUser(result.user)
+      setToken(result.token)
+      document.cookie = `auth_token=${result.token}; path=/; SameSite=Strict`
       const from = searchParams.get("from") ?? "/"
       router.push(from)
     } catch (err) {
