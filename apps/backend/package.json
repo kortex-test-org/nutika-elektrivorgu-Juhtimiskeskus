@@ -1,0 +1,25 @@
+{
+  "name": "@smartgrid/backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "start": "bun run dist/index.js",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "check": "bunx biome check . && tsc --noEmit"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "latest",
+    "@elysiajs/jwt": "latest",
+    "@smartgrid/shared": "*",
+    "elysia": "latest",
+    "node-cron": "latest"
+  },
+  "devDependencies": {
+    "@smartgrid/config": "*",
+    "@types/node-cron": "latest",
+    "typescript": "5.9.2"
+  }
+}

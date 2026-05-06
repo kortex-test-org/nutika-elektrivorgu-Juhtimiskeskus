@@ -36,3 +36,8 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# PGLite local database
+local.db
+local.db-wal
+local.db-shm

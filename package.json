@@ -1,15 +1,14 @@
 {
-  "name": "elpr",
+  "name": "smartgrid",
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check": "turbo run check",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "prettier": "^3.7.4",
+    "@biomejs/biome": "latest",
     "turbo": "^2.9.9",
     "typescript": "5.9.2"
   },
