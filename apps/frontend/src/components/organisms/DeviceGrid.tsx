@@ -12,7 +12,7 @@ export function DeviceGrid() {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {(["sk1", "sk2", "sk3"] as const).map((k) => (
-          <div key={k} className="h-44 animate-pulse rounded-xl bg-white/5" />
+          <div key={k} className="h-44 animate-pulse rounded-xl bg-muted" />
         ))}
       </div>
     )
@@ -29,13 +29,13 @@ export function DeviceGrid() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white/90">Minu seadmed</h2>
+        <h2 className="text-lg font-semibold">Minu seadmed</h2>
         <AddDeviceModal />
       </div>
       {devices && devices.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 py-14 rounded-xl border border-dashed border-white/10 text-white/30">
+        <div className="flex flex-col items-center gap-3 py-14 rounded-xl border border-dashed border-border text-muted-foreground">
           <Server className="h-10 w-10 opacity-40" />
-          <p className="font-medium text-white/50">Seadmeid pole veel lisatud</p>
+          <p className="font-medium">Seadmeid pole veel lisatud</p>
           <p className="text-sm">Lisa esimene seade, et alustada</p>
         </div>
       ) : (
