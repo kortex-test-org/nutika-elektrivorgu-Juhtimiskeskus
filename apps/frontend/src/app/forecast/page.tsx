@@ -1,5 +1,6 @@
 "use client"
 
+import { BarChart3 } from "lucide-react"
 import { PriceIndicator } from "@/components/atoms/PriceIndicator"
 import { ForecastChart } from "@/components/organisms/ForecastChart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,7 +33,15 @@ export default function ForecastPage() {
         </div>
       )}
 
-      {forecast && (
+      {!isLoading && !error && forecast && forecast.length === 0 && (
+        <div className="flex flex-col items-center justify-center gap-3 py-24 text-muted-foreground animate-fade-up [animation-delay:80ms]">
+          <BarChart3 className="h-12 w-12 opacity-30" />
+          <p className="font-medium">Hinnaandmed pole saadaval</p>
+          <p className="text-sm">Prognoos laaditakse automaatselt, kui andmed on saadaval</p>
+        </div>
+      )}
+
+      {forecast && forecast.length > 0 && (
         <>
           <Card className="animate-fade-up [animation-delay:80ms]">
             <CardHeader>
