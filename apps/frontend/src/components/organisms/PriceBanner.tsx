@@ -1,6 +1,6 @@
 "use client"
 
-import { Wifi, WifiOff } from "lucide-react"
+import { Activity, WifiOff } from "lucide-react"
 import { PriceIndicator } from "@/components/atoms/PriceIndicator"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -26,7 +26,7 @@ export function PriceBanner() {
               variant="success"
               className="gap-1 bg-violet-500/15 text-violet-300 border border-violet-500/40"
             >
-              <Wifi className="h-3 w-3" />
+              <Activity className="h-3 w-3" />
               Live
             </Badge>
           ) : (
