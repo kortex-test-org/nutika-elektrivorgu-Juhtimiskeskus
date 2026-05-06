@@ -1,9 +1,8 @@
 "use client"
 
-import { Plus } from "lucide-react"
-import Link from "next/link"
+import { Server } from "lucide-react"
 import { DeviceCard } from "@/components/molecules/DeviceCard"
-import { Button } from "@/components/ui/button"
+import { AddDeviceModal } from "@/components/organisms/AddDeviceModal"
 import { useDevices } from "@/hooks/useDevices"
 
 export function DeviceGrid() {
@@ -13,7 +12,7 @@ export function DeviceGrid() {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {(["sk1", "sk2", "sk3"] as const).map((k) => (
-          <div key={k} className="h-44 animate-pulse rounded-xl bg-muted" />
+          <div key={k} className="h-44 animate-pulse rounded-xl bg-white/5" />
         ))}
       </div>
     )
@@ -21,7 +20,7 @@ export function DeviceGrid() {
 
   if (error) {
     return (
-      <div className="text-destructive text-sm">
+      <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 px-5 py-4 text-rose-400 text-sm">
         Seadmeid ei õnnestunud laadida: {error.message}
       </div>
     )
@@ -30,18 +29,14 @@ export function DeviceGrid() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Minu seadmed</h2>
-        <Button asChild size="sm">
-          <Link href="/devices/new">
-            <Plus className="h-4 w-4 mr-1" />
-            Lisa seade
-          </Link>
-        </Button>
+        <h2 className="text-lg font-semibold text-white/90">Minu seadmed</h2>
+        <AddDeviceModal />
       </div>
       {devices && devices.length === 0 ? (
-        <div className="text-center text-muted-foreground py-12 border rounded-xl border-dashed">
-          <p className="font-medium">Seadmeid pole veel lisatud</p>
-          <p className="text-sm mt-1">Lisa esimene seade, et alustada</p>
+        <div className="flex flex-col items-center gap-3 py-14 rounded-xl border border-dashed border-white/10 text-white/30">
+          <Server className="h-10 w-10 opacity-40" />
+          <p className="font-medium text-white/50">Seadmeid pole veel lisatud</p>
+          <p className="text-sm">Lisa esimene seade, et alustada</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
