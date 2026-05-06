@@ -31,14 +31,14 @@ interface DeviceLog {
 export function useDevices() {
   return useQuery({
     queryKey: ["devices"],
-    queryFn: () => api.get<Device[]>("/api/devices"),
+    queryFn: () => api.get<{ devices: Device[] }>("/api/devices").then((r) => r.devices),
   })
 }
 
 export function useDevice(id: string) {
   return useQuery({
     queryKey: ["devices", id],
-    queryFn: () => api.get<Device>(`/api/devices/${id}`),
+    queryFn: () => api.get<{ device: Device }>(`/api/devices/${id}`).then((r) => r.device),
     enabled: Boolean(id),
   })
 }
@@ -46,7 +46,8 @@ export function useDevice(id: string) {
 export function useDeviceLogs(id: string, page = 1) {
   return useQuery({
     queryKey: ["devices", id, "logs", page],
-    queryFn: () => api.get<DeviceLog[]>(`/api/devices/${id}/logs?page=${page}`),
+    queryFn: () =>
+      api.get<{ logs: DeviceLog[] }>(`/api/devices/${id}/logs?page=${page}`).then((r) => r.logs),
     enabled: Boolean(id),
   })
 }

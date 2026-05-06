@@ -13,7 +13,10 @@ interface NotificationSettings {
 export function useNotificationSettings() {
   return useQuery({
     queryKey: ["notifications", "settings"],
-    queryFn: () => api.get<NotificationSettings>("/api/notifications/settings"),
+    queryFn: () =>
+      api
+        .get<{ settings: NotificationSettings }>("/api/notifications/settings")
+        .then((r) => r.settings),
   })
 }
 

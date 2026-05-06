@@ -13,7 +13,7 @@ interface User {
 export function useUsers() {
   return useQuery({
     queryKey: ["users"],
-    queryFn: () => api.get<User[]>("/api/users"),
+    queryFn: () => api.get<{ users: User[] }>("/api/users").then((r) => r.users),
   })
 }
 

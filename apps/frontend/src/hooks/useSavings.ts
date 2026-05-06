@@ -28,7 +28,7 @@ export function useSavings(period: "day" | "week" | "month") {
 export function useSavingsConfig() {
   return useQuery({
     queryKey: ["savings", "config"],
-    queryFn: () => api.get<SavingsConfig>("/api/savings/config"),
+    queryFn: () => api.get<{ config: SavingsConfig }>("/api/savings/config").then((r) => r.config),
   })
 }
 
