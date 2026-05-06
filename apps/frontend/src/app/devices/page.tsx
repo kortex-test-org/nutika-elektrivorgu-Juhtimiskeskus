@@ -1,6 +1,6 @@
 "use client"
 
-import { Edit2, Server, Trash2, Zap } from "lucide-react"
+import { AlertTriangle, Edit2, Server, Trash2, Zap } from "lucide-react"
 import Link from "next/link"
 import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
 import { AddDeviceModal } from "@/components/organisms/AddDeviceModal"
@@ -66,7 +66,7 @@ export default function DevicesPage() {
           </div>
           <div className="rounded-xl border border-white/8 bg-white/4 px-5 py-4 flex items-center gap-4">
             <div className="rounded-lg bg-rose-600/20 p-2">
-              <span className="text-rose-400 text-base font-bold">!</span>
+              <AlertTriangle className="h-5 w-5 text-rose-400" />
             </div>
             <div>
               <p className="text-2xl font-bold">{critical}</p>
