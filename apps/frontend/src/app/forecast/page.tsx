@@ -1,6 +1,7 @@
 "use client"
 
 import { BarChart3 } from "lucide-react"
+import { useFormatter, useTranslations } from "next-intl"
 import { PriceIndicator } from "@/components/atoms/PriceIndicator"
 import { ForecastChart } from "@/components/organisms/ForecastChart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -15,6 +16,8 @@ import {
 import { useForecast } from "@/hooks/usePrices"
 
 export default function ForecastPage() {
+  const t = useTranslations("forecast")
+  const format = useFormatter()
   const { data: forecast, isLoading, error } = useForecast()
 
   const cheapest = forecast
@@ -25,21 +28,21 @@ export default function ForecastPage() {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-8 flex flex-col gap-8">
       <h1 className="text-2xl font-bold animate-fade-up w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-        Hinnprognoos
+        {t("title")}
       </h1>
 
       {isLoading && <div className="h-64 animate-pulse bg-muted rounded-xl" />}
       {error && (
         <div className="text-destructive text-sm">
-          Prognoosi ei õnnestunud laadida: {error.message}
+          {t("loadError")}: {error.message}
         </div>
       )}
 
       {!isLoading && !error && forecast && forecast.length === 0 && (
         <div className="flex flex-col items-center justify-center gap-3 py-24 text-muted-foreground animate-fade-up [animation-delay:80ms]">
           <BarChart3 className="h-12 w-12 opacity-30" />
-          <p className="font-medium">Hinnaandmed pole saadaval</p>
-          <p className="text-sm">Prognoos laaditakse automaatselt, kui andmed on saadaval</p>
+          <p className="font-medium">{t("empty")}</p>
+          <p className="text-sm">{t("emptyHint")}</p>
         </div>
       )}
 
@@ -47,7 +50,7 @@ export default function ForecastPage() {
         <>
           <Card className="animate-fade-up [animation-delay:80ms]">
             <CardHeader>
-              <CardTitle className="text-base">Tunnihinnad (EUR/MWh)</CardTitle>
+              <CardTitle className="text-base">{t("chartTitle")}</CardTitle>
             </CardHeader>
             <CardContent>
               <ForecastChart data={forecast} />
@@ -57,14 +60,14 @@ export default function ForecastPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-up [animation-delay:160ms]">
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Odavaimad tunnid</CardTitle>
+                <CardTitle className="text-base">{t("cheapest")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col gap-3">
                   {cheapest?.map((entry) => (
                     <div key={entry.id} className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">
-                        {new Date(entry.timestamp).toLocaleString("et-EE", {
+                        {format.dateTime(new Date(entry.timestamp), {
                           weekday: "short",
                           hour: "2-digit",
                           minute: "2-digit",
@@ -79,22 +82,22 @@ export default function ForecastPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Kõik tunnid</CardTitle>
+                <CardTitle className="text-base">{t("allHours")}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="max-h-72 overflow-y-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Aeg</TableHead>
-                        <TableHead>Hind</TableHead>
+                        <TableHead>{t("time")}</TableHead>
+                        <TableHead>{t("price")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {forecast.map((entry) => (
                         <TableRow key={entry.id}>
                           <TableCell className="text-xs text-muted-foreground">
-                            {new Date(entry.timestamp).toLocaleString("et-EE", {
+                            {format.dateTime(new Date(entry.timestamp), {
                               day: "2-digit",
                               month: "2-digit",
                               hour: "2-digit",

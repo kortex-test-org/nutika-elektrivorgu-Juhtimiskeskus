@@ -1,3 +1,6 @@
+"use client"
+
+import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
 
 type DeviceStatus = "on" | "off" | "override" | "disconnected"
@@ -6,19 +9,16 @@ interface StatusBadgeProps {
   status: DeviceStatus
 }
 
-const STATUS_CONFIG: Record<
-  DeviceStatus,
-  { label: string; variant: "success" | "outline" | "warning" | "destructive" }
-> = {
-  on: { label: "Sees", variant: "success" },
-  off: { label: "Väljas", variant: "outline" },
-  override: { label: "Ülekiri", variant: "warning" },
-  disconnected: { label: "Ühenduseta", variant: "destructive" },
+const STATUS_VARIANT: Record<DeviceStatus, "success" | "outline" | "warning" | "destructive"> = {
+  on: "success",
+  off: "outline",
+  override: "warning",
+  disconnected: "destructive",
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const { label, variant } = STATUS_CONFIG[status]
-  return <Badge variant={variant}>{label}</Badge>
+  const t = useTranslations("status")
+  return <Badge variant={STATUS_VARIANT[status]}>{t(status)}</Badge>
 }
 
 export function getDeviceStatus(device: {

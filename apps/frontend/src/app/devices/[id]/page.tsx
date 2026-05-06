@@ -4,6 +4,7 @@ import type { UpdateDeviceDto } from "@smartgrid/shared"
 import { ArrowLeft, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
+import { useFormatter, useTranslations } from "next-intl"
 import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
 import { DeviceForm } from "@/components/organisms/DeviceForm"
 import { Button } from "@/components/ui/button"
@@ -20,6 +21,8 @@ import { useToast } from "@/hooks/use-toast"
 import { useDeleteDevice, useDevice, useDeviceLogs, useUpdateDevice } from "@/hooks/useDevices"
 
 export default function DeviceDetailPage() {
+  const t = useTranslations("deviceDetail")
+  const format = useFormatter()
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
   const { toast } = useToast()
@@ -30,21 +33,22 @@ export default function DeviceDetailPage() {
 
   const onSubmit = async (data: UpdateDeviceDto) => {
     await updateMutation.mutateAsync(data, {
-      onSuccess: () => toast({ title: "Seade uuendatud" }),
-      onError: (err) => toast({ title: "Viga", description: err.message, variant: "destructive" }),
+      onSuccess: () => toast({ title: t("updateSuccess") }),
+      onError: (err) =>
+        toast({ title: t("error"), description: err.message, variant: "destructive" }),
     })
   }
 
   const handleDelete = () => {
-    if (!device || !confirm(`Kustuta seade "${device.name}"?`)) return
+    if (!device || !confirm(t("deleteConfirm", { name: device.name }))) return
     deleteMutation.mutate(device.id, {
       onSuccess: () => {
-        toast({ title: "Seade kustutatud" })
+        toast({ title: t("deleteSuccess") })
         router.push("/devices")
       },
       onError: (err) =>
         toast({
-          title: "Kustutamine ebaõnnestus",
+          title: t("deleteError"),
           description: err.message,
           variant: "destructive",
         }),
@@ -62,7 +66,7 @@ export default function DeviceDetailPage() {
   if (error || !device) {
     return (
       <main className="mx-auto w-full max-w-2xl px-4 py-8">
-        <div className="text-destructive text-sm">Seadet ei leitud</div>
+        <div className="text-destructive text-sm">{t("notFound")}</div>
       </main>
     )
   }
@@ -73,7 +77,7 @@ export default function DeviceDetailPage() {
         <Button asChild size="sm" variant="ghost">
           <Link href="/devices">
             <ArrowLeft className="h-4 w-4 mr-1" />
-            Tagasi
+            {t("back")}
           </Link>
         </Button>
         <h1 className="text-2xl font-bold flex-1 w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
@@ -92,8 +96,8 @@ export default function DeviceDetailPage() {
 
       <Tabs defaultValue="settings">
         <TabsList>
-          <TabsTrigger value="settings">Seaded</TabsTrigger>
-          <TabsTrigger value="logs">Käsuajalugu</TabsTrigger>
+          <TabsTrigger value="settings">{t("tabSettings")}</TabsTrigger>
+          <TabsTrigger value="logs">{t("tabLogs")}</TabsTrigger>
         </TabsList>
         <TabsContent value="settings" className="mt-4">
           <DeviceForm
@@ -117,17 +121,17 @@ export default function DeviceDetailPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Käsk</TableHead>
-                  <TableHead>Käivitaja</TableHead>
-                  <TableHead>Hind (€/MWh)</TableHead>
-                  <TableHead>Aeg</TableHead>
+                  <TableHead>{t("logCommand")}</TableHead>
+                  <TableHead>{t("logTriggeredBy")}</TableHead>
+                  <TableHead>{t("logPrice")}</TableHead>
+                  <TableHead>{t("logTime")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {!logs || logs.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center text-muted-foreground py-6">
-                      Käske pole veel teostatud
+                      {t("logsEmpty")}
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -139,7 +143,10 @@ export default function DeviceDetailPage() {
                         {log.priceAtTime ? Number(log.priceAtTime).toFixed(2) : "—"}
                       </TableCell>
                       <TableCell className="text-xs text-muted-foreground">
-                        {new Date(log.createdAt).toLocaleString("et-EE")}
+                        {format.dateTime(new Date(log.createdAt), {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
                       </TableCell>
                     </TableRow>
                   ))

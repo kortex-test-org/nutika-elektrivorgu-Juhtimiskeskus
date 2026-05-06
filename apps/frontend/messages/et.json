@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "title": "Nutika Elektrivõrgu Juhtimiskeskus",
+    "description": "Nutika elektrivõrgu juhtimiskeskus — halda seadmeid Nord Pool elektrihindade põhjal"
+  },
+  "nav": {
+    "home": "Avaleht",
+    "devices": "Seadmed",
+    "forecast": "Prognoos",
+    "savings": "Sääst",
+    "admin": "Admin",
+    "logout": "Välju",
+    "menu": "Menüü"
+  },
+  "theme": {
+    "label": "Teema",
+    "labelWithValue": "Teema: {theme}",
+    "system": "Süsteem",
+    "light": "Hele",
+    "dark": "Tume"
+  },
+  "language": {
+    "label": "Keel",
+    "et": "Eesti",
+    "en": "English",
+    "ru": "Русский"
+  },
+  "login": {
+    "title": "Sisselogimine",
+    "email": "E-post",
+    "password": "Salasõna",
+    "submit": "Logi sisse",
+    "submitting": "Sisselogimine...",
+    "errorTitle": "Sisselogimine ebaõnnestus",
+    "errorDescription": "Vale e-post või salasõna"
+  },
+  "dashboard": {
+    "title": "Juhtimiskeskus",
+    "subtitle": "Nutika elektrivõrgu haldusliides"
+  },
+  "deviceGrid": {
+    "myDevices": "Minu seadmed",
+    "loadError": "Seadmeid ei õnnestunud laadida",
+    "empty": "Seadmeid pole veel lisatud",
+    "emptyHint": "Lisa esimene seade, et alustada"
+  },
+  "deviceCard": {
+    "threshold": "Lävi",
+    "critical": "⚠ Kriitiline seade",
+    "turnOn": "Lülita sisse",
+    "turnOff": "Lülita välja",
+    "toggleError": "Viga lülitamisel",
+    "overrideError": "Viga ülekirjutamisel"
+  },
+  "addDevice": {
+    "button": "Lisa seade",
+    "title": "Lisa uus seade",
+    "success": "Seade lisatud",
+    "error": "Viga"
+  },
+  "deviceForm": {
+    "name": "Nimi",
+    "namePlaceholder": "Boiler",
+    "description": "Kirjeldus (valikuline)",
+    "descriptionPlaceholder": "Vannitoa boiler",
+    "connectionType": "Ühenduse tüüp",
+    "selectType": "Vali tüüp",
+    "host": "Host",
+    "portOptional": "Port (valikuline)",
+    "mqttTopic": "MQTT teema",
+    "threshold": "Hinnalävi (EUR/MWh, valikuline)",
+    "thresholdHint": "Seade lülitatakse välja, kui hind ületab selle läve",
+    "isCritical": "Kriitiline seade (ei lülitata automaatselt välja)",
+    "saving": "Salvestamine...",
+    "saveChanges": "Salvesta muutused",
+    "addDevice": "Lisa seade"
+  },
+  "priceBanner": {
+    "title": "Praegune elektrihind",
+    "disconnected": "Ühenduseta",
+    "unavailable": "Hind pole saadaval",
+    "updated": "Uuendatud"
+  },
+  "priceLevel": {
+    "low": "Madal hind",
+    "medium": "Keskmine hind",
+    "high": "Kõrge hind"
+  },
+  "status": {
+    "on": "Sees",
+    "off": "Väljas",
+    "override": "Ülekiri",
+    "disconnected": "Ühenduseta"
+  },
+  "forecast": {
+    "title": "Hinnprognoos",
+    "loadError": "Prognoosi ei õnnestunud laadida",
+    "empty": "Hinnaandmed pole saadaval",
+    "emptyHint": "Prognoos laaditakse automaatselt, kui andmed on saadaval",
+    "chartTitle": "Tunnihinnad (EUR/MWh)",
+    "cheapest": "Odavaimad tunnid",
+    "allHours": "Kõik tunnid",
+    "time": "Aeg",
+    "price": "Hind"
+  },
+  "savings": {
+    "title": "Kokkuhoid",
+    "noData": "Andmed pole saadaval",
+    "totalSavings": "Kogukokkuhoid",
+    "dataPoints": "Andmepunkte",
+    "period": "Periood",
+    "day": "Päev",
+    "week": "Nädal",
+    "month": "Kuu",
+    "tariffSettings": "Tariifi seaded",
+    "fixedRate": "Fikseeritud tariif (€/kWh)",
+    "save": "Salvesta",
+    "saved": "Konfiguratsioon salvestatud",
+    "savingsLabel": "Kokkuhoid",
+    "error": "Viga"
+  },
+  "settings": {
+    "title": "Seaded",
+    "notifications": "Teavitused",
+    "channel": "Kanal",
+    "selectChannel": "Vali kanal",
+    "disabled": "Keelatud",
+    "criticalThreshold": "Kriitiline hinnalävi (EUR/MWh, valikuline)",
+    "criticalThresholdHint": "Teavitus saadetakse, kui börsihind ületab selle läve",
+    "saveSettings": "Salvesta seaded",
+    "saved": "Seaded salvestatud",
+    "error": "Viga"
+  },
+  "admin": {
+    "title": "Kasutajad",
+    "addUser": "Lisa kasutaja",
+    "loading": "Laadimine...",
+    "loadError": "Kasutajaid ei õnnestunud laadida",
+    "email": "E-post",
+    "role": "Roll",
+    "status": "Olek",
+    "createdAt": "Loodud",
+    "actions": "Tegevused",
+    "noUsers": "Kasutajaid pole",
+    "roleAdmin": "Admin",
+    "roleUser": "Kasutaja",
+    "active": "Aktiivne",
+    "deactivated": "Deaktiveeritud",
+    "confirmDelete": "Kustuta kasutaja \"{email}\"?",
+    "deleteSuccess": "Kasutaja kustutatud",
+    "deactivateSuccess": "Kasutaja deaktiveeritud",
+    "createSuccess": "Kasutaja loodud",
+    "createTitle": "Lisa kasutaja",
+    "creating": "Loomine...",
+    "password": "Salasõna",
+    "error": "Viga"
+  },
+  "devices": {
+    "title": "Seadmed",
+    "subtitle": "Halda ühendatud seadmeid",
+    "loadError": "Seadmeid ei õnnestunud laadida",
+    "total": "Kokku seadmeid",
+    "online": "Sees",
+    "critical": "Kriitilised",
+    "name": "Nimi",
+    "type": "Tüüp",
+    "threshold": "Lävi",
+    "empty": "Seadmeid pole lisatud",
+    "emptyHint": "Alusta esimese seadme lisamisega",
+    "deleteConfirm": "Kustuta seade \"{name}\"?",
+    "deleteSuccess": "Seade kustutatud",
+    "deleteError": "Kustutamine ebaõnnestus",
+    "criticalLabel": "⚠ Kriitiline",
+    "newTitle": "Lisa uus seade",
+    "addSuccess": "Seade lisatud",
+    "error": "Viga"
+  },
+  "deviceDetail": {
+    "back": "Tagasi",
+    "notFound": "Seadet ei leitud",
+    "updateSuccess": "Seade uuendatud",
+    "deleteConfirm": "Kustuta seade \"{name}\"?",
+    "deleteSuccess": "Seade kustutatud",
+    "deleteError": "Kustutamine ebaõnnestus",
+    "tabSettings": "Seaded",
+    "tabLogs": "Käsuajalugu",
+    "logCommand": "Käsk",
+    "logTriggeredBy": "Käivitaja",
+    "logPrice": "Hind (€/MWh)",
+    "logTime": "Aeg",
+    "logsEmpty": "Käske pole veel teostatud",
+    "error": "Viga"
+  }
+}

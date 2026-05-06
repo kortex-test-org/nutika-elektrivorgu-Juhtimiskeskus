@@ -1,6 +1,7 @@
 "use client"
 
 import { Moon, Sun, SunMoon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -17,13 +18,8 @@ const THEME_ICON: Record<string, React.ReactNode> = {
   dark: <Moon className="h-3.5 w-3.5" />,
 }
 
-const THEME_LABEL: Record<string, string> = {
-  system: "Süsteem",
-  light: "Hele",
-  dark: "Tume",
-}
-
 export function ThemeToggle() {
+  const t = useTranslations("theme")
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -38,7 +34,7 @@ export function ThemeToggle() {
           size="sm"
           variant="ghost"
           className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-          title={mounted ? `Teema: ${currentTheme}` : "Teema"}
+          title={mounted ? t("labelWithValue", { theme: currentTheme }) : t("label")}
         >
           {mounted ? THEME_ICON[currentTheme] : <SunMoon className="h-3.5 w-3.5" />}
         </Button>
@@ -51,7 +47,7 @@ export function ThemeToggle() {
             className={currentTheme === option ? "bg-muted font-medium" : ""}
           >
             <span className="mr-2">{THEME_ICON[option]}</span>
-            {THEME_LABEL[option]}
+            {t(option)}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

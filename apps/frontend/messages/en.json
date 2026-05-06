@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "title": "Smart Grid Control Center",
+    "description": "Smart Grid Control Center — manage devices based on Nord Pool electricity prices"
+  },
+  "nav": {
+    "home": "Home",
+    "devices": "Devices",
+    "forecast": "Forecast",
+    "savings": "Savings",
+    "admin": "Admin",
+    "logout": "Logout",
+    "menu": "Menu"
+  },
+  "theme": {
+    "label": "Theme",
+    "labelWithValue": "Theme: {theme}",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "label": "Language",
+    "et": "Estonian",
+    "en": "English",
+    "ru": "Russian"
+  },
+  "login": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign In",
+    "submitting": "Signing in...",
+    "errorTitle": "Login failed",
+    "errorDescription": "Invalid email or password"
+  },
+  "dashboard": {
+    "title": "Control Center",
+    "subtitle": "Smart grid management interface"
+  },
+  "deviceGrid": {
+    "myDevices": "My Devices",
+    "loadError": "Failed to load devices",
+    "empty": "No devices added yet",
+    "emptyHint": "Add your first device to get started"
+  },
+  "deviceCard": {
+    "threshold": "Threshold",
+    "critical": "⚠ Critical device",
+    "turnOn": "Turn On",
+    "turnOff": "Turn Off",
+    "toggleError": "Toggle error",
+    "overrideError": "Override error"
+  },
+  "addDevice": {
+    "button": "Add Device",
+    "title": "Add New Device",
+    "success": "Device added",
+    "error": "Error"
+  },
+  "deviceForm": {
+    "name": "Name",
+    "namePlaceholder": "Boiler",
+    "description": "Description (optional)",
+    "descriptionPlaceholder": "Bathroom boiler",
+    "connectionType": "Connection Type",
+    "selectType": "Select type",
+    "host": "Host",
+    "portOptional": "Port (optional)",
+    "mqttTopic": "MQTT Topic",
+    "threshold": "Price threshold (EUR/MWh, optional)",
+    "thresholdHint": "Device will turn off when price exceeds this threshold",
+    "isCritical": "Critical device (not turned off automatically)",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "addDevice": "Add Device"
+  },
+  "priceBanner": {
+    "title": "Current Electricity Price",
+    "disconnected": "Disconnected",
+    "unavailable": "Price not available",
+    "updated": "Updated"
+  },
+  "priceLevel": {
+    "low": "Low price",
+    "medium": "Medium price",
+    "high": "High price"
+  },
+  "status": {
+    "on": "On",
+    "off": "Off",
+    "override": "Override",
+    "disconnected": "Disconnected"
+  },
+  "forecast": {
+    "title": "Price Forecast",
+    "loadError": "Failed to load forecast",
+    "empty": "Price data not available",
+    "emptyHint": "Forecast will load automatically when data is available",
+    "chartTitle": "Hourly Prices (EUR/MWh)",
+    "cheapest": "Cheapest Hours",
+    "allHours": "All Hours",
+    "time": "Time",
+    "price": "Price"
+  },
+  "savings": {
+    "title": "Savings",
+    "noData": "Data not available",
+    "totalSavings": "Total Savings",
+    "dataPoints": "Data Points",
+    "period": "Period",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "tariffSettings": "Tariff Settings",
+    "fixedRate": "Fixed Rate (€/kWh)",
+    "save": "Save",
+    "saved": "Configuration saved",
+    "savingsLabel": "Savings",
+    "error": "Error"
+  },
+  "settings": {
+    "title": "Settings",
+    "notifications": "Notifications",
+    "channel": "Channel",
+    "selectChannel": "Select channel",
+    "disabled": "Disabled",
+    "criticalThreshold": "Critical price threshold (EUR/MWh, optional)",
+    "criticalThresholdHint": "Notification sent when exchange price exceeds this threshold",
+    "saveSettings": "Save Settings",
+    "saved": "Settings saved",
+    "error": "Error"
+  },
+  "admin": {
+    "title": "Users",
+    "addUser": "Add User",
+    "loading": "Loading...",
+    "loadError": "Failed to load users",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "createdAt": "Created",
+    "actions": "Actions",
+    "noUsers": "No users",
+    "roleAdmin": "Admin",
+    "roleUser": "User",
+    "active": "Active",
+    "deactivated": "Deactivated",
+    "confirmDelete": "Delete user \"{email}\"?",
+    "deleteSuccess": "User deleted",
+    "deactivateSuccess": "User deactivated",
+    "createSuccess": "User created",
+    "createTitle": "Add User",
+    "creating": "Creating...",
+    "password": "Password",
+    "error": "Error"
+  },
+  "devices": {
+    "title": "Devices",
+    "subtitle": "Manage connected devices",
+    "loadError": "Failed to load devices",
+    "total": "Total Devices",
+    "online": "Online",
+    "critical": "Critical",
+    "name": "Name",
+    "type": "Type",
+    "threshold": "Threshold",
+    "empty": "No devices added",
+    "emptyHint": "Start by adding your first device",
+    "deleteConfirm": "Delete device \"{name}\"?",
+    "deleteSuccess": "Device deleted",
+    "deleteError": "Delete failed",
+    "criticalLabel": "⚠ Critical",
+    "newTitle": "Add New Device",
+    "addSuccess": "Device added",
+    "error": "Error"
+  },
+  "deviceDetail": {
+    "back": "Back",
+    "notFound": "Device not found",
+    "updateSuccess": "Device updated",
+    "deleteConfirm": "Delete device \"{name}\"?",
+    "deleteSuccess": "Device deleted",
+    "deleteError": "Delete failed",
+    "tabSettings": "Settings",
+    "tabLogs": "Command Log",
+    "logCommand": "Command",
+    "logTriggeredBy": "Triggered By",
+    "logPrice": "Price (€/MWh)",
+    "logTime": "Time",
+    "logsEmpty": "No commands executed yet",
+    "error": "Error"
+  }
+}

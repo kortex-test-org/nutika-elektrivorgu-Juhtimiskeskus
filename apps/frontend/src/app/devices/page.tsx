@@ -2,6 +2,7 @@
 
 import { AlertTriangle, Edit2, Server, Trash2, Zap } from "lucide-react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
 import { AddDeviceModal } from "@/components/organisms/AddDeviceModal"
 import { Button } from "@/components/ui/button"
@@ -9,17 +10,18 @@ import { useToast } from "@/hooks/use-toast"
 import { useDeleteDevice, useDevices } from "@/hooks/useDevices"
 
 export default function DevicesPage() {
+  const t = useTranslations("devices")
   const { data: devices, isLoading, error } = useDevices()
   const deleteMutation = useDeleteDevice()
   const { toast } = useToast()
 
   const handleDelete = (id: string, name: string) => {
-    if (!confirm(`Kustuta seade "${name}"?`)) return
+    if (!confirm(t("deleteConfirm", { name }))) return
     deleteMutation.mutate(id, {
-      onSuccess: () => toast({ title: "Seade kustutatud" }),
+      onSuccess: () => toast({ title: t("deleteSuccess") }),
       onError: (err) =>
         toast({
-          title: "Kustutamine ebaõnnestus",
+          title: t("deleteError"),
           description: err.message,
           variant: "destructive",
         }),
@@ -37,9 +39,9 @@ export default function DevicesPage() {
         <div className="flex items-center justify-between animate-fade-up">
           <div>
             <h1 className="text-2xl font-bold w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-              Seadmed
+              {t("title")}
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">Halda ühendatud seadmeid</p>
+            <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
           </div>
           <AddDeviceModal />
         </div>
@@ -52,7 +54,7 @@ export default function DevicesPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">{total}</p>
-              <p className="text-xs text-muted-foreground">Kokku seadmeid</p>
+              <p className="text-xs text-muted-foreground">{t("total")}</p>
             </div>
           </div>
           <div className="rounded-xl border border-border bg-card px-5 py-4 flex items-center gap-4">
@@ -61,7 +63,7 @@ export default function DevicesPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">{online}</p>
-              <p className="text-xs text-muted-foreground">Sees</p>
+              <p className="text-xs text-muted-foreground">{t("online")}</p>
             </div>
           </div>
           <div className="rounded-xl border border-border bg-card px-5 py-4 flex items-center gap-4">
@@ -70,7 +72,7 @@ export default function DevicesPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">{critical}</p>
-              <p className="text-xs text-muted-foreground">Kriitilised</p>
+              <p className="text-xs text-muted-foreground">{t("critical")}</p>
             </div>
           </div>
         </div>
@@ -87,7 +89,7 @@ export default function DevicesPage() {
         {/* Error */}
         {error && (
           <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 px-5 py-4 text-rose-400 text-sm">
-            Seadmeid ei õnnestunud laadida: {error.message}
+            {t("loadError")}: {error.message}
           </div>
         )}
 
@@ -96,19 +98,19 @@ export default function DevicesPage() {
           <div className="rounded-2xl border border-border bg-card overflow-hidden animate-fade-up [animation-delay:160ms]">
             {/* Table head */}
             <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_auto] gap-4 px-6 py-3 border-b border-border text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              <span>Nimi</span>
-              <span>Tüüp</span>
+              <span>{t("name")}</span>
+              <span>{t("type")}</span>
               <span>Host</span>
-              <span>Lävi</span>
-              <span>Olek</span>
-              <span className="text-right">Tegevused</span>
+              <span>{t("threshold")}</span>
+              <span>{t("status")}</span>
+              <span className="text-right">{t("actions")}</span>
             </div>
 
             {devices.length === 0 ? (
               <div className="py-16 flex flex-col items-center gap-3 text-muted-foreground">
                 <Server className="h-10 w-10 opacity-30" />
-                <p className="font-medium">Seadmeid pole lisatud</p>
-                <p className="text-sm">Alusta esimese seadme lisamisega</p>
+                <p className="font-medium">{t("empty")}</p>
+                <p className="text-sm">{t("emptyHint")}</p>
               </div>
             ) : (
               <div className="divide-y divide-border">
@@ -128,7 +130,9 @@ export default function DevicesPage() {
                         <span className="text-xs text-muted-foreground">{device.description}</span>
                       )}
                       {device.isCritical && (
-                        <span className="text-xs text-rose-400 font-medium">⚠ Kriitiline</span>
+                        <span className="text-xs text-rose-400 font-medium">
+                          {t("criticalLabel")}
+                        </span>
                       )}
                     </div>
                     <span className="text-xs font-mono uppercase tracking-widest text-violet-600 dark:text-violet-300 bg-violet-500/10 border border-violet-500/20 rounded-md px-2 py-0.5 w-fit">

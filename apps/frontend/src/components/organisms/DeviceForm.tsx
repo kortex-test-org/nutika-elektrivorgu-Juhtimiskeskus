@@ -3,6 +3,7 @@
 import { typeboxResolver } from "@hookform/resolvers/typebox"
 import type { CreateDeviceDto, UpdateDeviceDto } from "@smartgrid/shared"
 import { CreateDeviceSchema, UpdateDeviceSchema } from "@smartgrid/shared"
+import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -32,6 +33,7 @@ interface DeviceFormEditProps {
 type DeviceFormProps = DeviceFormCreateProps | DeviceFormEditProps
 
 export function DeviceForm(props: DeviceFormProps) {
+  const t = useTranslations("deviceForm")
   const isEdit = props.mode === "edit"
 
   const schema = isEdit ? UpdateDeviceSchema : CreateDeviceSchema
@@ -58,20 +60,24 @@ export function DeviceForm(props: DeviceFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="name">Nimi</Label>
-        <Input id="name" placeholder="Boiler" {...register("name")} />
+        <Label htmlFor="name">{t("name")}</Label>
+        <Input id="name" placeholder={t("namePlaceholder")} {...register("name")} />
         {errors.name && (
           <span className="text-destructive text-xs">{errors.name.message as string}</span>
         )}
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="description">Kirjeldus (valikuline)</Label>
-        <Input id="description" placeholder="Vannitoa boiler" {...register("description")} />
+        <Label htmlFor="description">{t("description")}</Label>
+        <Input
+          id="description"
+          placeholder={t("descriptionPlaceholder")}
+          {...register("description")}
+        />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label>Ühenduse tüüp</Label>
+        <Label>{t("connectionType")}</Label>
         <Select
           defaultValue={
             isEdit ? (props as DeviceFormEditProps).defaultValues?.connectionType : undefined
@@ -79,7 +85,7 @@ export function DeviceForm(props: DeviceFormProps) {
           onValueChange={(v) => setValue("connectionType", v as "http" | "mqtt")}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Vali tüüp" />
+            <SelectValue placeholder={t("selectType")} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="http">HTTP</SelectItem>
@@ -95,14 +101,14 @@ export function DeviceForm(props: DeviceFormProps) {
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(9rem,100%),1fr))] gap-3">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="host">Host</Label>
+          <Label htmlFor="host">{t("host")}</Label>
           <Input id="host" placeholder="192.168.1.100" {...register("host")} />
           {errors.host && (
             <span className="text-destructive text-xs">{errors.host.message as string}</span>
           )}
         </div>
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="port">Port (valikuline)</Label>
+          <Label htmlFor="port">{t("portOptional")}</Label>
           <Input
             id="port"
             type="number"
@@ -114,13 +120,13 @@ export function DeviceForm(props: DeviceFormProps) {
 
       {connectionType === "mqtt" && (
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="topic">MQTT teema</Label>
+          <Label htmlFor="topic">{t("mqttTopic")}</Label>
           <Input id="topic" placeholder="home/boiler" {...register("topic")} />
         </div>
       )}
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="threshold">Hinnalävi (EUR/MWh, valikuline)</Label>
+        <Label htmlFor="threshold">{t("threshold")}</Label>
         <Input
           id="threshold"
           type="number"
@@ -128,9 +134,7 @@ export function DeviceForm(props: DeviceFormProps) {
           placeholder="100"
           {...register("threshold", { valueAsNumber: true })}
         />
-        <span className="text-xs text-muted-foreground">
-          Seade lülitatakse välja, kui hind ületab selle läve
-        </span>
+        <span className="text-xs text-muted-foreground">{t("thresholdHint")}</span>
       </div>
 
       <div className="flex items-center gap-2">
@@ -140,12 +144,12 @@ export function DeviceForm(props: DeviceFormProps) {
           onCheckedChange={(checked) => setValue("isCritical", checked === true)}
         />
         <Label htmlFor="isCritical" className="font-normal cursor-pointer">
-          Kriitiline seade (ei lülitata automaatselt välja)
+          {t("isCritical")}
         </Label>
       </div>
 
       <Button type="submit" disabled={isSubmitting || props.isLoading} className="mt-2">
-        {isSubmitting ? "Salvestamine..." : isEdit ? "Salvesta muutused" : "Lisa seade"}
+        {isSubmitting ? t("saving") : isEdit ? t("saveChanges") : t("addDevice")}
       </Button>
     </form>
   )

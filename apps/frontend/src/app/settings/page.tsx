@@ -3,6 +3,7 @@
 import { typeboxResolver } from "@hookform/resolvers/typebox"
 import type { NotificationSettingsDto } from "@smartgrid/shared"
 import { NotificationSettingsSchema } from "@smartgrid/shared"
+import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -22,6 +23,7 @@ import {
 } from "@/hooks/useNotificationSettings"
 
 export default function SettingsPage() {
+  const t = useTranslations("settings")
   const { data: settings, isLoading } = useNotificationSettings()
   const updateMutation = useUpdateNotificationSettings()
   const { toast } = useToast()
@@ -50,8 +52,9 @@ export default function SettingsPage() {
 
   const onSubmit = async (data: NotificationSettingsDto) => {
     await updateMutation.mutateAsync(data, {
-      onSuccess: () => toast({ title: "Seaded salvestatud" }),
-      onError: (err) => toast({ title: "Viga", description: err.message, variant: "destructive" }),
+      onSuccess: () => toast({ title: t("saved") }),
+      onError: (err) =>
+        toast({ title: t("error"), description: err.message, variant: "destructive" }),
     })
   }
 
@@ -66,17 +69,17 @@ export default function SettingsPage() {
   return (
     <main className="mx-auto w-full max-w-lg px-4 py-8 flex flex-col gap-8">
       <h1 className="text-2xl font-bold w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-        Seaded
+        {t("title")}
       </h1>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Teavitused</CardTitle>
+          <CardTitle className="text-base">{t("notifications")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <Label>Kanal</Label>
+              <Label>{t("channel")}</Label>
               <Select
                 defaultValue={settings?.channel ?? undefined}
                 onValueChange={(v) =>
@@ -84,10 +87,10 @@ export default function SettingsPage() {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Vali kanal" />
+                  <SelectValue placeholder={t("selectChannel")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Keelatud</SelectItem>
+                  <SelectItem value="none">{t("disabled")}</SelectItem>
                   <SelectItem value="telegram">Telegram</SelectItem>
                   <SelectItem value="discord">Discord</SelectItem>
                 </SelectContent>
@@ -123,7 +126,7 @@ export default function SettingsPage() {
             )}
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="threshold">Kriitiline hinnalävi (EUR/MWh, valikuline)</Label>
+              <Label htmlFor="threshold">{t("criticalThreshold")}</Label>
               <Input
                 id="threshold"
                 type="number"
@@ -131,13 +134,11 @@ export default function SettingsPage() {
                 placeholder="150"
                 {...register("criticalPriceThreshold", { valueAsNumber: true })}
               />
-              <span className="text-xs text-muted-foreground">
-                Teavitus saadetakse, kui börsihind ületab selle läve
-              </span>
+              <span className="text-xs text-muted-foreground">{t("criticalThresholdHint")}</span>
             </div>
 
             <Button type="submit" disabled={isSubmitting || updateMutation.isPending}>
-              Salvesta seaded
+              {t("saveSettings")}
             </Button>
           </form>
         </CardContent>

@@ -1,3 +1,6 @@
+"use client"
+
+import { useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 
 interface PriceIndicatorProps {
@@ -18,13 +21,8 @@ const LEVEL_STYLES = {
   high: "text-red-600 bg-red-50 border-red-200",
 } as const
 
-const LEVEL_LABELS = {
-  low: "Madal hind",
-  medium: "Keskmine hind",
-  high: "Kõrge hind",
-} as const
-
 export function PriceIndicator({ priceEurMwh, className, showLabel = false }: PriceIndicatorProps) {
+  const t = useTranslations("priceLevel")
   const level = getPriceLevel(priceEurMwh)
   const priceEurKwh = (priceEurMwh / 1000).toFixed(4)
 
@@ -40,7 +38,7 @@ export function PriceIndicator({ priceEurMwh, className, showLabel = false }: Pr
       </span>
       {showLabel && (
         <span className={cn("text-xs font-medium", LEVEL_STYLES[level].split(" ")[0])}>
-          {LEVEL_LABELS[level]}
+          {t(level)}
         </span>
       )}
     </div>

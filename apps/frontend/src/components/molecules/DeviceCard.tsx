@@ -2,6 +2,7 @@
 
 import { Power, Shield } from "lucide-react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -24,6 +25,7 @@ interface DeviceCardProps {
 }
 
 export function DeviceCard({ device }: DeviceCardProps) {
+  const t = useTranslations("deviceCard")
   const { toast } = useToast()
   const toggleMutation = useToggleDevice()
   const overrideMutation = useOverrideDevice()
@@ -36,7 +38,7 @@ export function DeviceCard({ device }: DeviceCardProps) {
       { id: device.id, data: { state: newState } },
       {
         onError: (err) =>
-          toast({ title: "Viga lülitamisel", description: err.message, variant: "destructive" }),
+          toast({ title: t("toggleError"), description: err.message, variant: "destructive" }),
       },
     )
   }
@@ -50,7 +52,7 @@ export function DeviceCard({ device }: DeviceCardProps) {
       {
         onError: (err) =>
           toast({
-            title: "Viga ülekirjutamisel",
+            title: t("overrideError"),
             description: err.message,
             variant: "destructive",
           }),
@@ -76,12 +78,12 @@ export function DeviceCard({ device }: DeviceCardProps) {
       <CardContent className="flex flex-col gap-3">
         {device.threshold && (
           <div className="text-xs text-muted-foreground">
-            Lävi:{" "}
+            {t("threshold")}:{" "}
             <span className="font-mono">{(Number(device.threshold) / 1000).toFixed(4)} €/kWh</span>
           </div>
         )}
         {device.isCritical && (
-          <div className="text-xs text-red-600 font-medium">⚠ Kriitiline seade</div>
+          <div className="text-xs text-red-600 font-medium">{t("critical")}</div>
         )}
         <div className="flex gap-2 mt-auto">
           <Button
@@ -92,7 +94,7 @@ export function DeviceCard({ device }: DeviceCardProps) {
             className="flex-1"
           >
             <Power className="h-3 w-3 mr-1" />
-            {device.currentState ? "Lülita välja" : "Lülita sisse"}
+            {device.currentState ? t("turnOff") : t("turnOn")}
           </Button>
           <Button
             size="sm"

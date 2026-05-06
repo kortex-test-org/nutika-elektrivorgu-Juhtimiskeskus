@@ -3,6 +3,7 @@
 import { typeboxResolver } from "@hookform/resolvers/typebox"
 import type { SavingsConfigDto, SavingsPeriod } from "@smartgrid/shared"
 import { SavingsConfigSchema } from "@smartgrid/shared"
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { SavingsChart } from "@/components/organisms/SavingsChart"
@@ -15,11 +16,12 @@ import { useToast } from "@/hooks/use-toast"
 import { useSavings, useSavingsConfig, useUpdateSavingsConfig } from "@/hooks/useSavings"
 
 function SavingsPeriodTab({ period }: { period: SavingsPeriod }) {
+  const t = useTranslations("savings")
   const { data, isLoading } = useSavings(period)
 
   if (isLoading) return <div className="h-48 animate-pulse bg-muted rounded-lg" />
 
-  if (!data) return <div className="text-muted-foreground text-sm">Andmed pole saadaval</div>
+  if (!data) return <div className="text-muted-foreground text-sm">{t("noData")}</div>
 
   return (
     <div className="flex flex-col gap-4">
@@ -27,7 +29,7 @@ function SavingsPeriodTab({ period }: { period: SavingsPeriod }) {
         <Card>
           <CardHeader className="pb-1">
             <CardTitle className="text-xs text-muted-foreground font-normal">
-              Kogukokkuhoid
+              {t("totalSavings")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -39,7 +41,9 @@ function SavingsPeriodTab({ period }: { period: SavingsPeriod }) {
         </Card>
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-xs text-muted-foreground font-normal">Andmepunkte</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground font-normal">
+              {t("dataPoints")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">{data.details.length}</p>
@@ -47,7 +51,9 @@ function SavingsPeriodTab({ period }: { period: SavingsPeriod }) {
         </Card>
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-xs text-muted-foreground font-normal">Periood</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground font-normal">
+              {t("period")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm font-medium capitalize">{data.period}</p>
@@ -60,6 +66,7 @@ function SavingsPeriodTab({ period }: { period: SavingsPeriod }) {
 }
 
 function SavingsConfigForm() {
+  const t = useTranslations("savings")
   const { data: config, isLoading } = useSavingsConfig()
   const updateMutation = useUpdateSavingsConfig()
   const { toast } = useToast()
@@ -75,8 +82,9 @@ function SavingsConfigForm() {
 
   const onSubmit = async (data: SavingsConfigDto) => {
     await updateMutation.mutateAsync(data, {
-      onSuccess: () => toast({ title: "Konfiguratsioon salvestatud" }),
-      onError: (err) => toast({ title: "Viga", description: err.message, variant: "destructive" }),
+      onSuccess: () => toast({ title: t("saved") }),
+      onError: (err) =>
+        toast({ title: t("error"), description: err.message, variant: "destructive" }),
     })
   }
 
@@ -85,7 +93,7 @@ function SavingsConfigForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-sm">
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="fixedRate">Fikseeritud tariif (€/kWh)</Label>
+        <Label htmlFor="fixedRate">{t("fixedRate")}</Label>
         <Input
           id="fixedRate"
           type="number"
@@ -104,27 +112,28 @@ function SavingsConfigForm() {
         disabled={isSubmitting || updateMutation.isPending}
         className="shadow-lg shadow-violet-900/40"
       >
-        Salvesta
+        {t("save")}
       </Button>
     </form>
   )
 }
 
 export default function SavingsPage() {
+  const t = useTranslations("savings")
   const [tab, setTab] = useState<SavingsPeriod>("day")
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-8 flex flex-col gap-8">
       <h1 className="text-2xl font-bold animate-fade-up w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-        Kokkuhoid
+        {t("title")}
       </h1>
 
       <div className="animate-fade-up [animation-delay:80ms]">
         <Tabs value={tab} onValueChange={(v) => setTab(v as SavingsPeriod)}>
           <TabsList>
-            <TabsTrigger value="day">Päev</TabsTrigger>
-            <TabsTrigger value="week">Nädal</TabsTrigger>
-            <TabsTrigger value="month">Kuu</TabsTrigger>
+            <TabsTrigger value="day">{t("day")}</TabsTrigger>
+            <TabsTrigger value="week">{t("week")}</TabsTrigger>
+            <TabsTrigger value="month">{t("month")}</TabsTrigger>
           </TabsList>
           <TabsContent value="day" className="mt-4">
             <SavingsPeriodTab period="day" />
@@ -139,7 +148,7 @@ export default function SavingsPage() {
       </div>
 
       <div className="animate-fade-up [animation-delay:160ms]">
-        <h2 className="text-lg font-semibold mb-4">Tariifi seaded</h2>
+        <h2 className="text-lg font-semibold mb-4">{t("tariffSettings")}</h2>
         <SavingsConfigForm />
       </div>
     </main>

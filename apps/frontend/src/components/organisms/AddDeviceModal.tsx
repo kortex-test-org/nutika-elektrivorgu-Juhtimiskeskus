@@ -2,6 +2,7 @@
 
 import type { CreateDeviceDto } from "@smartgrid/shared"
 import { Plus } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,6 +17,7 @@ import { useCreateDevice } from "@/hooks/useDevices"
 import { DeviceForm } from "./DeviceForm"
 
 export function AddDeviceModal() {
+  const t = useTranslations("addDevice")
   const [open, setOpen] = useState(false)
   const { toast } = useToast()
   const createMutation = useCreateDevice()
@@ -23,10 +25,11 @@ export function AddDeviceModal() {
   const onSubmit = async (data: CreateDeviceDto) => {
     await createMutation.mutateAsync(data, {
       onSuccess: () => {
-        toast({ title: "Seade lisatud" })
+        toast({ title: t("success") })
         setOpen(false)
       },
-      onError: (err) => toast({ title: "Viga", description: err.message, variant: "destructive" }),
+      onError: (err) =>
+        toast({ title: t("error"), description: err.message, variant: "destructive" }),
     })
   }
 
@@ -35,12 +38,12 @@ export function AddDeviceModal() {
       <DialogTrigger asChild>
         <Button className="gap-2 bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-900/40">
           <Plus className="h-4 w-4" />
-          Lisa seade
+          {t("button")}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">Lisa uus seade</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">{t("title")}</DialogTitle>
         </DialogHeader>
         <DeviceForm mode="create" onSubmit={onSubmit} isLoading={createMutation.isPending} />
       </DialogContent>

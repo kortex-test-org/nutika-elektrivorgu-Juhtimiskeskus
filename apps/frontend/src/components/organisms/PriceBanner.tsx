@@ -1,6 +1,7 @@
 "use client"
 
 import { Activity, WifiOff } from "lucide-react"
+import { useFormatter, useTranslations } from "next-intl"
 import { PriceIndicator } from "@/components/atoms/PriceIndicator"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,6 +9,8 @@ import { useCurrentPrice } from "@/hooks/usePrices"
 import { useWsStore } from "@/stores/wsStore"
 
 export function PriceBanner() {
+  const t = useTranslations("priceBanner")
+  const format = useFormatter()
   const { data: dbPrice, isLoading } = useCurrentPrice()
   const wsPrice = useWsStore((s) => s.latestPriceUpdate)
   const connected = useWsStore((s) => s.connected)
@@ -19,7 +22,7 @@ export function PriceBanner() {
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-base font-semibold">Praegune elektrihind</CardTitle>
+        <CardTitle className="text-base font-semibold">{t("title")}</CardTitle>
         <div className="flex items-center gap-2">
           {connected ? (
             <Badge
@@ -32,7 +35,7 @@ export function PriceBanner() {
           ) : (
             <Badge variant="outline" className="gap-1 text-muted-foreground">
               <WifiOff className="h-3 w-3" />
-              Ühenduseta
+              {t("disconnected")}
             </Badge>
           )}
         </div>
@@ -43,11 +46,12 @@ export function PriceBanner() {
         ) : price !== null ? (
           <PriceIndicator priceEurMwh={price} showLabel />
         ) : (
-          <span className="text-muted-foreground text-sm">Hind pole saadaval</span>
+          <span className="text-muted-foreground text-sm">{t("unavailable")}</span>
         )}
         {timestamp && (
           <span className="text-xs text-muted-foreground">
-            Uuendatud: {new Date(timestamp).toLocaleString("et-EE")}
+            {t("updated")}:{" "}
+            {format.dateTime(new Date(timestamp), { dateStyle: "short", timeStyle: "short" })}
           </span>
         )}
       </CardContent>

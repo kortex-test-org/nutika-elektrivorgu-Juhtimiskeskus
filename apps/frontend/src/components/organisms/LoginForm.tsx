@@ -4,6 +4,7 @@ import { typeboxResolver } from "@hookform/resolvers/typebox"
 import type { LoginDto } from "@smartgrid/shared"
 import { LoginSchema } from "@smartgrid/shared"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -24,6 +25,7 @@ interface LoginResponse {
 }
 
 export function LoginForm() {
+  const t = useTranslations("login")
   const router = useRouter()
   const searchParams = useSearchParams()
   const setUser = useAuthStore((s) => s.setUser)
@@ -48,8 +50,8 @@ export function LoginForm() {
       router.push(from)
     } catch (err) {
       toast({
-        title: "Sisselogimine ebaõnnestus",
-        description: err instanceof Error ? err.message : "Vale e-post või salasõna",
+        title: t("errorTitle"),
+        description: err instanceof Error ? err.message : t("errorDescription"),
         variant: "destructive",
       })
     }
@@ -59,7 +61,7 @@ export function LoginForm() {
     <Card className="w-full">
       <CardHeader className="pb-[clamp(1rem,3vw,1.5rem)]">
         <CardTitle className="text-[clamp(1.125rem,5vw,1.5rem)] leading-tight">
-          Sisselogimine
+          {t("title")}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -69,7 +71,7 @@ export function LoginForm() {
         >
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email" className="text-[clamp(0.8125rem,2.5vw,0.9375rem)]">
-              E-post
+              {t("email")}
             </Label>
             <Input
               id="email"
@@ -87,7 +89,7 @@ export function LoginForm() {
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="password" className="text-[clamp(0.8125rem,2.5vw,0.9375rem)]">
-              Salasõna
+              {t("password")}
             </Label>
             <Input
               id="password"
@@ -107,7 +109,7 @@ export function LoginForm() {
             disabled={isSubmitting}
             className="w-full h-11 text-[clamp(0.875rem,2.5vw,1rem)] mt-1 touch-manipulation"
           >
-            {isSubmitting ? "Sisselogimine..." : "Logi sisse"}
+            {isSubmitting ? t("submitting") : t("submit")}
           </Button>
         </form>
       </CardContent>

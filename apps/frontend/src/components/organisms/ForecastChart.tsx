@@ -1,5 +1,6 @@
 "use client"
 
+import { useFormatter } from "next-intl"
 import {
   Area,
   AreaChart,
@@ -51,8 +52,9 @@ function CustomTooltip({
 }
 
 export function ForecastChart({ data }: ForecastChartProps) {
+  const format = useFormatter()
   const chartData = data.map((entry) => ({
-    time: new Date(entry.timestamp).toLocaleString("et-EE", {
+    time: format.dateTime(new Date(entry.timestamp), {
       hour: "2-digit",
       minute: "2-digit",
       day: "2-digit",

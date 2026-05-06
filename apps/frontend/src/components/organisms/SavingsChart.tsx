@@ -1,5 +1,6 @@
 "use client"
 
+import { useFormatter, useTranslations } from "next-intl"
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
 interface SavingsDetail {
@@ -29,13 +30,14 @@ function CustomTooltip({
   payload?: TooltipPayload[]
   label?: string
 }) {
+  const t = useTranslations("savings")
   if (!active || !payload?.length) return null
   return (
     <div className="rounded-lg border bg-background px-3 py-2 text-xs shadow-lg">
       <p className="text-muted-foreground mb-1">{label}</p>
       {payload.map((p) => (
         <p key={p.name} style={{ color: p.color }} className="font-mono">
-          {p.name === "savings" ? "Kokkuhoid" : p.name}: {p.value.toFixed(4)} €/kWh
+          {p.name === "savings" ? t("savingsLabel") : p.name}: {p.value.toFixed(4)} €/kWh
         </p>
       ))}
     </div>
@@ -43,12 +45,14 @@ function CustomTooltip({
 }
 
 export function SavingsChart({ details, period }: SavingsChartProps) {
-  const locale = "et-EE"
-  const formatOptions: Intl.DateTimeFormatOptions =
-    period === "day" ? { hour: "2-digit", minute: "2-digit" } : { day: "2-digit", month: "2-digit" }
+  const format = useFormatter()
+  const formatOptions =
+    period === "day"
+      ? ({ hour: "2-digit", minute: "2-digit" } as const)
+      : ({ day: "2-digit", month: "2-digit" } as const)
 
   const chartData = details.map((d) => ({
-    time: new Date(d.timestamp).toLocaleString(locale, formatOptions),
+    time: format.dateTime(new Date(d.timestamp), formatOptions),
     savings: d.savingsEurKwh,
     exchange: d.exchangePriceEurKwh,
     fixed: d.fixedRateEurKwh,

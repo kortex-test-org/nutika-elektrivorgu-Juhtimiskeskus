@@ -3,7 +3,9 @@
 import { LogOut, Menu, X, Zap } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
+import { LanguageSwitcher } from "@/components/atoms/LanguageSwitcher"
 import { ThemeToggle } from "@/components/molecules/ThemeToggle"
 import { Button } from "@/components/ui/button"
 import { useAuthStore } from "@/stores/authStore"
@@ -33,6 +35,7 @@ function NavLink({ href, exact = false, children }: NavLinkProps) {
 }
 
 export function Navbar() {
+  const t = useTranslations("nav")
   const [mobileOpen, setMobileOpen] = useState(false)
   const { user, logout } = useAuthStore()
   const router = useRouter()
@@ -51,7 +54,12 @@ export function Navbar() {
 
   if (!user) return null
 
-  const themeButton = <ThemeToggle />
+  const actions = (
+    <>
+      <LanguageSwitcher />
+      <ThemeToggle />
+    </>
+  )
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
@@ -68,18 +76,18 @@ export function Navbar() {
         {/* Desktop nav */}
         <nav className="hidden min-[840px]:flex items-center gap-1 flex-1">
           <NavLink href="/" exact>
-            Avaleht
+            {t("home")}
           </NavLink>
-          <NavLink href="/devices">Seadmed</NavLink>
-          <NavLink href="/forecast">Prognoos</NavLink>
-          <NavLink href="/savings">Sääst</NavLink>
-          {user.role === "master" && <NavLink href="/admin/users">Admin</NavLink>}
+          <NavLink href="/devices">{t("devices")}</NavLink>
+          <NavLink href="/forecast">{t("forecast")}</NavLink>
+          <NavLink href="/savings">{t("savings")}</NavLink>
+          {user.role === "master" && <NavLink href="/admin/users">{t("admin")}</NavLink>}
         </nav>
 
         {/* Desktop actions */}
         <div className="hidden min-[840px]:flex items-center gap-2 ml-auto">
           <span className="text-xs text-muted-foreground mr-1">{user.email}</span>
-          {themeButton}
+          {actions}
           <Button
             size="sm"
             variant="ghost"
@@ -87,7 +95,7 @@ export function Navbar() {
             className="gap-1.5 text-muted-foreground hover:text-rose-500 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20"
           >
             <LogOut className="h-3.5 w-3.5" />
-            Välju
+            {t("logout")}
           </Button>
         </div>
 
@@ -97,7 +105,7 @@ export function Navbar() {
           variant="ghost"
           className="min-[840px]:hidden h-8 w-8 p-0 ml-auto"
           onClick={() => setMobileOpen((prev) => !prev)}
-          aria-label="Menüü"
+          aria-label={t("menu")}
         >
           {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </Button>
@@ -107,16 +115,16 @@ export function Navbar() {
       {mobileOpen && (
         <nav className="min-[840px]:hidden absolute left-0 right-0 top-14 z-50 border-b border-border bg-background/95 backdrop-blur-md px-4 py-3 flex flex-col gap-1 shadow-lg animate-in slide-in-from-top-2 fade-in duration-200">
           <NavLink href="/" exact>
-            Avaleht
+            {t("home")}
           </NavLink>
-          <NavLink href="/devices">Seadmed</NavLink>
-          <NavLink href="/forecast">Prognoos</NavLink>
-          <NavLink href="/savings">Sääst</NavLink>
-          {user.role === "master" && <NavLink href="/admin/users">Admin</NavLink>}
+          <NavLink href="/devices">{t("devices")}</NavLink>
+          <NavLink href="/forecast">{t("forecast")}</NavLink>
+          <NavLink href="/savings">{t("savings")}</NavLink>
+          {user.role === "master" && <NavLink href="/admin/users">{t("admin")}</NavLink>}
           <div className="mt-3 pt-3 border-t border-border flex items-center justify-between flex-wrap gap-2">
             <span className="text-xs text-muted-foreground">{user.email}</span>
             <div className="flex items-center gap-1">
-              {themeButton}
+              {actions}
               <Button
                 size="sm"
                 variant="ghost"
@@ -124,7 +132,7 @@ export function Navbar() {
                 className="gap-1.5 text-muted-foreground hover:text-rose-500 hover:bg-rose-500/10"
               >
                 <LogOut className="h-3.5 w-3.5" />
-                Välju
+                {t("logout")}
               </Button>
             </div>
           </div>
