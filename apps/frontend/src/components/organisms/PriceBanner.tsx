@@ -39,7 +39,7 @@ export function PriceBanner() {
       </CardHeader>
       <CardContent className="flex flex-col items-start gap-2">
         {isLoading && price === null ? (
-          <div className="h-12 w-40 animate-pulse rounded-lg bg-muted" />
+          <div className="h-5 w-36 animate-pulse rounded bg-muted" />
         ) : price !== null ? (
           <PriceIndicator priceEurMwh={price} showLabel />
         ) : (
