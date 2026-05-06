@@ -24,7 +24,7 @@ export function PriceBanner() {
           {connected ? (
             <Badge
               variant="success"
-              className="gap-1 bg-violet-500/15 text-violet-300 border border-violet-500/40"
+              className="gap-1 bg-violet-500/15 text-violet-700 dark:text-violet-300 border border-violet-500/40"
             >
               <Activity className="h-3 w-3" />
               Live
