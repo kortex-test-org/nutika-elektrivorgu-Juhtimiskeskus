@@ -99,7 +99,11 @@ function SavingsConfigForm() {
           </span>
         )}
       </div>
-      <Button type="submit" disabled={isSubmitting || updateMutation.isPending}>
+      <Button
+        type="submit"
+        disabled={isSubmitting || updateMutation.isPending}
+        className="shadow-lg shadow-violet-900/40"
+      >
         Salvesta
       </Button>
     </form>
