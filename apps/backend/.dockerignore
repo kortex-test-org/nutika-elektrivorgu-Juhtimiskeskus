@@ -1,0 +1,10 @@
+node_modules
+dist
+.next
+local.db
+*.db-journal
+.env
+.env.local
+*.log
+coverage
+.turbo

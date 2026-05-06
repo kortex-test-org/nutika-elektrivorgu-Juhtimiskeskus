@@ -6,6 +6,7 @@
       "name": "elpr",
       "devDependencies": {
         "@biomejs/biome": "latest",
+        "drizzle-kit": "^0.31.10",
         "husky": "^9.1.7",
         "lint-staged": "^16.4.0",
         "turbo": "^2.9.9",

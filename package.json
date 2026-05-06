@@ -7,7 +7,12 @@
     "check": "turbo run check",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:generate": "drizzle-kit generate --config drizzle.config.local.ts",
+    "db:generate:prod": "drizzle-kit generate --config drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config drizzle.config.local.ts",
+    "db:migrate:prod": "drizzle-kit migrate --config drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config drizzle.config.local.ts"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css}": [
@@ -16,6 +21,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "latest",
+    "drizzle-kit": "^0.31.10",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "turbo": "^2.9.9",
