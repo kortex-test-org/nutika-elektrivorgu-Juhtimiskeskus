@@ -31,46 +31,46 @@ export default function DevicesPage() {
   const critical = devices?.filter((d) => d.isCritical).length ?? 0
 
   return (
-    <main className="min-h-screen bg-[#07070f] text-white">
+    <main className="min-h-screen">
       <div className="container mx-auto px-4 py-8 flex flex-col gap-8">
         {/* Header */}
         <div className="flex items-center justify-between animate-fade-up">
           <div>
-            <h1 className="text-3xl font-bold bg-linear-to-r from-white to-violet-300 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
               Seadmed
             </h1>
-            <p className="text-sm text-white/40 mt-1">Halda ühendatud seadmeid</p>
+            <p className="text-sm text-muted-foreground mt-1">Halda ühendatud seadmeid</p>
           </div>
           <AddDeviceModal />
         </div>
 
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-4 animate-fade-up [animation-delay:80ms]">
-          <div className="rounded-xl border border-white/8 bg-white/4 px-5 py-4 flex items-center gap-4">
+          <div className="rounded-xl border border-border bg-card px-5 py-4 flex items-center gap-4">
             <div className="rounded-lg bg-violet-600/20 p-2">
-              <Server className="h-5 w-5 text-violet-400" />
+              <Server className="h-5 w-5 text-violet-500" />
             </div>
             <div>
               <p className="text-2xl font-bold">{total}</p>
-              <p className="text-xs text-white/40">Kokku seadmeid</p>
+              <p className="text-xs text-muted-foreground">Kokku seadmeid</p>
             </div>
           </div>
-          <div className="rounded-xl border border-white/8 bg-white/4 px-5 py-4 flex items-center gap-4">
+          <div className="rounded-xl border border-border bg-card px-5 py-4 flex items-center gap-4">
             <div className="rounded-lg bg-emerald-600/20 p-2">
-              <Zap className="h-5 w-5 text-emerald-400" />
+              <Zap className="h-5 w-5 text-emerald-500" />
             </div>
             <div>
               <p className="text-2xl font-bold">{online}</p>
-              <p className="text-xs text-white/40">Sees</p>
+              <p className="text-xs text-muted-foreground">Sees</p>
             </div>
           </div>
-          <div className="rounded-xl border border-white/8 bg-white/4 px-5 py-4 flex items-center gap-4">
+          <div className="rounded-xl border border-border bg-card px-5 py-4 flex items-center gap-4">
             <div className="rounded-lg bg-rose-600/20 p-2">
-              <AlertTriangle className="h-5 w-5 text-rose-400" />
+              <AlertTriangle className="h-5 w-5 text-rose-500" />
             </div>
             <div>
               <p className="text-2xl font-bold">{critical}</p>
-              <p className="text-xs text-white/40">Kriitilised</p>
+              <p className="text-xs text-muted-foreground">Kriitilised</p>
             </div>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function DevicesPage() {
         {isLoading && (
           <div className="flex flex-col gap-2">
             {([1, 2, 3] as const).map((k) => (
-              <div key={k} className="h-16 animate-pulse rounded-xl bg-white/5" />
+              <div key={k} className="h-16 animate-pulse rounded-xl bg-muted" />
             ))}
           </div>
         )}
@@ -93,9 +93,9 @@ export default function DevicesPage() {
 
         {/* Devices list */}
         {devices && (
-          <div className="rounded-2xl border border-white/8 bg-white/3 overflow-hidden animate-fade-up [animation-delay:160ms]">
+          <div className="rounded-2xl border border-border bg-card overflow-hidden animate-fade-up [animation-delay:160ms]">
             {/* Table head */}
-            <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_auto] gap-4 px-6 py-3 border-b border-white/8 text-xs font-medium text-white/40 uppercase tracking-wider">
+            <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_auto] gap-4 px-6 py-3 border-b border-border text-xs font-medium text-muted-foreground uppercase tracking-wider">
               <span>Nimi</span>
               <span>Tüüp</span>
               <span>Host</span>
@@ -105,37 +105,37 @@ export default function DevicesPage() {
             </div>
 
             {devices.length === 0 ? (
-              <div className="py-16 flex flex-col items-center gap-3 text-white/30">
+              <div className="py-16 flex flex-col items-center gap-3 text-muted-foreground">
                 <Server className="h-10 w-10 opacity-30" />
-                <p className="font-medium text-white/50">Seadmeid pole lisatud</p>
+                <p className="font-medium">Seadmeid pole lisatud</p>
                 <p className="text-sm">Alusta esimese seadme lisamisega</p>
               </div>
             ) : (
-              <div className="divide-y divide-white/5">
+              <div className="divide-y divide-border">
                 {devices.map((device) => (
                   <div
                     key={device.id}
-                    className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_auto] gap-4 px-6 py-4 items-center hover:bg-white/4 transition-colors group"
+                    className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_auto] gap-4 px-6 py-4 items-center hover:bg-muted/50 transition-colors group"
                   >
                     <div className="flex flex-col gap-0.5">
                       <Link
                         href={`/devices/${device.id}`}
-                        className="font-medium text-white hover:text-violet-300 transition-colors text-sm"
+                        className="font-medium text-foreground hover:text-violet-500 transition-colors text-sm"
                       >
                         {device.name}
                       </Link>
                       {device.description && (
-                        <span className="text-xs text-white/35">{device.description}</span>
+                        <span className="text-xs text-muted-foreground">{device.description}</span>
                       )}
                       {device.isCritical && (
                         <span className="text-xs text-rose-400 font-medium">⚠ Kriitiline</span>
                       )}
                     </div>
-                    <span className="text-xs font-mono uppercase tracking-widest text-violet-300/80 bg-violet-500/10 border border-violet-500/20 rounded-md px-2 py-0.5 w-fit">
+                    <span className="text-xs font-mono uppercase tracking-widest text-violet-600 dark:text-violet-300 bg-violet-500/10 border border-violet-500/20 rounded-md px-2 py-0.5 w-fit">
                       {device.connectionType}
                     </span>
-                    <span className="font-mono text-xs text-white/50">{device.host}</span>
-                    <span className="text-sm text-white/60">
+                    <span className="font-mono text-xs text-muted-foreground">{device.host}</span>
+                    <span className="text-sm text-muted-foreground">
                       {device.threshold ? `${Number(device.threshold).toFixed(2)}` : "—"}
                     </span>
                     <StatusBadge status={getDeviceStatus(device)} />
@@ -144,7 +144,7 @@ export default function DevicesPage() {
                         asChild
                         size="sm"
                         variant="outline"
-                        className="h-7 w-7 p-0 border-white/15 bg-white/5 hover:bg-white/10 hover:border-violet-500/50"
+                        className="h-7 w-7 p-0 border-border bg-muted hover:bg-muted/80 hover:border-violet-500/50"
                       >
                         <Link href={`/devices/${device.id}`}>
                           <Edit2 className="h-3 w-3" />
