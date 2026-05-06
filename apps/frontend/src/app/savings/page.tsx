@@ -111,26 +111,28 @@ export default function SavingsPage() {
 
   return (
     <main className="container mx-auto px-4 py-8 flex flex-col gap-8">
-      <h1 className="text-2xl font-bold">Kokkuhoid</h1>
+      <h1 className="text-2xl font-bold animate-fade-up">Kokkuhoid</h1>
 
-      <Tabs value={tab} onValueChange={(v) => setTab(v as SavingsPeriod)}>
-        <TabsList>
-          <TabsTrigger value="day">Päev</TabsTrigger>
-          <TabsTrigger value="week">Nädal</TabsTrigger>
-          <TabsTrigger value="month">Kuu</TabsTrigger>
-        </TabsList>
-        <TabsContent value="day" className="mt-4">
-          <SavingsPeriodTab period="day" />
-        </TabsContent>
-        <TabsContent value="week" className="mt-4">
-          <SavingsPeriodTab period="week" />
-        </TabsContent>
-        <TabsContent value="month" className="mt-4">
-          <SavingsPeriodTab period="month" />
-        </TabsContent>
-      </Tabs>
+      <div className="animate-fade-up [animation-delay:80ms]">
+        <Tabs value={tab} onValueChange={(v) => setTab(v as SavingsPeriod)}>
+          <TabsList>
+            <TabsTrigger value="day">Päev</TabsTrigger>
+            <TabsTrigger value="week">Nädal</TabsTrigger>
+            <TabsTrigger value="month">Kuu</TabsTrigger>
+          </TabsList>
+          <TabsContent value="day" className="mt-4">
+            <SavingsPeriodTab period="day" />
+          </TabsContent>
+          <TabsContent value="week" className="mt-4">
+            <SavingsPeriodTab period="week" />
+          </TabsContent>
+          <TabsContent value="month" className="mt-4">
+            <SavingsPeriodTab period="month" />
+          </TabsContent>
+        </Tabs>
+      </div>
 
-      <div>
+      <div className="animate-fade-up [animation-delay:160ms]">
         <h2 className="text-lg font-semibold mb-4">Tariifi seaded</h2>
         <SavingsConfigForm />
       </div>

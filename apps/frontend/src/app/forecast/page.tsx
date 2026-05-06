@@ -23,7 +23,7 @@ export default function ForecastPage() {
 
   return (
     <main className="container mx-auto px-4 py-8 flex flex-col gap-8">
-      <h1 className="text-2xl font-bold">Hinnprognoos</h1>
+      <h1 className="text-2xl font-bold animate-fade-up">Hinnprognoos</h1>
 
       {isLoading && <div className="h-64 animate-pulse bg-muted rounded-xl" />}
       {error && (
@@ -34,7 +34,7 @@ export default function ForecastPage() {
 
       {forecast && (
         <>
-          <Card>
+          <Card className="animate-fade-up [animation-delay:80ms]">
             <CardHeader>
               <CardTitle className="text-base">Tunnihinnad (EUR/MWh)</CardTitle>
             </CardHeader>
@@ -43,7 +43,7 @@ export default function ForecastPage() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-up [animation-delay:160ms]">
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Odavaimad tunnid</CardTitle>
