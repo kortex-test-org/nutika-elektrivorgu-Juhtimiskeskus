@@ -1,5 +1,7 @@
+import path from "node:path"
 import { cors } from "@elysiajs/cors"
 import { swagger } from "@elysiajs/swagger"
+import { runMigrations } from "@smartgrid/shared/db"
 import { logger } from "@smartgrid/shared/logger"
 import { Elysia } from "elysia"
 import cron from "node-cron"
@@ -12,6 +14,13 @@ import { savingsController } from "./modules/savings"
 import { usersController } from "./modules/users"
 import { runAutomationCycle } from "./services/automation"
 import { wsHandler } from "./ws/handler"
+
+const migrationsFolder = config.databaseUrl
+  ? path.resolve(import.meta.dir, "../../../drizzle")
+  : path.resolve(import.meta.dir, "../../../drizzle-local")
+
+await runMigrations(migrationsFolder)
+logger.info("Database migrations applied")
 
 const app = new Elysia()
   .use(cors())
