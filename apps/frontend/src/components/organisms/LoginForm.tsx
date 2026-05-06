@@ -56,38 +56,57 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-xl">Sisselogimine</CardTitle>
+    <Card className="w-full">
+      <CardHeader className="pb-[clamp(1rem,3vw,1.5rem)]">
+        <CardTitle className="text-[clamp(1.125rem,5vw,1.5rem)] leading-tight">
+          Sisselogimine
+        </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-[clamp(0.875rem,3vw,1.25rem)]"
+        >
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="email">E-post</Label>
+            <Label htmlFor="email" className="text-[clamp(0.8125rem,2.5vw,0.9375rem)]">
+              E-post
+            </Label>
             <Input
               id="email"
               type="email"
               placeholder="admin@example.com"
               autoComplete="email"
+              className="h-11 text-base"
               {...register("email")}
             />
             {errors.email && (
-              <span className="text-destructive text-xs">{errors.email.message as string}</span>
+              <span className="text-destructive text-[clamp(0.6875rem,2vw,0.8125rem)]">
+                {errors.email.message as string}
+              </span>
             )}
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="password">Salasõna</Label>
+            <Label htmlFor="password" className="text-[clamp(0.8125rem,2.5vw,0.9375rem)]">
+              Salasõna
+            </Label>
             <Input
               id="password"
               type="password"
               autoComplete="current-password"
+              className="h-11 text-base"
               {...register("password")}
             />
             {errors.password && (
-              <span className="text-destructive text-xs">{errors.password.message as string}</span>
+              <span className="text-destructive text-[clamp(0.6875rem,2vw,0.8125rem)]">
+                {errors.password.message as string}
+              </span>
             )}
           </div>
-          <Button type="submit" disabled={isSubmitting} className="w-full">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full h-11 text-[clamp(0.875rem,2.5vw,1rem)] mt-1 touch-manipulation"
+          >
             {isSubmitting ? "Sisselogimine..." : "Logi sisse"}
           </Button>
         </form>

@@ -93,7 +93,7 @@ export function DeviceForm(props: DeviceFormProps) {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(9rem,100%),1fr))] gap-3">
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="host">Host</Label>
           <Input id="host" placeholder="192.168.1.100" {...register("host")} />

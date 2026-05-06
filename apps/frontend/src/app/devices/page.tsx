@@ -32,7 +32,7 @@ export default function DevicesPage() {
 
   return (
     <main className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 flex flex-col gap-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 flex flex-col gap-8">
         {/* Header */}
         <div className="flex items-center justify-between animate-fade-up">
           <div>
@@ -45,7 +45,7 @@ export default function DevicesPage() {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-3 gap-4 animate-fade-up [animation-delay:80ms]">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(12rem,100%),1fr))] gap-4 animate-fade-up [animation-delay:80ms]">
           <div className="rounded-xl border border-border bg-card px-5 py-4 flex items-center gap-4">
             <div className="rounded-lg bg-violet-600/20 p-2">
               <Server className="h-5 w-5 text-violet-500" />

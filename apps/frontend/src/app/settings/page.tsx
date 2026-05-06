@@ -57,14 +57,14 @@ export default function SettingsPage() {
 
   if (isLoading) {
     return (
-      <main className="container mx-auto px-4 py-8">
+      <main className="mx-auto w-full max-w-lg px-4 py-8">
         <div className="h-60 animate-pulse bg-muted rounded-lg" />
       </main>
     )
   }
 
   return (
-    <main className="container mx-auto px-4 py-8 max-w-lg flex flex-col gap-8">
+    <main className="mx-auto w-full max-w-lg px-4 py-8 flex flex-col gap-8">
       <h1 className="text-2xl font-bold w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
         Seaded
       </h1>

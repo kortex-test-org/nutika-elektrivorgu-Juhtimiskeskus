@@ -23,7 +23,7 @@ export default function ForecastPage() {
     .slice(0, 3)
 
   return (
-    <main className="container mx-auto px-4 py-8 flex flex-col gap-8">
+    <main className="mx-auto w-full max-w-7xl px-4 py-8 flex flex-col gap-8">
       <h1 className="text-2xl font-bold animate-fade-up w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
         Hinnprognoos
       </h1>

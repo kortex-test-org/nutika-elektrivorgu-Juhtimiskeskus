@@ -22,7 +22,7 @@ export default function NewDevicePage() {
   }
 
   return (
-    <main className="container mx-auto px-4 py-8 max-w-lg">
+    <main className="mx-auto w-full max-w-lg px-4 py-8">
       <h1 className="text-2xl font-bold mb-6 w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
         Lisa uus seade
       </h1>

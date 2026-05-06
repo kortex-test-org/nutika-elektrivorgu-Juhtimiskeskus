@@ -53,7 +53,7 @@ export default function DeviceDetailPage() {
 
   if (isLoading) {
     return (
-      <main className="container mx-auto px-4 py-8">
+      <main className="mx-auto w-full max-w-2xl px-4 py-8">
         <div className="h-40 animate-pulse bg-muted rounded-lg" />
       </main>
     )
@@ -61,14 +61,14 @@ export default function DeviceDetailPage() {
 
   if (error || !device) {
     return (
-      <main className="container mx-auto px-4 py-8">
+      <main className="mx-auto w-full max-w-2xl px-4 py-8">
         <div className="text-destructive text-sm">Seadet ei leitud</div>
       </main>
     )
   }
 
   return (
-    <main className="container mx-auto px-4 py-8 max-w-2xl flex flex-col gap-6">
+    <main className="mx-auto w-full max-w-2xl px-4 py-8 flex flex-col gap-6">
       <div className="flex items-center gap-3">
         <Button asChild size="sm" variant="ghost">
           <Link href="/devices">

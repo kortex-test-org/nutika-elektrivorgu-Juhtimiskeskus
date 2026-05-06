@@ -105,7 +105,7 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <main className="container mx-auto px-4 py-8 flex flex-col gap-6">
+    <main className="mx-auto w-full max-w-7xl px-4 py-8 flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
           Kasutajad

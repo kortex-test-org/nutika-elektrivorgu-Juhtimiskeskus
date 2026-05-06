@@ -38,7 +38,7 @@ export function AddDeviceModal() {
           Lisa seade
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold">Lisa uus seade</DialogTitle>
         </DialogHeader>
