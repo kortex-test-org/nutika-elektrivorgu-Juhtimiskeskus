@@ -22,7 +22,10 @@ export function PriceBanner() {
         <CardTitle className="text-base font-semibold">Praegune elektrihind</CardTitle>
         <div className="flex items-center gap-2">
           {connected ? (
-            <Badge variant="success" className="gap-1">
+            <Badge
+              variant="success"
+              className="gap-1 bg-violet-500/15 text-violet-300 border border-violet-500/40"
+            >
               <Wifi className="h-3 w-3" />
               Live
             </Badge>
