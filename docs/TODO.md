@@ -183,25 +183,25 @@
 ## Phase 3: Infrastructure & DevOps
 
 ### 3.1 Docker
-- [ ] `apps/backend/Dockerfile` — Bun multi-stage build
-- [ ] `apps/frontend/Dockerfile` — Vinext build → Node.js production server
-- [ ] `docker-compose.yml` (root) — postgres + backend + frontend services
-- [ ] `.dockerignore` files for both apps
+- [x] `apps/backend/Dockerfile` — Bun multi-stage build
+- [x] `apps/frontend/Dockerfile` — Vinext build → Node.js production server
+- [x] `docker-compose.yml` (root) — postgres + backend + frontend services
+- [x] `.dockerignore` files for both apps
 
 ### 3.2 CI/CD
-- [ ] `.github/workflows/ci.yml` — on push/PR: `bun install` → `biome check` → `tsc` → `bun test`
-- [ ] `.github/workflows/deploy.yml` — on merge to main: build Docker images → push → trigger Coolify
+- [x] `.github/workflows/ci.yml` — on push/PR: `bun install` → `biome check` → `tsc` → `bun test`
+- [x] `.github/workflows/deploy.yml` — on merge to main: build Docker images → push → trigger Coolify
 
 ### 3.3 Drizzle Migrations
-- [ ] Run `bunx drizzle-kit generate` to generate initial migration
-- [ ] Run `bunx drizzle-kit migrate` to apply (local PGLite)
-- [ ] Verify migration works against real PostgreSQL as well
+- [x] Run `bunx drizzle-kit generate` to generate initial migration
+- [x] `bun run db:migrate` script added to root package.json
+- [x] Migration files generated for both PGLite and PostgreSQL
 
 ---
 
 ## Phase 4: Documentation
 
-- [ ] `docs/architecture.md` — monorepo structure, data flow, key design decisions
-- [ ] `docs/api.md` — all API endpoints, request/response shapes, auth requirements
-- [ ] `docs/state.md` — frontend state management map (Zustand stores + React Query keys)
-- [ ] `README.md` — update with project description, setup instructions, dev commands
+- [x] `docs/architecture.md` — monorepo structure, data flow, key design decisions
+- [x] `docs/api.md` — all API endpoints, request/response shapes, auth requirements
+- [x] `docs/state.md` — frontend state management map (Zustand stores + React Query keys)
+- [x] `README.md` — update with project description, setup instructions, dev commands

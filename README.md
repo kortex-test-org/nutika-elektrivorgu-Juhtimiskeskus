@@ -1,159 +1,103 @@
-# Turborepo starter
+# Nutika Elektrivõrgu Juhtimiskeskus
 
-This Turborepo starter is maintained by the Turborepo core team.
+A smart grid control center for managing home devices based on Nord Pool electricity exchange prices from the [Elering API](https://dashboard.elering.ee/api).
 
-## Using this example
+## Features
 
-Run the following command:
+- Real-time electricity price monitoring (Elering API)
+- Automatic device on/off based on price thresholds
+- Manual device control with override mode
+- 24h price forecast chart
+- Savings calculator (exchange vs fixed tariff)
+- Telegram / Discord notifications for price alerts
+- WebSocket live updates for all events
+- Master + user role model
+- Works fully offline with PGLite (no Docker needed for local dev)
 
-```sh
-npx create-turbo@latest
-```
+## Stack
 
-## What's inside?
+| Layer | Technology |
+|---|---|
+| Frontend | Vinext (Next.js App Router on Vite), React 19, Tailwind CSS, shadcn/ui |
+| State | Zustand (client) + React Query (server cache) |
+| Backend | Bun + Elysia |
+| Auth | JWT + Argon2 |
+| Validation | TypeBox (shared schemas, used on both ends) |
+| ORM | DrizzleORM |
+| DB (dev) | PGLite (auto, no setup) |
+| DB (prod) | PostgreSQL |
+| Monorepo | Turborepo + Bun workspaces |
 
-This Turborepo includes the following packages/apps:
+## Prerequisites
 
-### Apps and Packages
+- [Bun](https://bun.sh) ≥ 1.3
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+## Local Development
 
 ```sh
-cd my-turborepo
-turbo build
+# 1. Clone
+git clone https://github.com/your-org/smartgrid
+cd smartgrid
+
+# 2. Install dependencies
+bun install
+
+# 3. Copy environment file
+cp .env.example .env
+# Edit .env and set JWT_SECRET (minimum)
+
+# 4. Start dev servers
+bun run dev
+# → Backend:  http://localhost:3001
+# → Frontend: http://localhost:3000
+# → Swagger:  http://localhost:3001/docs
 ```
 
-Without global `turbo`, use your package manager:
+PGLite is used automatically when `DATABASE_URL` is not set — no database setup required.
+
+## Production (Docker Compose)
 
 ```sh
-cd my-turborepo
-npx turbo build
-bun dlx turbo build
-bun exec turbo build
+# Set required secrets
+export JWT_SECRET=your-secret-here
+export POSTGRES_PASSWORD=your-db-password
+
+# Build and start
+docker compose up -d
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## Database Migrations
 
 ```sh
-turbo build --filter=docs
+# Generate migration (local PGLite)
+bun run db:generate
+
+# Apply migration (local PGLite)
+bun run db:migrate
+
+# For production PostgreSQL (set DATABASE_URL first)
+bun run db:generate:prod
+bun run db:migrate:prod
 ```
 
-Without global `turbo`:
+## Project Structure
 
-```sh
-npx turbo build --filter=docs
-bun exec turbo build --filter=docs
-bun exec turbo build --filter=docs
+```
+apps/
+  backend/    — Bun + Elysia REST API + WebSocket
+  frontend/   — Vinext Next.js App Router frontend
+packages/
+  shared/     — TypeBox schemas, Drizzle schema, DB adapter, logger
+  config/     — Shared tsconfig.base.json
+docs/
+  architecture.md  — System design and key decisions
+  api.md           — API endpoint reference
+  state.md         — Frontend state management map
+  TODO.md          — Development progress tracker
 ```
 
-### Develop
+## Documentation
 
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-bun exec turbo dev
-bun exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-bun exec turbo dev --filter=web
-bun exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-bun exec turbo login
-bun exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-bun exec turbo link
-bun exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- [Architecture](docs/architecture.md)
+- [API Reference](docs/api.md)
+- [State Management](docs/state.md)
