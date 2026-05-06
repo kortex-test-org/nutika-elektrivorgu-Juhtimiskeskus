@@ -2,7 +2,7 @@
 
 import { LogOut, Moon, Sun, SunMoon, Zap } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { useAuthStore } from "@/stores/authStore"
@@ -17,6 +17,30 @@ const THEME_ICON: Record<string, React.ReactNode> = {
   system: <SunMoon className="h-3.5 w-3.5" />,
   light: <Sun className="h-3.5 w-3.5" />,
   dark: <Moon className="h-3.5 w-3.5" />,
+}
+
+interface NavLinkProps {
+  href: string
+  exact?: boolean
+  children: React.ReactNode
+}
+
+function NavLink({ href, exact = false, children }: NavLinkProps) {
+  const pathname = usePathname()
+  const isActive = exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`)
+
+  return (
+    <Link
+      href={href}
+      className={`text-sm transition-colors px-3 py-1.5 rounded-md ${
+        isActive
+          ? "text-foreground font-medium bg-muted"
+          : "text-muted-foreground hover:text-foreground hover:bg-muted"
+      }`}
+    >
+      {children}
+    </Link>
+  )
 }
 
 export function Navbar() {
@@ -44,38 +68,13 @@ export function Navbar() {
             <Zap className="h-4 w-4" />
             SmartGrid
           </Link>
-          <Link
-            href="/"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-muted"
-          >
+          <NavLink href="/" exact>
             Avaleht
-          </Link>
-          <Link
-            href="/devices"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-muted"
-          >
-            Seadmed
-          </Link>
-          <Link
-            href="/forecast"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-muted"
-          >
-            Prognoos
-          </Link>
-          <Link
-            href="/savings"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-muted"
-          >
-            Sääst
-          </Link>
-          {user.role === "master" && (
-            <Link
-              href="/admin/users"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-muted"
-            >
-              Admin
-            </Link>
-          )}
+          </NavLink>
+          <NavLink href="/devices">Seadmed</NavLink>
+          <NavLink href="/forecast">Prognoos</NavLink>
+          <NavLink href="/savings">Sääst</NavLink>
+          {user.role === "master" && <NavLink href="/admin/users">Admin</NavLink>}
         </nav>
 
         <div className="flex items-center gap-2">
