@@ -5,10 +5,19 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "check": "turbo run check",
-    "test": "turbo run test"
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css}": [
+      "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
+    ]
   },
   "devDependencies": {
     "@biomejs/biome": "latest",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "turbo": "^2.9.9",
     "typescript": "5.9.2"
   },

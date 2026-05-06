@@ -6,7 +6,8 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "vinext start",
-    "check": "bunx biome check . && tsc --noEmit"
+    "check": "bunx biome check . && tsc --noEmit",
+    "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",

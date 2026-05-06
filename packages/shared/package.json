@@ -13,7 +13,8 @@
     "./logger": "./src/logger.ts"
   },
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
     "@electric-sql/pglite": "latest",
