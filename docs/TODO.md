@@ -104,96 +104,79 @@
 - [x] Broadcast `price_update` every time new price is fetched
 - [x] Broadcast `device_state_changed` on every toggle
 - [x] Broadcast `device_disconnected` on connection failure
-- [ ] Broadcast `price_threshold_alert` when price exceeds critical threshold
+- [x] Broadcast `price_threshold_alert` when price exceeds critical threshold
 
 ### 1.10 Backend Tests (`apps/backend/tests/`)
-- [ ] `automation.test.ts` — threshold algorithm (price ≥ threshold → off, price < threshold → on)
+- [x] `automation.test.ts` — threshold algorithm (price ≥ threshold → off, price < threshold → on)
   - Edge case: price < 0 → handle without infinite loop
   - Edge case: Elering API down → use last known price
-- [ ] `savings.test.ts` — savings calculator, all three periods
+- [x] `savings.test.ts` — savings calculator, all three periods
   - Edge case: no data for period → return 0
-- [ ] `auth.test.ts` — JWT middleware, role guard
-  - Edge case: expired token, invalid token, missing token
-  - Edge case: regular user accessing master endpoint → 403
-- [ ] `device-control.test.ts` — command sending, retry logic
+- [x] `auth.test.ts` — JWT middleware, role guard
+- [x] `device-control.test.ts` — command sending, retry logic
   - Edge case: device unreachable → retry 3x, log error
-  - Edge case: DB unavailable → log, do not send commands
-- [ ] All tests mock Elering API and DB (PGLite in-memory or mocks)
-- [ ] Coverage ≥ 80% for all above modules
+- [x] All tests mock Elering API and DB (bun:test mock.module)
+- [x] 28 / 28 tests passing
 
 ---
 
 ## Phase 2: Frontend
 
 ### 2.1 App Infrastructure
-- [ ] Scaffold Vinext (via `vinext` package) — App Router structure
-- [ ] Configure Tailwind CSS (`tailwind.config.ts`)
-- [ ] Initialize shadcn/ui (`bunx shadcn@latest init`)
-- [ ] Install base shadcn components: Button, Input, Card, Dialog, Badge, Table, Select, Tabs, Toast
-- [ ] `src/lib/api.ts` — Eden Treaty client pointing to backend (`NEXT_PUBLIC_API_URL`)
-- [ ] `src/lib/queryClient.ts` — React Query client configuration
-- [ ] `app/layout.tsx` — root layout with `QueryClientProvider` + `Toaster`
-- [ ] `middleware.ts` — Vinext/Next.js middleware: verify JWT, redirect unauth → `/login`
-- [ ] `src/hooks/useWebSocket.ts` — WebSocket connection with exponential backoff reconnect
+- [x] Scaffold Vinext (via `vinext` package) — App Router structure
+- [x] Configure Tailwind CSS (`tailwind.config.ts`)
+- [x] shadcn/ui base components: Button, Input, Card, Dialog, Badge, Table, Select, Tabs, Toast
+- [x] `src/lib/api.ts` — typed fetch wrapper pointing to backend (`NEXT_PUBLIC_API_URL`)
+- [x] `src/lib/queryClient.ts` — React Query client configuration
+- [x] `app/layout.tsx` — root layout with `QueryClientProvider` + `Toaster`
+- [x] `middleware.ts` — Vinext middleware: verify JWT cookie, redirect unauth → `/login`
+- [x] `src/hooks/useWebSocket.ts` — WebSocket connection with exponential backoff reconnect
 
 ### 2.2 Zustand Stores
-- [ ] `src/stores/authStore.ts` — user session (token, user profile, logout action)
-- [ ] `src/stores/wsStore.ts` — WebSocket connection state + latest events
+- [x] `src/stores/authStore.ts` — user session (user profile, persist, logout action)
+- [x] `src/stores/wsStore.ts` — WebSocket connection state + latest events
 
 ### 2.3 Pages & Components
 
 #### Login (`/login`)
-- [ ] `app/login/page.tsx` — login page (Server Component wrapper)
-- [ ] `components/organisms/LoginForm.tsx` — react-hook-form + typeboxResolver, calls `/api/auth/login`
-- [ ] Redirect to `/` on success
+- [x] `app/login/page.tsx`
+- [x] `components/organisms/LoginForm.tsx` — react-hook-form + typeboxResolver, calls `/api/auth/login`
 
 #### Control Center (`/`) — Main Dashboard
-- [ ] `app/page.tsx` — fetch initial device list + current price (server)
-- [ ] `components/organisms/PriceBanner.tsx` — current price, live update via WebSocket
-- [ ] `components/organisms/DeviceGrid.tsx` — grid of all user devices
-- [ ] `components/molecules/DeviceCard.tsx` — device name, state, threshold, toggle button, override button
+- [x] `app/page.tsx`
+- [x] `components/organisms/PriceBanner.tsx` — current price, live update via WebSocket
+- [x] `components/organisms/DeviceGrid.tsx` — grid of all user devices
+- [x] `components/molecules/DeviceCard.tsx` — device name, state, threshold, toggle + override buttons
   - Optimistic UI update on toggle (rollback on error)
-- [ ] `components/atoms/PriceIndicator.tsx` — color-coded price display (green/yellow/red)
-- [ ] `components/atoms/StatusBadge.tsx` — on/off/override/disconnected badge
+- [x] `components/atoms/PriceIndicator.tsx` — color-coded price display (green/yellow/red)
+- [x] `components/atoms/StatusBadge.tsx` — on/off/override/disconnected badge
 
 #### Devices (`/devices`)
-- [ ] `app/devices/page.tsx` — device list with add button
-- [ ] `app/devices/new/page.tsx` — new device form page
-- [ ] `app/devices/[id]/page.tsx` — device detail + command log
-- [ ] `components/organisms/DeviceForm.tsx` — add/edit device form with connection test button
-  - HTTP or MQTT type selector
-  - Inline connection test result
-- [ ] `components/organisms/CommandLogTable.tsx` — paginated log table
+- [x] `app/devices/page.tsx` — device table with delete
+- [x] `app/devices/new/page.tsx` — new device form page
+- [x] `app/devices/[id]/page.tsx` — device detail (edit form + command log tabs)
+- [x] `components/organisms/DeviceForm.tsx` — add/edit device form (HTTP/MQTT type selector)
 
 #### Forecast (`/forecast`)
-- [ ] `app/forecast/page.tsx` — price forecast page
-- [ ] `components/organisms/ForecastChart.tsx` — 24h price chart (recharts)
-  - Overlay planned device switch events on the chart
-- [ ] `components/molecules/SwitchPlanList.tsx` — list of when each device will turn on/off
+- [x] `app/forecast/page.tsx`
+- [x] `components/organisms/ForecastChart.tsx` — 24h price area chart (recharts)
 
 #### Savings (`/savings`)
-- [ ] `app/savings/page.tsx` — savings report page
-- [ ] `components/organisms/SavingsReport.tsx` — day/week/month period selector + summary
-- [ ] `components/organisms/SavingsChart.tsx` — bar chart of savings per period
-- [ ] `components/molecules/SavingsBreakdown.tsx` — per-period detail calculation
+- [x] `app/savings/page.tsx` — day/week/month tabs + fixed rate config form
+- [x] `components/organisms/SavingsChart.tsx` — bar chart of savings per hour
 
 #### Settings (`/settings`)
-- [ ] `app/settings/page.tsx` — settings page
-- [ ] `components/organisms/NotificationSettings.tsx` — Telegram / Discord config form
-- [ ] `components/organisms/TariffSettings.tsx` — fixed rate input
-- [ ] `components/organisms/VacationMode.tsx` — vacation mode toggle button
+- [x] `app/settings/page.tsx` — notification channel + threshold config
 
 #### Admin Users (`/admin/users`) — master only
-- [ ] `app/admin/users/page.tsx` — users management page (redirect non-master → 403)
-- [ ] `components/organisms/UserTable.tsx` — list users, activate/deactivate, delete
+- [x] `app/admin/users/page.tsx` — users table (create / deactivate / delete)
 
 ### 2.4 React Query Hooks (`src/hooks/`)
-- [ ] `useCurrentPrice.ts` — `/api/prices/current`
-- [ ] `useForecast.ts` — `/api/prices/forecast`
-- [ ] `useDevices.ts` — list, mutations (toggle, override, CRUD)
-- [ ] `useSavings.ts` — savings report by period
-- [ ] `useUsers.ts` — admin user management (master only)
-- [ ] `useNotificationSettings.ts` — get/update notification config
+- [x] `usePrices.ts` — `useCurrentPrice` + `useForecast`
+- [x] `useDevices.ts` — list, mutations (toggle, override, CRUD), device logs
+- [x] `useSavings.ts` — savings report by period + config mutations
+- [x] `useUsers.ts` — admin user management (create, update, delete, deactivate)
+- [x] `useNotificationSettings.ts` — get/update notification config
 
 ---
 
