@@ -34,7 +34,7 @@ export default function DevicesPage() {
     <main className="min-h-screen bg-[#07070f] text-white">
       <div className="container mx-auto px-4 py-8 flex flex-col gap-8">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between animate-fade-up">
           <div>
             <h1 className="text-3xl font-bold bg-linear-to-r from-white to-violet-300 bg-clip-text text-transparent">
               Seadmed
@@ -45,7 +45,7 @@ export default function DevicesPage() {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 animate-fade-up [animation-delay:80ms]">
           <div className="rounded-xl border border-white/8 bg-white/4 px-5 py-4 flex items-center gap-4">
             <div className="rounded-lg bg-violet-600/20 p-2">
               <Server className="h-5 w-5 text-violet-400" />
@@ -93,7 +93,7 @@ export default function DevicesPage() {
 
         {/* Devices list */}
         {devices && (
-          <div className="rounded-2xl border border-white/8 bg-white/3 overflow-hidden">
+          <div className="rounded-2xl border border-white/8 bg-white/3 overflow-hidden animate-fade-up [animation-delay:160ms]">
             {/* Table head */}
             <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_auto] gap-4 px-6 py-3 border-b border-white/8 text-xs font-medium text-white/40 uppercase tracking-wider">
               <span>Nimi</span>
