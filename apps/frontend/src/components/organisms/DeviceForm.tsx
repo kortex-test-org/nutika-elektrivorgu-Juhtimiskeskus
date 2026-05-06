@@ -5,6 +5,7 @@ import type { CreateDeviceDto, UpdateDeviceDto } from "@smartgrid/shared"
 import { CreateDeviceSchema, UpdateDeviceSchema } from "@smartgrid/shared"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -133,11 +134,10 @@ export function DeviceForm(props: DeviceFormProps) {
       </div>
 
       <div className="flex items-center gap-2">
-        <input
+        <Checkbox
           id="isCritical"
-          type="checkbox"
-          {...register("isCritical")}
-          className="h-4 w-4 rounded border border-input bg-background accent-violet-600 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          checked={watch("isCritical") ?? false}
+          onCheckedChange={(checked) => setValue("isCritical", checked === true)}
         />
         <Label htmlFor="isCritical" className="font-normal cursor-pointer">
           Kriitiline seade (ei lülitata automaatselt välja)
