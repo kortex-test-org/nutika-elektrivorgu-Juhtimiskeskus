@@ -19,6 +19,44 @@
       "semicolons": "asNeeded"
     }
   },
+  "css": {
+    "parser": {
+      "allowWrongLineComments": true,
+      "cssModules": false
+    },
+    "linter": {
+      "enabled": true
+    },
+    "formatter": {
+      "enabled": true
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.css"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noUnknownAtRules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/globals.css"],
+      "css": {
+        "parser": {
+          "allowWrongLineComments": true
+        }
+      },
+      "formatter": {
+        "enabled": false
+      },
+      "linter": {
+        "enabled": false
+      }
+    }
+  ],
   "files": {
     "includes": ["**", "!**/node_modules", "!**/.next", "!**/dist", "!**/local.db"]
   }

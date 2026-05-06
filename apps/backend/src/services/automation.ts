@@ -1,5 +1,6 @@
 import { logger } from "@smartgrid/shared"
 import { getAllActiveDevices } from "../db/repository/device"
+import { getAllSettingsWithThreshold } from "../db/repository/notification"
 import { getLatestPrice } from "../db/repository/price"
 import { wsManager } from "../ws/manager"
 import { sendDeviceCommand } from "./device-control"
@@ -24,6 +25,19 @@ export const runAutomationCycle = async (): Promise<void> => {
       timestamp: latestPrice.timestamp.toISOString(),
     },
   })
+
+  const thresholdSettings = await getAllSettingsWithThreshold()
+  for (const setting of thresholdSettings) {
+    if (!setting.criticalPriceThreshold) continue
+    const threshold = Number(setting.criticalPriceThreshold)
+    if (currentPrice > threshold) {
+      wsManager.broadcast({
+        type: "price_threshold_alert",
+        data: { priceEurMwh: currentPrice, threshold },
+      })
+      break
+    }
+  }
 
   const allDevices = await getAllActiveDevices()
 

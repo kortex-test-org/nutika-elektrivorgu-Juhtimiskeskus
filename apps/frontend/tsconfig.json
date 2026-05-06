@@ -2,6 +2,7 @@
   "extends": "@smartgrid/config/nextjs.json",
   "compilerOptions": {
     "paths": {
+      "@/*": ["./src/*"],
       "@shared/*": ["../../packages/shared/src/*"],
       "@ui/*": ["./src/components/ui/*"],
       "@atoms/*": ["./src/components/atoms/*"],
@@ -11,6 +12,6 @@
       "@services/*": ["./src/services/*"]
     }
   },
-  "include": ["src", "next-env.d.ts", ".next/types/**/*.ts"],
+  "include": ["src", "next-env.d.ts", "tailwind.config.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

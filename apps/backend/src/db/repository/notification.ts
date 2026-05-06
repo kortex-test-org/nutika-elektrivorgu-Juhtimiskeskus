@@ -1,10 +1,17 @@
 import { db, notificationSettings } from "@smartgrid/shared"
-import { eq } from "drizzle-orm"
+import { eq, isNotNull } from "drizzle-orm"
 
 export const getNotificationSettings = async (userId: string) => {
   return db.query.notificationSettings.findFirst({
     where: eq(notificationSettings.userId, userId),
   })
+}
+
+export const getAllSettingsWithThreshold = async () => {
+  return db
+    .select()
+    .from(notificationSettings)
+    .where(isNotNull(notificationSettings.criticalPriceThreshold))
 }
 
 export const upsertNotificationSettings = async (
