@@ -38,9 +38,9 @@ export function AddDeviceModal() {
           Lisa seade
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg border-white/10 bg-background/60 backdrop-blur-xl">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold text-white">Lisa uus seade</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">Lisa uus seade</DialogTitle>
         </DialogHeader>
         <DeviceForm mode="create" onSubmit={onSubmit} isLoading={createMutation.isPending} />
       </DialogContent>
