@@ -1,4 +1,6 @@
-import { Type } from "@sinclair/typebox"
+import { FormatRegistry, Type } from "@sinclair/typebox"
+
+FormatRegistry.Set("email", (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
 
 export const LoginSchema = Type.Object({
   email: Type.String({ format: "email" }),
@@ -13,27 +15,20 @@ export const RegisterSchema = Type.Object({
 export const CreateUserSchema = Type.Object({
   email: Type.String({ format: "email" }),
   password: Type.String({ minLength: 8 }),
-  role: Type.Optional(
-    Type.Union([Type.Literal("master"), Type.Literal("user")]),
-  ),
+  role: Type.Optional(Type.Union([Type.Literal("master"), Type.Literal("user")])),
 })
 
 export const UpdateUserSchema = Type.Object({
   email: Type.Optional(Type.String({ format: "email" })),
   password: Type.Optional(Type.String({ minLength: 8 })),
   isActive: Type.Optional(Type.Boolean()),
-  role: Type.Optional(
-    Type.Union([Type.Literal("master"), Type.Literal("user")]),
-  ),
+  role: Type.Optional(Type.Union([Type.Literal("master"), Type.Literal("user")])),
 })
 
 export const CreateDeviceSchema = Type.Object({
   name: Type.String({ minLength: 1, maxLength: 100 }),
   description: Type.Optional(Type.String()),
-  connectionType: Type.Union([
-    Type.Literal("http"),
-    Type.Literal("mqtt"),
-  ]),
+  connectionType: Type.Union([Type.Literal("http"), Type.Literal("mqtt")]),
   host: Type.String({ minLength: 1 }),
   port: Type.Optional(Type.Number({ minimum: 1, maximum: 65535 })),
   topic: Type.Optional(Type.String()),
@@ -44,9 +39,7 @@ export const CreateDeviceSchema = Type.Object({
 export const UpdateDeviceSchema = Type.Object({
   name: Type.Optional(Type.String({ minLength: 1, maxLength: 100 })),
   description: Type.Optional(Type.String()),
-  connectionType: Type.Optional(
-    Type.Union([Type.Literal("http"), Type.Literal("mqtt")]),
-  ),
+  connectionType: Type.Optional(Type.Union([Type.Literal("http"), Type.Literal("mqtt")])),
   host: Type.Optional(Type.String({ minLength: 1 })),
   port: Type.Optional(Type.Number({ minimum: 1, maximum: 65535 })),
   topic: Type.Optional(Type.String()),
@@ -69,11 +62,7 @@ export const SavingsConfigSchema = Type.Object({
 
 export const NotificationSettingsSchema = Type.Object({
   channel: Type.Optional(
-    Type.Union([
-      Type.Literal("telegram"),
-      Type.Literal("discord"),
-      Type.Null(),
-    ]),
+    Type.Union([Type.Literal("telegram"), Type.Literal("discord"), Type.Null()]),
   ),
   telegramChatId: Type.Optional(Type.String()),
   discordWebhookUrl: Type.Optional(Type.String()),
