@@ -5,18 +5,24 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { useAuthStore } from "@/stores/authStore"
-
-const THEME_CYCLE: Record<string, string> = {
-  system: "light",
-  light: "dark",
-  dark: "system",
-}
 
 const THEME_ICON: Record<string, React.ReactNode> = {
   system: <SunMoon className="h-3.5 w-3.5" />,
   light: <Sun className="h-3.5 w-3.5" />,
   dark: <Moon className="h-3.5 w-3.5" />,
+}
+
+const THEME_LABEL: Record<string, string> = {
+  system: "Süsteem",
+  light: "Hele",
+  dark: "Tume",
 }
 
 interface NavLinkProps {
@@ -80,15 +86,30 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground mr-1">{user.email}</span>
 
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setTheme(THEME_CYCLE[currentTheme] ?? "system")}
-            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-            title={`Teema: ${currentTheme}`}
-          >
-            {THEME_ICON[currentTheme]}
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                title={`Teema: ${currentTheme}`}
+              >
+                {THEME_ICON[currentTheme]}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {(["light", "dark", "system"] as const).map((option) => (
+                <DropdownMenuItem
+                  key={option}
+                  onClick={() => setTheme(option)}
+                  className={currentTheme === option ? "bg-muted font-medium" : ""}
+                >
+                  <span className="mr-2">{THEME_ICON[option]}</span>
+                  {THEME_LABEL[option]}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <Button
             size="sm"
