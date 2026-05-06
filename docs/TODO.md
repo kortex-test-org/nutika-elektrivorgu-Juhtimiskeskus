@@ -10,100 +10,100 @@
 - [x] `.env.example` with all required variables
 - [x] `.gitignore` — includes `local.db`, `.env`, `.next`, `dist`
 - [x] Agent rules cloned into `.agents/rules/`, IDE adapter files generated
-- [ ] `bun install` — install all workspace dependencies
-- [ ] Verify `bunx biome check .` passes on empty project
+- [x] `bun install` — install all workspace dependencies
+- [x] Verify `bunx biome check .` passes on empty project
 
 ### 0.2 packages/shared — Core Types & Infrastructure
-- [ ] `src/schema.ts` — all Drizzle table definitions:
+- [x] `src/schema.ts` — all Drizzle table definitions:
   - `users` (id, email, passwordHash, role, isActive, createdAt)
   - `devices` (id, userId, name, description, connectionType, host, port, topic, threshold, isCritical, overrideActive, overrideState, currentState, createdAt)
   - `deviceCommandsLog` (id, deviceId, command, triggeredBy, priceAtTime, createdAt)
   - `prices` (id, timestamp, priceEurMwh, source)
   - `savingsConfig` (userId, fixedRateEurKwh, updatedAt)
   - `notificationSettings` (userId, channel, telegramChatId, discordWebhookUrl, criticalPriceThreshold, updatedAt)
-- [ ] `src/db.ts` — PGLite/PostgreSQL adapter (branch on `DATABASE_URL`)
-- [ ] `src/validators.ts` — all TypeBox schemas (reused on both backend and frontend):
+- [x] `src/db.ts` — PGLite/PostgreSQL adapter (branch on `DATABASE_URL`)
+- [x] `src/validators.ts` — all TypeBox schemas (reused on both backend and frontend):
   - Auth: `LoginSchema`, `RegisterSchema`
   - User: `CreateUserSchema`, `UpdateUserSchema`
   - Device: `CreateDeviceSchema`, `UpdateDeviceSchema`, `ToggleSchema`, `OverrideSchema`
   - Savings: `SavingsConfigSchema`
   - Notifications: `NotificationSettingsSchema`
-- [ ] `src/types.ts` — `Static<>` derived TS types exported for use
-- [ ] `src/logger.ts` — structured JSON logger (`INFO` / `WARNING` / `ERROR` / `CRITICAL`)
-- [ ] `src/index.ts` — barrel export of all above
-- [ ] `drizzle.config.ts` (root) — drizzle-kit config for PostgreSQL
-- [ ] `drizzle.config.local.ts` (root) — drizzle-kit config for PGLite
+- [x] `src/types.ts` — `Static<>` derived TS types exported for use
+- [x] `src/logger.ts` — structured JSON logger (`INFO` / `WARNING` / `ERROR` / `CRITICAL`)
+- [x] `src/index.ts` — barrel export of all above
+- [x] `drizzle.config.ts` (root) — drizzle-kit config for PostgreSQL
+- [x] `drizzle.config.local.ts` (root) — drizzle-kit config for PGLite
 
 ---
 
 ## Phase 1: Backend
 
 ### 1.1 App Entry & Infrastructure
-- [ ] `src/index.ts` — Elysia app, register all modules, start server on `config.port`
-- [ ] `src/config.ts` — validate required env vars at startup, export typed config
-- [ ] `src/middleware/auth.ts` — JWT verification middleware (attach `user` to context)
-- [ ] `src/middleware/role.ts` — master-only guard middleware
-- [ ] Elysia global error handler — return `{ error: string }`, never stack traces
+- [x] `src/index.ts` — Elysia app, register all modules, start server on `config.port`
+- [x] `src/config.ts` — validate required env vars at startup, export typed config
+- [x] `src/middleware/auth.ts` — JWT verification middleware (attach `user` to context)
+- [x] `src/middleware/role.ts` — master-only guard middleware
+- [x] Elysia global error handler — return `{ error: string }`, never stack traces
 
 ### 1.2 Auth module (`src/routes/auth.ts`)
-- [ ] `POST /api/auth/register` — first user only; auto-assign `master` role if no users exist
-- [ ] `POST /api/auth/login` — verify password with argon2, return signed JWT
-- [ ] `POST /api/auth/logout` — invalidate session (clear JWT cookie / blacklist token)
-- [ ] `GET /api/auth/me` — return current authenticated user
-- [ ] TypeBox schema validation on all endpoints (use shared schemas)
+- [x] `POST /api/auth/register` — first user only; auto-assign `master` role if no users exist
+- [x] `POST /api/auth/login` — verify password with argon2, return signed JWT
+- [x] `POST /api/auth/logout` — invalidate session (clear JWT cookie / blacklist token)
+- [x] `GET /api/auth/me` — return current authenticated user
+- [x] TypeBox schema validation on all endpoints (use shared schemas)
 
 ### 1.3 Users module (`src/routes/users.ts`) — master only
-- [ ] `GET /api/users` — list all users
-- [ ] `POST /api/users` — create user (master creates accounts for others)
-- [ ] `PATCH /api/users/:id` — update user
-- [ ] `DELETE /api/users/:id` — delete user
-- [ ] `PATCH /api/users/:id/deactivate` — soft-deactivate user
+- [x] `GET /api/users` — list all users
+- [x] `POST /api/users` — create user (master creates accounts for others)
+- [x] `PATCH /api/users/:id` — update user
+- [x] `DELETE /api/users/:id` — delete user
+- [x] `PATCH /api/users/:id/deactivate` — soft-deactivate user
 
 ### 1.4 Devices module (`src/routes/devices.ts`)
-- [ ] `GET /api/devices` — devices for current user only
-- [ ] `POST /api/devices` — create device + test connection (HTTP ping or MQTT connect)
-- [ ] `PATCH /api/devices/:id` — update device (owner only)
-- [ ] `DELETE /api/devices/:id` — delete device (owner only)
-- [ ] `GET /api/devices/:id/status` — fetch current device state
-- [ ] `POST /api/devices/:id/toggle` — manual on/off + log entry
-- [ ] `POST /api/devices/:id/override` — enable/disable override mode
-- [ ] `GET /api/devices/:id/logs` — paginated command history
+- [x] `GET /api/devices` — devices for current user only
+- [x] `POST /api/devices` — create device + test connection (HTTP ping or MQTT connect)
+- [x] `PATCH /api/devices/:id` — update device (owner only)
+- [x] `DELETE /api/devices/:id` — delete device (owner only)
+- [x] `GET /api/devices/:id/status` — fetch current device state
+- [x] `POST /api/devices/:id/toggle` — manual on/off + log entry
+- [x] `POST /api/devices/:id/override` — enable/disable override mode
+- [x] `GET /api/devices/:id/logs` — paginated command history
 
 ### 1.5 Prices module (`src/routes/prices.ts`)
-- [ ] `GET /api/prices/current` — latest price from DB
-- [ ] `GET /api/prices/forecast` — next 24h from Elering API (cache in DB)
-- [ ] `GET /api/prices/history` — prices by date range (`?from=&to=`)
+- [x] `GET /api/prices/current` — latest price from DB
+- [x] `GET /api/prices/forecast` — next 24h from Elering API (cache in DB)
+- [x] `GET /api/prices/history` — prices by date range (`?from=&to=`)
 
 ### 1.6 Savings module (`src/routes/savings.ts`)
-- [ ] `GET /api/savings` — calculate savings for period (`?period=day|week|month`)
+- [x] `GET /api/savings` — calculate savings for period (`?period=day|week|month`)
   - Formula: `(fixedRate - exchangePrice) × consumption × duration`
-- [ ] `GET /api/savings/config` — user's fixed tariff
-- [ ] `PUT /api/savings/config` — update fixed tariff
+- [x] `GET /api/savings/config` — user's fixed tariff
+- [x] `PUT /api/savings/config` — update fixed tariff
 
 ### 1.7 Notifications module (`src/routes/notifications.ts`)
-- [ ] `GET /api/notifications/settings` — current settings
-- [ ] `PUT /api/notifications/settings` — update channel + thresholds
+- [x] `GET /api/notifications/settings` — current settings
+- [x] `PUT /api/notifications/settings` — update channel + thresholds
 
 ### 1.8 Services
-- [ ] `src/services/elering.ts` — fetch prices from Elering API
+- [x] `src/services/elering.ts` — fetch prices from Elering API
   - Graceful degradation: if API fails → use last known price from DB + WARNING log
   - Parse `data.ee[]` from response
-- [ ] `src/services/device-control.ts` — send command to device (HTTP or MQTT)
+- [x] `src/services/device-control.ts` — send command to device (HTTP or MQTT)
   - Retry logic with exponential backoff
   - Log command + result in `deviceCommandsLog` (in a transaction)
-- [ ] `src/services/automation.ts` — cron logic:
+- [x] `src/services/automation.ts` — cron logic:
   - On startup: fetch current price
   - Every hour: check all active devices, compare price vs threshold, toggle if needed
   - Skip devices with `overrideActive = true`
-- [ ] `src/services/savings.ts` — savings calculation engine
-- [ ] `src/services/notifications.ts` — send Telegram / Discord notifications
+- [x] `src/services/savings.ts` — savings calculation engine
+- [x] `src/services/notifications.ts` — send Telegram / Discord notifications
   - Triggers: price > threshold, device auto-switched, device disconnected
 
 ### 1.9 WebSocket (`src/ws/handler.ts`)
-- [ ] Single `/ws` endpoint
-- [ ] Broadcast `price_update` every time new price is fetched
-- [ ] Broadcast `device_state_changed` on every toggle
-- [ ] Broadcast `device_disconnected` on connection failure
+- [x] Single `/ws` endpoint
+- [x] Broadcast `price_update` every time new price is fetched
+- [x] Broadcast `device_state_changed` on every toggle
+- [x] Broadcast `device_disconnected` on connection failure
 - [ ] Broadcast `price_threshold_alert` when price exceeds critical threshold
 
 ### 1.10 Backend Tests (`apps/backend/tests/`)

@@ -1,6 +1,7 @@
 {
   "extends": "@smartgrid/config/base.json",
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "dist",
     "types": ["bun-types"]
   },
