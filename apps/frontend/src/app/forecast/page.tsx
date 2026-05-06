@@ -24,7 +24,9 @@ export default function ForecastPage() {
 
   return (
     <main className="container mx-auto px-4 py-8 flex flex-col gap-8">
-      <h1 className="text-2xl font-bold animate-fade-up">Hinnprognoos</h1>
+      <h1 className="text-2xl font-bold animate-fade-up bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
+        Hinnprognoos
+      </h1>
 
       {isLoading && <div className="h-64 animate-pulse bg-muted rounded-xl" />}
       {error && (

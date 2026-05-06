@@ -115,7 +115,9 @@ export default function SavingsPage() {
 
   return (
     <main className="container mx-auto px-4 py-8 flex flex-col gap-8">
-      <h1 className="text-2xl font-bold animate-fade-up">Kokkuhoid</h1>
+      <h1 className="text-2xl font-bold animate-fade-up bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
+        Kokkuhoid
+      </h1>
 
       <div className="animate-fade-up [animation-delay:80ms]">
         <Tabs value={tab} onValueChange={(v) => setTab(v as SavingsPeriod)}>

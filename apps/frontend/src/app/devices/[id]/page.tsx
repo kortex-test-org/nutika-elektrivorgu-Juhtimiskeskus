@@ -76,7 +76,9 @@ export default function DeviceDetailPage() {
             Tagasi
           </Link>
         </Button>
-        <h1 className="text-2xl font-bold flex-1">{device.name}</h1>
+        <h1 className="text-2xl font-bold flex-1 bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
+          {device.name}
+        </h1>
         <StatusBadge status={getDeviceStatus(device)} />
         <Button
           size="sm"

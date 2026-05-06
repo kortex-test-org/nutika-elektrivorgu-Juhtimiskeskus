@@ -107,7 +107,9 @@ export default function AdminUsersPage() {
   return (
     <main className="container mx-auto px-4 py-8 flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Kasutajad</h1>
+        <h1 className="text-2xl font-bold bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
+          Kasutajad
+        </h1>
         <Button onClick={() => setDialogOpen(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Lisa kasutaja
