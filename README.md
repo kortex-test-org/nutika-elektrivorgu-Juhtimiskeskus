@@ -89,3 +89,5 @@ bun run db:migrate
 ---
 Valmistatud ❤️ osana nutika elektrivõrgu juhtimislahendusest.
 
+**Autorid:** Artur Panitšev, Denys Dunaiev
+

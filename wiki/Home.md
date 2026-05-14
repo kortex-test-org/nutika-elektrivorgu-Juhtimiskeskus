@@ -26,3 +26,5 @@ Projekti peamine eesmärk on pakkuda kasutajasõbralikku liidest ja töökindlat
 
 ---
 *Arendatud React 19, Elysia ja DrizzleORM baasil.*
+
+**Autorid:** Artur Panitšev, Denys Dunaiev
