@@ -1,12 +1,12 @@
 import { Elysia, t } from "elysia"
-import { getLatestPrice, getPricesByRange } from "../../db/repository/price"
+import { getCurrentPrice, getPricesByRange } from "../../db/repository/price"
 import { authMiddleware } from "../../middleware/auth"
 import { fetchAndStorePrices } from "../../services/elering"
 
 export const pricesController = new Elysia({ prefix: "/api/prices" })
   .use(authMiddleware)
   .get("/current", async ({ set }) => {
-    const price = await getLatestPrice()
+    const price = await getCurrentPrice()
     if (!price) {
       set.status = 404
       throw new Error("No price data available")

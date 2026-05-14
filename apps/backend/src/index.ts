@@ -45,9 +45,9 @@ runAutomationCycle().catch((error: unknown) => {
   logger.error("Initial automation cycle failed", { error: String(error) })
 })
 
-cron.schedule("0 * * * *", () => {
+cron.schedule("*/15 * * * *", () => {
   runAutomationCycle().catch((error: unknown) => {
-    logger.error("Hourly automation cycle failed", { error: String(error) })
+    logger.error("15-minute automation cycle failed", { error: String(error) })
   })
 })
 

@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, mock } from "bun:test"
 
 const mockFetchAndStorePrices = mock(() => Promise.resolve())
-const mockGetLatestPrice = mock(() => Promise.resolve(null))
+const mockGetCurrentPrice = mock(() => Promise.resolve(null))
 const mockGetAllActiveDevices = mock(() => Promise.resolve([]))
 const mockGetAllSettingsWithThreshold = mock(() => Promise.resolve([]))
 const mockSendDeviceCommand = mock(() => Promise.resolve(true))
@@ -12,7 +12,8 @@ mock.module("../src/services/elering", () => ({
 }))
 
 mock.module("../src/db/repository/price", () => ({
-  getLatestPrice: mockGetLatestPrice,
+  getLatestPrice: mock(() => Promise.resolve(null)),
+  getCurrentPrice: mockGetCurrentPrice,
   getPricesByRange: mock(() => Promise.resolve([])),
   upsertPrices: mock(() => Promise.resolve()),
 }))
@@ -49,7 +50,7 @@ beforeAll(async () => {
 
 beforeEach(() => {
   mockFetchAndStorePrices.mockClear()
-  mockGetLatestPrice.mockClear()
+  mockGetCurrentPrice.mockClear()
   mockGetAllActiveDevices.mockClear()
   mockGetAllSettingsWithThreshold.mockClear()
   mockSendDeviceCommand.mockClear()
@@ -58,7 +59,7 @@ beforeEach(() => {
 
 describe("runAutomationCycle", () => {
   it("skips automation when no price data is available", async () => {
-    mockGetLatestPrice.mockResolvedValue(null)
+    mockGetCurrentPrice.mockResolvedValue(null)
 
     await runAutomationCycle()
 
@@ -67,7 +68,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("broadcasts price_update on every cycle", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "50.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -85,7 +86,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("turns device off when price >= threshold", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "100.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -111,7 +112,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("turns device on when price < threshold", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "30.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -137,7 +138,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("skips device when overrideActive is true", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "100.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -161,7 +162,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("skips device when threshold is null", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "100.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -185,7 +186,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("does not toggle device when state already matches desired state", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "100.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -209,7 +210,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("handles negative price without error", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "-10.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -235,7 +236,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("broadcasts price_threshold_alert when price exceeds critical threshold", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "200.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -255,7 +256,7 @@ describe("runAutomationCycle", () => {
   })
 
   it("does not broadcast threshold alert when price is below threshold", async () => {
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "100.00",
       timestamp: new Date("2026-01-01T12:00:00Z"),
     })
@@ -275,7 +276,7 @@ describe("runAutomationCycle", () => {
 
   it("uses last known price when Elering API fails (fetchAndStorePrices does not throw)", async () => {
     mockFetchAndStorePrices.mockResolvedValue(undefined)
-    mockGetLatestPrice.mockResolvedValue({
+    mockGetCurrentPrice.mockResolvedValue({
       priceEurMwh: "75.00",
       timestamp: new Date("2026-01-01T11:00:00Z"),
     })

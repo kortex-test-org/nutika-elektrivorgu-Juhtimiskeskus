@@ -1,7 +1,7 @@
 import { logger } from "@smartgrid/shared/logger"
 import { getAllActiveDevices } from "../db/repository/device"
 import { getAllSettingsWithThreshold } from "../db/repository/notification"
-import { getLatestPrice } from "../db/repository/price"
+import { getCurrentPrice } from "../db/repository/price"
 import { wsManager } from "../ws/manager"
 import { sendDeviceCommand } from "./device-control"
 import { fetchAndStorePrices } from "./elering"
@@ -9,7 +9,7 @@ import { fetchAndStorePrices } from "./elering"
 export const runAutomationCycle = async (): Promise<void> => {
   await fetchAndStorePrices()
 
-  const latestPrice = await getLatestPrice()
+  const latestPrice = await getCurrentPrice()
 
   if (!latestPrice) {
     logger.warning("No price data available, skipping automation cycle")

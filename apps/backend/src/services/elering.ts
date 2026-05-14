@@ -1,5 +1,5 @@
 import { logger } from "@smartgrid/shared/logger"
-import { getLatestPrice, upsertPrices } from "../db/repository/price"
+import { getCurrentPrice as repositoryGetCurrentPrice, upsertPrices } from "../db/repository/price"
 
 const ELERING_API_URL = "https://dashboard.elering.ee/api/nps/price"
 
@@ -17,17 +17,25 @@ interface EleringResponse {
 
 export const fetchAndStorePrices = async (): Promise<void> => {
   const now = new Date()
-  const from = Math.floor(now.getTime() / 1000)
-  const to = from + 24 * 60 * 60
+  // Start from the beginning of the current hour
+  const fromDate = new Date(now)
+  fromDate.setMinutes(0, 0, 0)
 
-  const response = await fetch(`${ELERING_API_URL}?start=${from}&end=${to}`).catch((error) => {
-    logger.warning("Elering API request failed", { error: String(error) })
+  const toDate = new Date(fromDate.getTime() + 24 * 60 * 60 * 1000)
+
+  const start = fromDate.toISOString()
+  const end = toDate.toISOString()
+
+  const url = `${ELERING_API_URL}?start=${start}&end=${end}`
+  const response = await fetch(url).catch((error) => {
+    logger.warning("Elering API request failed", { error: String(error), url })
     return null
   })
 
   if (!response?.ok) {
     logger.warning("Elering API returned non-ok status", {
       status: response?.status,
+      url,
     })
     return
   }
@@ -50,5 +58,5 @@ export const fetchAndStorePrices = async (): Promise<void> => {
 }
 
 export const getCurrentPrice = async () => {
-  return getLatestPrice()
+  return repositoryGetCurrentPrice()
 }
