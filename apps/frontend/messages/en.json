@@ -55,6 +55,7 @@
   "addDevice": {
     "button": "Add Device",
     "title": "Add New Device",
+    "description": "Enter the details for your new smart device below.",
     "success": "Device added",
     "error": "Error"
   },
@@ -68,12 +69,16 @@
     "host": "Host",
     "portOptional": "Port (optional)",
     "mqttTopic": "MQTT Topic",
+    "powerConsumption": "Power Consumption (kW)",
+    "powerConsumptionHint": "Manual consumption for savings calculation",
     "threshold": "Price threshold (EUR/MWh, optional)",
     "thresholdHint": "Device will turn off when price exceeds this threshold",
-    "isCritical": "Critical device (not turned off automatically)",
+    "thresholdPlaceholder": "150",
+    "isCritical": "Critical device (stays on in Vacation Mode)",
     "saving": "Saving...",
     "saveChanges": "Save Changes",
-    "addDevice": "Add Device"
+    "addDevice": "Add Device",
+    "mock": "Mock (Manual control)"
   },
   "priceBanner": {
     "title": "Current Electricity Price",
@@ -89,7 +94,8 @@
   "status": {
     "on": "On",
     "off": "Off",
-    "override": "Override",
+    "override": "Manual",
+    "auto": "Auto",
     "disconnected": "Disconnected"
   },
   "forecast": {
@@ -135,6 +141,7 @@
   "admin": {
     "title": "Users",
     "addUser": "Add User",
+    "createDescription": "Add a new user to the platform by entering their email and password.",
     "loading": "Loading...",
     "loadError": "Failed to load users",
     "email": "Email",
@@ -163,9 +170,15 @@
     "total": "Total Devices",
     "online": "Online",
     "critical": "Critical",
+    "vacationMode": "Vacation Mode",
+    "vacationModeHint": "Turn off all non-critical devices",
     "name": "Name",
     "type": "Type",
+    "powerConsumption": "Power",
     "threshold": "Threshold",
+    "status": "Status",
+    "mode": "Mode",
+    "actions": "Actions",
     "empty": "No devices added",
     "emptyHint": "Start by adding your first device",
     "deleteConfirm": "Delete device \"{name}\"?",

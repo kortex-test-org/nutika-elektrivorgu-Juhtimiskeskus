@@ -8,10 +8,11 @@ interface Device {
   name: string
   description: string | null
   connectionType: string
-  host: string
+  host: string | null
   port: number | null
   topic: string | null
   threshold: string | null
+  powerConsumption: string | null
   isCritical: boolean
   overrideActive: boolean
   overrideState: boolean | null

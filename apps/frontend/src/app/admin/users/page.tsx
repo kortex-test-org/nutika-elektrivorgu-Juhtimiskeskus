@@ -9,7 +9,13 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -60,6 +66,7 @@ function CreateUserDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("createTitle")}</DialogTitle>
+          <DialogDescription>{t("createDescription")}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
           <div className="flex flex-col gap-1.5">

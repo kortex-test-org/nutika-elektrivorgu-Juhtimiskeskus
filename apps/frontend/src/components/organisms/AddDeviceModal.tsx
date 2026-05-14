@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -44,6 +45,7 @@ export function AddDeviceModal() {
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold">{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
         <DeviceForm mode="create" onSubmit={onSubmit} isLoading={createMutation.isPending} />
       </DialogContent>

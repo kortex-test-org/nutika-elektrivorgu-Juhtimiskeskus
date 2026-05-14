@@ -7,6 +7,7 @@ import {
   updateDevice,
 } from "../../db/repository/device"
 import { getCommandLogsByDeviceId } from "../../db/repository/device-log"
+import { getCurrentPrice } from "../../db/repository/price"
 import { sendDeviceCommand } from "../../services/device-control"
 
 export const listDevices = async (userId: string) => {
@@ -14,10 +15,13 @@ export const listDevices = async (userId: string) => {
 }
 
 const testDeviceConnection = async (
-  host: string,
+  host: string | undefined | null,
   port: number | undefined | null,
   connectionType: string,
 ): Promise<boolean> => {
+  if (connectionType === "mock") return true
+  if (!host) return false
+
   if (connectionType === "http") {
     const baseUrl = port ? `http://${host}:${port}` : `http://${host}`
     const response = await fetch(`${baseUrl}/api/state`, {
@@ -36,10 +40,11 @@ export const addDevice = async (userId: string, data: CreateDeviceDto) => {
     name: data.name,
     description: data.description ?? null,
     connectionType: data.connectionType,
-    host: data.host,
+    host: data.host ?? null,
     port: data.port ?? null,
     topic: data.topic ?? null,
     threshold: data.threshold?.toFixed(2) ?? null,
+    powerConsumption: data.powerConsumption?.toFixed(2) ?? null,
     isCritical: data.isCritical ?? false,
   })
 
@@ -56,10 +61,11 @@ export const modifyDevice = async (id: string, userId: string, data: UpdateDevic
     name: data.name,
     description: data.description ?? undefined,
     connectionType: data.connectionType,
-    host: data.host,
+    host: data.host ?? undefined,
     port: data.port ?? undefined,
     topic: data.topic ?? undefined,
     threshold: data.threshold?.toFixed(2) ?? undefined,
+    powerConsumption: data.powerConsumption?.toFixed(2) ?? undefined,
     isCritical: data.isCritical,
   })
 
@@ -92,6 +98,12 @@ export const toggleDevice = async (
   const device = await getDeviceByIdAndUserId(id, userId)
   if (!device) throw new Error("Device not found")
 
+  // Enable manual mode (override)
+  await updateDevice(id, {
+    overrideActive: true,
+    overrideState: state,
+  })
+
   const success = await sendDeviceCommand({
     deviceId: device.id,
     host: device.host,
@@ -115,20 +127,34 @@ export const setDeviceOverride = async (
   const device = await getDeviceByIdAndUserId(id, userId)
   if (!device) throw new Error("Device not found")
 
+  let finalState = state ?? null
+
+  // If switching back to Auto (active: false), calculate state based on price
+  if (!active && device.threshold) {
+    const latestPrice = await getCurrentPrice()
+    if (latestPrice) {
+      const currentPrice = Number(latestPrice.priceEurMwh)
+      const threshold = Number(device.threshold)
+      // Compare directly in EUR/MWh
+      finalState = currentPrice < threshold
+    }
+  }
+
   const updated = await updateDevice(id, {
     overrideActive: active,
-    overrideState: state ?? null,
+    overrideState: active ? finalState : null,
   })
 
-  if (active && state !== undefined && state !== null) {
+  // Apply the command immediately if we have a state to set
+  if (finalState !== null) {
     await sendDeviceCommand({
       deviceId: device.id,
       host: device.host,
       port: device.port,
       topic: device.topic,
       connectionType: device.connectionType,
-      command: state ? "on" : "off",
-      triggeredBy: "override",
+      command: finalState ? "on" : "off",
+      triggeredBy: active ? "override" : "auto",
     })
   }
 

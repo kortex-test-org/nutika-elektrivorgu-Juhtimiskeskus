@@ -47,14 +47,34 @@ export function DeviceForm(props: DeviceFormProps) {
   } = useForm<CreateDeviceDto>({
     // biome-ignore lint/suspicious/noExplicitAny: union of Create/Update schemas
     resolver: typeboxResolver(schema) as any,
-    defaultValues: isEdit ? (props as DeviceFormEditProps).defaultValues : undefined,
+    defaultValues: isEdit
+      ? (props as DeviceFormEditProps).defaultValues
+      : { connectionType: "mock", isCritical: false },
   })
 
-  const connectionType = watch("connectionType")
+  // Log errors to console for debugging
+  if (Object.keys(errors).length > 0) {
+    console.log("Validation errors:", errors)
+  }
 
   const onSubmit = async (data: CreateDeviceDto) => {
+    // Clean up numeric values to be either numbers or undefined (not NaN or "")
+    const cleanedData = {
+      ...data,
+      connectionType: "mock",
+      threshold:
+        typeof data.threshold === "number" && !Number.isNaN(data.threshold)
+          ? data.threshold
+          : undefined,
+      // If strings are empty, send undefined
+      description: data.description || undefined,
+      host: data.host || undefined,
+      port: data.port || undefined,
+      topic: data.topic || undefined,
+    }
+
     // biome-ignore lint/suspicious/noExplicitAny: union of two schemas
-    await (props.onSubmit as (d: any) => Promise<void>)(data)
+    await (props.onSubmit as (d: any) => Promise<void>)(cleanedData)
   }
 
   return (
@@ -74,28 +94,8 @@ export function DeviceForm(props: DeviceFormProps) {
           placeholder={t("descriptionPlaceholder")}
           {...register("description")}
         />
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <Label>{t("connectionType")}</Label>
-        <Select
-          defaultValue={
-            isEdit ? (props as DeviceFormEditProps).defaultValues?.connectionType : undefined
-          }
-          onValueChange={(v) => setValue("connectionType", v as "http" | "mqtt")}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder={t("selectType")} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="http">HTTP</SelectItem>
-            <SelectItem value="mqtt">MQTT</SelectItem>
-          </SelectContent>
-        </Select>
-        {errors.connectionType && (
-          <span className="text-destructive text-xs">
-            {errors.connectionType.message as string}
-          </span>
+        {errors.description && (
+          <span className="text-destructive text-xs">{errors.description.message as string}</span>
         )}
       </div>
 
@@ -113,17 +113,15 @@ export function DeviceForm(props: DeviceFormProps) {
             id="port"
             type="number"
             placeholder="80"
-            {...register("port", { valueAsNumber: true })}
+            {...register("port", {
+              setValueAs: (v) => (v === "" || v === null ? undefined : Number(v)),
+            })}
           />
+          {errors.port && (
+            <span className="text-destructive text-xs">{errors.port.message as string}</span>
+          )}
         </div>
       </div>
-
-      {connectionType === "mqtt" && (
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="topic">{t("mqttTopic")}</Label>
-          <Input id="topic" placeholder="home/boiler" {...register("topic")} />
-        </div>
-      )}
 
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="threshold">{t("threshold")}</Label>
@@ -132,8 +130,13 @@ export function DeviceForm(props: DeviceFormProps) {
           type="number"
           step="0.01"
           placeholder="100"
-          {...register("threshold", { valueAsNumber: true })}
+          {...register("threshold", {
+            setValueAs: (v) => (v === "" || v === null ? undefined : Number(v)),
+          })}
         />
+        {errors.threshold && (
+          <span className="text-destructive text-xs">{errors.threshold.message as string}</span>
+        )}
         <span className="text-xs text-muted-foreground">{t("thresholdHint")}</span>
       </div>
 

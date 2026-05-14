@@ -1,9 +1,9 @@
 import { devices } from "@smartgrid/shared"
 import { db } from "@smartgrid/shared/db"
-import { and, eq } from "drizzle-orm"
+import { and, asc, eq } from "drizzle-orm"
 
 export const getDevicesByUserId = async (userId: string) => {
-  return db.select().from(devices).where(eq(devices.userId, userId))
+  return db.select().from(devices).where(eq(devices.userId, userId)).orderBy(asc(devices.createdAt))
 }
 
 export const getDeviceById = async (id: string) => {
@@ -25,10 +25,11 @@ export const insertDevice = async (data: {
   name: string
   description?: string | null
   connectionType: string
-  host: string
+  host?: string | null
   port?: number | null
   topic?: string | null
   threshold?: string | null
+  powerConsumption?: string | null
   isCritical?: boolean
 }) => {
   const result = await db.insert(devices).values(data).returning()
@@ -41,10 +42,11 @@ export const updateDevice = async (
     name: string
     description: string | null
     connectionType: string
-    host: string
+    host: string | null
     port: number | null
     topic: string | null
     threshold: string | null
+    powerConsumption: string | null
     isCritical: boolean
     overrideActive: boolean
     overrideState: boolean | null

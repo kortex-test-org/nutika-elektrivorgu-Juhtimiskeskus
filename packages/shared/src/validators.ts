@@ -28,22 +28,26 @@ export const UpdateUserSchema = Type.Object({
 export const CreateDeviceSchema = Type.Object({
   name: Type.String({ minLength: 1, maxLength: 100 }),
   description: Type.Optional(Type.String()),
-  connectionType: Type.Union([Type.Literal("http"), Type.Literal("mqtt")]),
-  host: Type.String({ minLength: 1 }),
+  connectionType: Type.Union([Type.Literal("http"), Type.Literal("mqtt"), Type.Literal("mock")]),
+  host: Type.Optional(Type.String()),
   port: Type.Optional(Type.Number({ minimum: 1, maximum: 65535 })),
   topic: Type.Optional(Type.String()),
   threshold: Type.Optional(Type.Number({ minimum: -500 })),
+  powerConsumption: Type.Optional(Type.Number({ minimum: 0 })),
   isCritical: Type.Optional(Type.Boolean()),
 })
 
 export const UpdateDeviceSchema = Type.Object({
   name: Type.Optional(Type.String({ minLength: 1, maxLength: 100 })),
   description: Type.Optional(Type.String()),
-  connectionType: Type.Optional(Type.Union([Type.Literal("http"), Type.Literal("mqtt")])),
-  host: Type.Optional(Type.String({ minLength: 1 })),
+  connectionType: Type.Optional(
+    Type.Union([Type.Literal("http"), Type.Literal("mqtt"), Type.Literal("mock")]),
+  ),
+  host: Type.Optional(Type.String()),
   port: Type.Optional(Type.Number({ minimum: 1, maximum: 65535 })),
   topic: Type.Optional(Type.String()),
   threshold: Type.Optional(Type.Number({ minimum: -500 })),
+  powerConsumption: Type.Optional(Type.Number({ minimum: 0 })),
   isCritical: Type.Optional(Type.Boolean()),
 })
 

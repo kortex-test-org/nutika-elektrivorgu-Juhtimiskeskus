@@ -3,16 +3,20 @@
 import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
 
-type DeviceStatus = "on" | "off" | "override" | "disconnected"
+type DeviceStatus = "on" | "off" | "override" | "auto" | "disconnected"
 
 interface StatusBadgeProps {
   status: DeviceStatus
 }
 
-const STATUS_VARIANT: Record<DeviceStatus, "success" | "outline" | "warning" | "destructive"> = {
+const STATUS_VARIANT: Record<
+  DeviceStatus,
+  "success" | "outline" | "warning" | "default" | "destructive"
+> = {
   on: "success",
   off: "outline",
   override: "warning",
+  auto: "default",
   disconnected: "destructive",
 }
 

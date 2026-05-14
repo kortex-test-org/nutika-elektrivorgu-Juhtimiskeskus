@@ -55,6 +55,7 @@
   "addDevice": {
     "button": "Lisa seade",
     "title": "Lisa uus seade",
+    "description": "Sisesta allpool oma uue nutiseadme andmed.",
     "success": "Seade lisatud",
     "error": "Viga"
   },
@@ -67,13 +68,17 @@
     "selectType": "Vali tüüp",
     "host": "Host",
     "portOptional": "Port (valikuline)",
-    "mqttTopic": "MQTT teema",
+    "mqttTopic": "MQTT Teema",
+    "powerConsumption": "Võimsus (kW)",
+    "powerConsumptionHint": "Manuaalne võimsus säästu arvutamiseks",
     "threshold": "Hinnalävi (EUR/MWh, valikuline)",
     "thresholdHint": "Seade lülitatakse välja, kui hind ületab selle läve",
-    "isCritical": "Kriitiline seade (ei lülitata automaatselt välja)",
+    "thresholdPlaceholder": "150",
+    "isCritical": "Kriitiline seade (jääb sisse puhkuse režiimis)",
     "saving": "Salvestamine...",
-    "saveChanges": "Salvesta muutused",
-    "addDevice": "Lisa seade"
+    "saveChanges": "Salvesta muudatused",
+    "addDevice": "Lisa seade",
+    "mock": "Mock (Manuaalne juhtimine)"
   },
   "priceBanner": {
     "title": "Praegune elektrihind",
@@ -89,7 +94,8 @@
   "status": {
     "on": "Sees",
     "off": "Väljas",
-    "override": "Ülekiri",
+    "override": "Manuaalne",
+    "auto": "Automaatne",
     "disconnected": "Ühenduseta"
   },
   "forecast": {
@@ -135,6 +141,7 @@
   "admin": {
     "title": "Kasutajad",
     "addUser": "Lisa kasutaja",
+    "createDescription": "Lisa uus kasutaja, sisestades tema e-posti aadressi ja parooli.",
     "loading": "Laadimine...",
     "loadError": "Kasutajaid ei õnnestunud laadida",
     "email": "E-post",
@@ -160,12 +167,18 @@
     "title": "Seadmed",
     "subtitle": "Halda ühendatud seadmeid",
     "loadError": "Seadmeid ei õnnestunud laadida",
-    "total": "Kokku seadmeid",
+    "total": "Seadmeid kokku",
     "online": "Sees",
-    "critical": "Kriitilised",
+    "critical": "Kriitiline",
+    "vacationMode": "Puhkuse režiim",
+    "vacationModeHint": "Lülita välja kõik mitte-kriitilised seadmed",
     "name": "Nimi",
     "type": "Tüüp",
+    "powerConsumption": "Võimsus",
     "threshold": "Lävi",
+    "status": "Olek",
+    "mode": "Režiim",
+    "actions": "Tegevused",
     "empty": "Seadmeid pole lisatud",
     "emptyHint": "Alusta esimese seadme lisamisega",
     "deleteConfirm": "Kustuta seade \"{name}\"?",

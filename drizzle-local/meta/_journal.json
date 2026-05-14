@@ -8,6 +8,13 @@
       "when": 1778058836963,
       "tag": "0000_sweet_bastion",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1778743529493,
+      "tag": "0001_aromatic_hex",
+      "breakpoints": true
     }
   ]
 }

@@ -45,7 +45,7 @@ const sendMqttCommand = async (
 
 export const sendDeviceCommand = async (params: {
   deviceId: string
-  host: string
+  host: string | null | undefined
   port: number | null | undefined
   topic: string | null | undefined
   connectionType: string
@@ -59,9 +59,11 @@ export const sendDeviceCommand = async (params: {
 
   let success = false
 
-  if (params.connectionType === "http") {
+  if (params.connectionType === "mock") {
+    success = true
+  } else if (params.connectionType === "http" && params.host) {
     success = await sendHttpCommand(params.host, portValue, state)
-  } else if (params.connectionType === "mqtt") {
+  } else if (params.connectionType === "mqtt" && params.host) {
     success = await sendMqttCommand(params.host, portValue, topicValue, state)
   }
 

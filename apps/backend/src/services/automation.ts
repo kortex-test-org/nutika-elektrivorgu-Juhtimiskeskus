@@ -46,6 +46,7 @@ export const runAutomationCycle = async (): Promise<void> => {
     if (device.threshold === null || device.threshold === undefined) continue
 
     const threshold = Number(device.threshold)
+    // Compare prices directly in EUR/MWh
     const shouldBeOn = currentPrice < threshold
 
     if (device.currentState !== shouldBeOn) {

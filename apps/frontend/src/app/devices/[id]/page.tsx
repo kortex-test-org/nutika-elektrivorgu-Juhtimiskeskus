@@ -103,11 +103,14 @@ export default function DeviceDetailPage() {
             defaultValues={{
               name: device.name,
               description: device.description ?? undefined,
-              connectionType: device.connectionType as "http" | "mqtt",
-              host: device.host,
+              connectionType: device.connectionType as "http" | "mqtt" | "mock",
+              host: device.host ?? undefined,
               port: device.port ?? undefined,
               topic: device.topic ?? undefined,
               threshold: device.threshold ? Number(device.threshold) : undefined,
+              powerConsumption: device.powerConsumption
+                ? Number(device.powerConsumption)
+                : undefined,
               isCritical: device.isCritical,
             }}
             onSubmit={onSubmit}

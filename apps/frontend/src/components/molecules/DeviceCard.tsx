@@ -1,19 +1,22 @@
 "use client"
 
-import { Power, Shield } from "lucide-react"
+import { Power } from "lucide-react"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
-import { useOverrideDevice, useToggleDevice } from "@/hooks/useDevices"
+import { useToggleDevice } from "@/hooks/useDevices"
+import { useSettingsStore } from "@/stores/settingsStore"
 
 interface Device {
   id: string
   name: string
   description: string | null
   threshold: string | null
+  powerConsumption: string | null
   isCritical: boolean
   overrideActive: boolean
   overrideState: boolean | null
@@ -28,34 +31,19 @@ export function DeviceCard({ device }: DeviceCardProps) {
   const t = useTranslations("deviceCard")
   const { toast } = useToast()
   const toggleMutation = useToggleDevice()
-  const overrideMutation = useOverrideDevice()
+  const { isVacationMode } = useSettingsStore()
 
   const status = getDeviceStatus(device)
 
   const handleToggle = () => {
+    if (isVacationMode) return
+
     const newState = !device.currentState
     toggleMutation.mutate(
       { id: device.id, data: { state: newState } },
       {
         onError: (err) =>
           toast({ title: t("toggleError"), description: err.message, variant: "destructive" }),
-      },
-    )
-  }
-
-  const handleOverride = () => {
-    overrideMutation.mutate(
-      {
-        id: device.id,
-        data: { active: !device.overrideActive, state: device.currentState ?? false },
-      },
-      {
-        onError: (err) =>
-          toast({
-            title: t("overrideError"),
-            description: err.message,
-            variant: "destructive",
-          }),
       },
     )
   }
@@ -75,34 +63,35 @@ export function DeviceCard({ device }: DeviceCardProps) {
         </div>
         <StatusBadge status={status} />
       </CardHeader>
-      <CardContent className="flex flex-col gap-3">
-        {device.threshold && (
-          <div className="text-xs text-muted-foreground">
-            {t("threshold")}:{" "}
-            <span className="font-mono">{(Number(device.threshold) / 1000).toFixed(4)} €/kWh</span>
-          </div>
-        )}
+      <CardContent className="flex-1 flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+          {device.threshold && (
+            <div className="text-xs text-muted-foreground">
+              {t("threshold")}:{" "}
+              <span className="font-mono">{Number(device.threshold).toFixed(2)} €/MWh</span>
+            </div>
+          )}
+        </div>
         {device.isCritical && (
-          <div className="text-xs text-red-600 font-medium">{t("critical")}</div>
+          <div className="flex">
+            <Badge
+              variant="warning_dark"
+              className="text-[10px] px-1.5 py-0 uppercase tracking-wider"
+            >
+              {t("critical").replace("⚠ ", "")}
+            </Badge>
+          </div>
         )}
         <div className="flex gap-2 mt-auto">
           <Button
             size="sm"
             variant={device.currentState ? "destructive" : "default"}
             onClick={handleToggle}
-            disabled={toggleMutation.isPending || device.overrideActive}
+            disabled={toggleMutation.isPending || isVacationMode}
             className="flex-1"
           >
             <Power className="h-3 w-3 mr-1" />
             {device.currentState ? t("turnOff") : t("turnOn")}
-          </Button>
-          <Button
-            size="sm"
-            variant={device.overrideActive ? "secondary" : "outline"}
-            onClick={handleOverride}
-            disabled={overrideMutation.isPending}
-          >
-            <Shield className="h-3 w-3" />
           </Button>
         </div>
       </CardContent>
