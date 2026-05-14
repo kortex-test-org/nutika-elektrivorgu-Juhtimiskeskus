@@ -1,46 +1,54 @@
 "use client"
 
-import { useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 
 interface PriceIndicatorProps {
   priceEurMwh: number
   className?: string
-  showLabel?: boolean
+  size?: "sm" | "md" | "lg"
 }
 
-function getPriceLevel(price: number): "low" | "medium" | "high" {
-  if (price < 50) return "low"
-  if (price < 150) return "medium"
-  return "high"
-}
-
-const LEVEL_STYLES = {
-  low: "text-green-600 bg-green-50 border-green-200",
-  medium: "text-yellow-600 bg-yellow-50 border-yellow-200",
-  high: "text-red-600 bg-red-50 border-red-200",
+const LEVEL_COLORS = {
+  low: "text-emerald-600 dark:text-emerald-400",
+  medium: "text-amber-600 dark:text-amber-400",
+  high: "text-rose-600 dark:text-rose-400",
 } as const
 
-export function PriceIndicator({ priceEurMwh, className, showLabel = false }: PriceIndicatorProps) {
-  const t = useTranslations("priceLevel")
-  const level = getPriceLevel(priceEurMwh)
+export const PriceIndicator = ({ priceEurMwh, className, size = "md" }: PriceIndicatorProps) => {
   const priceEurKwh = (priceEurMwh / 1000).toFixed(4)
 
+  const getPriceLevel = (price: number): "low" | "medium" | "high" => {
+    if (price < 50) return "low"
+    if (price < 150) return "medium"
+    return "high"
+  }
+
+  const level = getPriceLevel(priceEurMwh)
+
+  const sizeStyles = {
+    sm: {
+      container: "gap-1",
+      value: "text-lg font-black tracking-tighter",
+      unit: "text-[10px] font-bold uppercase",
+    },
+    md: {
+      container: "gap-1.5",
+      value: "text-2xl font-black tracking-tighter",
+      unit: "text-xs font-bold uppercase",
+    },
+    lg: {
+      container: "gap-2",
+      value: "text-4xl font-black tracking-tighter",
+      unit: "text-base font-bold uppercase",
+    },
+  }
+
+  const styles = sizeStyles[size]
+
   return (
-    <div className={cn("inline-flex flex-col items-center gap-1", className)}>
-      <span
-        className={cn(
-          "rounded-lg border px-3 py-1.5 text-2xl font-bold tabular-nums",
-          LEVEL_STYLES[level],
-        )}
-      >
-        {priceEurKwh} €/kWh
-      </span>
-      {showLabel && (
-        <span className={cn("text-xs font-medium", LEVEL_STYLES[level].split(" ")[0])}>
-          {t(level)}
-        </span>
-      )}
+    <div className={cn("inline-flex items-baseline", styles.container, className)}>
+      <span className={cn(styles.value, LEVEL_COLORS[level])}>{priceEurKwh}</span>
+      <span className={cn(styles.unit, "text-muted-foreground")}>€/kWh</span>
     </div>
   )
 }

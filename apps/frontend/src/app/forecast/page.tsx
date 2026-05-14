@@ -73,7 +73,7 @@ export default function ForecastPage() {
                           minute: "2-digit",
                         })}
                       </span>
-                      <PriceIndicator priceEurMwh={Number(entry.priceEurMwh)} />
+                      <PriceIndicator priceEurMwh={Number(entry.priceEurMwh)} size="md" />
                     </div>
                   ))}
                 </div>
@@ -105,7 +105,7 @@ export default function ForecastPage() {
                             })}
                           </TableCell>
                           <TableCell>
-                            <PriceIndicator priceEurMwh={Number(entry.priceEurMwh)} />
+                            <PriceIndicator priceEurMwh={Number(entry.priceEurMwh)} size="sm" />
                           </TableCell>
                         </TableRow>
                       ))}
