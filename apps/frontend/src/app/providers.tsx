@@ -18,7 +18,11 @@ export function Providers({ children }: { children: ReactNode }) {
   const { locale } = useLocaleStore()
 
   return (
-    <NextIntlClientProvider locale={locale} messages={ALL_MESSAGES[locale]}>
+    <NextIntlClientProvider
+      locale={locale}
+      messages={ALL_MESSAGES[locale]}
+      timeZone="Europe/Tallinn"
+    >
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <QueryClientProvider client={queryClient}>
           <Navbar />
