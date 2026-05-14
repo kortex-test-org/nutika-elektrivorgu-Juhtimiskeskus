@@ -88,19 +88,28 @@ function SavingsConfigForm() {
     })
   }
 
-  if (isLoading) return <div className="h-20 animate-pulse bg-muted rounded-lg" />
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-sm">
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="fixedRate">{t("fixedRate")}</Label>
-        <Input
-          id="fixedRate"
-          type="number"
-          step="0.0001"
-          placeholder="0.1500"
-          {...register("fixedRateEurKwh", { valueAsNumber: true })}
-        />
+        <Label htmlFor="fixedRate" className={isLoading ? "opacity-50" : ""}>
+          {t("fixedRate")}
+        </Label>
+        <div className="relative">
+          <Input
+            id="fixedRate"
+            type="number"
+            step="0.0001"
+            placeholder={isLoading ? "..." : "0.1500"}
+            disabled={isLoading || isSubmitting || updateMutation.isPending}
+            {...register("fixedRateEurKwh", { valueAsNumber: true })}
+          />
+          {isLoading && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            </div>
+          )}
+        </div>
+        <p className="text-muted-foreground text-[10px] leading-tight">{t("fixedRateHint")}</p>
         {errors.fixedRateEurKwh && (
           <span className="text-destructive text-xs">
             {errors.fixedRateEurKwh.message as string}
@@ -109,7 +118,7 @@ function SavingsConfigForm() {
       </div>
       <Button
         type="submit"
-        disabled={isSubmitting || updateMutation.isPending}
+        disabled={isLoading || isSubmitting || updateMutation.isPending}
         className="shadow-lg shadow-violet-900/40"
       >
         {t("save")}

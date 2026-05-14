@@ -114,6 +114,7 @@
     "month": "Kuu",
     "tariffSettings": "Tariifi seaded",
     "fixedRate": "Fikseeritud tariif (€/kWh)",
+    "fixedRateHint": "Kasutatakse baashinnana säästu arvutamisel (nt teie alternatiivse fikseeritud lepingu hind).",
     "save": "Salvesta",
     "saved": "Konfiguratsioon salvestatud",
     "savingsLabel": "Kokkuhoid",

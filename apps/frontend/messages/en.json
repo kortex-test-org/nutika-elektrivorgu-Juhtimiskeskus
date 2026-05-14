@@ -114,6 +114,7 @@
     "month": "Month",
     "tariffSettings": "Tariff Settings",
     "fixedRate": "Fixed Rate (€/kWh)",
+    "fixedRateHint": "Used as a base price for savings calculation (e.g., your alternative fixed contract price).",
     "save": "Save",
     "saved": "Configuration saved",
     "savingsLabel": "Savings",
