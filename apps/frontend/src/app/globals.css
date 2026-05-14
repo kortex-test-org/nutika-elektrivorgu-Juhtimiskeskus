@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@fontsource-variable/geist";
 @config "../../tailwind.config.ts";
 
 @layer base {
@@ -52,9 +53,43 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-family: 'Geist Variable', sans-serif;
   }
   button, [role="button"] {
     cursor: pointer;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-bold text-foreground;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.4);
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  /* Firefox support */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.2) transparent;
   }
 }
 
@@ -71,4 +106,8 @@
 
 @utility animate-fade-up {
   animation: fade-up 0.45s ease-out both;
+}
+
+@utility heading-gradient {
+  @apply bg-linear-to-b from-foreground to-foreground/70 bg-clip-text text-transparent;
 }

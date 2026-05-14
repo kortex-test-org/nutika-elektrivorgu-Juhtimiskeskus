@@ -80,9 +80,7 @@ export default function DeviceDetailPage() {
             {t("back")}
           </Link>
         </Button>
-        <h1 className="text-2xl font-bold flex-1 w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-          {device.name}
-        </h1>
+        <h1 className="text-2xl font-bold flex-1 w-fit heading-gradient">{device.name}</h1>
         <StatusBadge status={getDeviceStatus(device)} />
         <Button
           size="sm"

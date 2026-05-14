@@ -26,9 +26,7 @@ export default function NewDevicePage() {
 
   return (
     <main className="mx-auto w-full max-w-lg px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6 w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-        {t("newTitle")}
-      </h1>
+      <h1 className="text-2xl font-bold mb-6 w-fit heading-gradient">{t("newTitle")}</h1>
       <DeviceForm mode="create" onSubmit={onSubmit} isLoading={createMutation.isPending} />
     </main>
   )

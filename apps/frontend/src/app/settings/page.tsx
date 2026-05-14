@@ -68,9 +68,7 @@ export default function SettingsPage() {
 
   return (
     <main className="mx-auto w-full max-w-lg px-4 py-8 flex flex-col gap-8">
-      <h1 className="text-2xl font-bold w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-        {t("title")}
-      </h1>
+      <h1 className="text-2xl font-bold w-fit heading-gradient">{t("title")}</h1>
 
       <Card>
         <CardHeader>

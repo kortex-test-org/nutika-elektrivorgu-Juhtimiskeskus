@@ -133,9 +133,7 @@ export default function SavingsPage() {
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-8 flex flex-col gap-8">
-      <h1 className="text-2xl font-bold animate-fade-up w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-        {t("title")}
-      </h1>
+      <h1 className="text-2xl font-bold animate-fade-up w-fit heading-gradient">{t("title")}</h1>
 
       <div className="animate-fade-up [animation-delay:80ms]">
         <Tabs value={tab} onValueChange={(v) => setTab(v as SavingsPeriod)}>

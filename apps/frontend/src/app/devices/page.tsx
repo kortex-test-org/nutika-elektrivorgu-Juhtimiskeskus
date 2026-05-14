@@ -38,9 +38,7 @@ export default function DevicesPage() {
         {/* Header */}
         <div className="flex items-center justify-between animate-fade-up">
           <div>
-            <h1 className="text-2xl font-bold w-fit bg-linear-to-r from-foreground to-violet-500 bg-clip-text text-transparent">
-              {t("title")}
-            </h1>
+            <h1 className="text-2xl font-bold w-fit heading-gradient">{t("title")}</h1>
             <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
           </div>
           <AddDeviceModal />
