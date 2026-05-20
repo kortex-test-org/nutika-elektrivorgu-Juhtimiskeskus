@@ -11,7 +11,7 @@ import {
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
+  username: varchar("username", { length: 255 }).notNull().unique(),
   passwordHash: varchar("password_hash", { length: 255 }).notNull(),
   role: varchar("role", { length: 20 }).notNull().default("user"),
   isActive: boolean("is_active").notNull().default(true),
@@ -71,12 +71,26 @@ export const notificationSettings = pgTable("notification_settings", {
   userId: uuid("user_id")
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
-  channel: varchar("channel", { length: 20 }),
-  telegramChatId: varchar("telegram_chat_id", { length: 100 }),
+  telegramEnabled: boolean("telegram_enabled").notNull().default(false),
+  discordEnabled: boolean("discord_enabled").notNull().default(false),
+  telegramBotToken: varchar("telegram_bot_token", { length: 255 }),
   discordWebhookUrl: varchar("discord_webhook_url", { length: 500 }),
+  telegramWhitelistEnabled: boolean("telegram_whitelist_enabled").notNull().default(false),
+  telegramWhitelist: text("telegram_whitelist"),
   criticalPriceThreshold: numeric("critical_price_threshold", {
     precision: 10,
     scale: 2,
   }),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
+})
+
+export const telegramActiveChats = pgTable("telegram_active_chats", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  chatId: varchar("chat_id", { length: 100 }).notNull(),
+  username: varchar("username", { length: 255 }),
+  firstName: varchar("first_name", { length: 255 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 })

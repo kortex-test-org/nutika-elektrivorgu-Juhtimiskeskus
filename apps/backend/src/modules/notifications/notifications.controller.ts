@@ -2,6 +2,7 @@ import { NotificationSettingsSchema } from "@smartgrid/shared"
 import { Elysia } from "elysia"
 import {
   getNotificationSettings,
+  getTelegramChats,
   upsertNotificationSettings,
 } from "../../db/repository/notification"
 import { authMiddleware } from "../../middleware/auth"
@@ -10,30 +11,47 @@ export const notificationsController = new Elysia({
   prefix: "/api/notifications",
 })
   .use(authMiddleware)
-  .get("/settings", async ({ user, set }) => {
+  .get("/settings", async ({ user }) => {
     const settings = await getNotificationSettings(user.id)
+    const telegramChats = await getTelegramChats(user.id)
+
     if (!settings) {
       return {
         settings: {
-          channel: null,
-          telegramChatId: null,
+          telegramEnabled: false,
+          discordEnabled: false,
+          telegramBotToken: null,
           discordWebhookUrl: null,
+          telegramWhitelistEnabled: false,
+          telegramWhitelist: null,
           criticalPriceThreshold: null,
         },
+        telegramChats: [],
       }
     }
-    return { settings }
+
+    return {
+      settings,
+      telegramChats,
+    }
   })
   .put(
     "/settings",
     async ({ user, body }) => {
       const settings = await upsertNotificationSettings(user.id, {
-        channel: body.channel ?? null,
-        telegramChatId: body.telegramChatId ?? null,
+        telegramEnabled: body.telegramEnabled ?? false,
+        discordEnabled: body.discordEnabled ?? false,
+        telegramBotToken: body.telegramBotToken ?? null,
         discordWebhookUrl: body.discordWebhookUrl ?? null,
-        criticalPriceThreshold: body.criticalPriceThreshold?.toFixed(2) ?? null,
+        telegramWhitelistEnabled: body.telegramWhitelistEnabled ?? false,
+        telegramWhitelist: body.telegramWhitelist ?? null,
+        criticalPriceThreshold: body.criticalPriceThreshold
+          ? String(body.criticalPriceThreshold)
+          : null,
       })
-      return { settings }
+
+      const telegramChats = await getTelegramChats(user.id)
+      return { settings, telegramChats }
     },
     { body: NotificationSettingsSchema },
   )

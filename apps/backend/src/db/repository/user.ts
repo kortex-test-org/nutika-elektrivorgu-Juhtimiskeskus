@@ -2,8 +2,8 @@ import { users } from "@smartgrid/shared"
 import { db } from "@smartgrid/shared/db"
 import { eq } from "drizzle-orm"
 
-export const getUserByEmail = async (email: string) => {
-  return db.query.users.findFirst({ where: eq(users.email, email) })
+export const getUserByUsername = async (username: string) => {
+  return db.query.users.findFirst({ where: eq(users.username, username) })
 }
 
 export const getUserById = async (id: string) => {
@@ -19,7 +19,11 @@ export const getUserCount = async () => {
   return result.length
 }
 
-export const insertUser = async (data: { email: string; passwordHash: string; role: string }) => {
+export const insertUser = async (data: {
+  username: string
+  passwordHash: string
+  role: string
+}) => {
   const result = await db.insert(users).values(data).returning()
   return result[0]
 }
@@ -27,7 +31,7 @@ export const insertUser = async (data: { email: string; passwordHash: string; ro
 export const updateUser = async (
   id: string,
   data: Partial<{
-    email: string
+    username: string
     passwordHash: string
     role: string
     isActive: boolean

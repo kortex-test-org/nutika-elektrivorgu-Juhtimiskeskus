@@ -1,0 +1,2 @@
+ALTER TABLE "notification_settings" ADD COLUMN "telegram_whitelist_enabled" boolean DEFAULT false NOT NULL;--> statement-breakpoint
+ALTER TABLE "notification_settings" ADD COLUMN "telegram_whitelist" text;

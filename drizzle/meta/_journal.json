@@ -8,6 +8,34 @@
       "when": 1778058849621,
       "tag": "0000_brainy_whirlwind",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779258684360,
+      "tag": "0001_sad_jimmy_woo",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779260742854,
+      "tag": "0002_first_gravity",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1779260758420,
+      "tag": "0003_chunky_hemingway",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1779261920286,
+      "tag": "0004_good_patch",
+      "breakpoints": true
     }
   ]
 }

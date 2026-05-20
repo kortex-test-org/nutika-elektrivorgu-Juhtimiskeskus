@@ -16,6 +16,8 @@ WORKDIR /app
 
 COPY packages/ ./packages/
 COPY apps/backend/ ./apps/backend/
+COPY drizzle/ ./drizzle/
+COPY drizzle-local/ ./drizzle-local/
 
 RUN cd apps/backend && bun run build
 
@@ -26,6 +28,8 @@ WORKDIR /app
 COPY --from=build /app/apps/backend/dist ./dist
 COPY --from=build /app/apps/backend/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/drizzle ./drizzle
+COPY --from=build /app/drizzle-local ./drizzle-local
 
 ENV NODE_ENV=production
 EXPOSE 3001

@@ -5,15 +5,15 @@ mock.module("../src/config", () => ({
 }))
 
 describe("auth service", () => {
-  const mockGetUserByEmail = mock(() => Promise.resolve(null))
+  const mockGetUserByUsername = mock(() => Promise.resolve(null))
   const mockGetUserCount = mock(() => Promise.resolve(0))
   const mockInsertUser = mock(() =>
-    Promise.resolve({ id: "user-1", email: "test@test.com", role: "user" }),
+    Promise.resolve({ id: "user-1", username: "testuser", role: "user" }),
   )
   const mockGetUserById = mock(() => Promise.resolve(null))
 
   mock.module("../src/db/repository/user", () => ({
-    getUserByEmail: mockGetUserByEmail,
+    getUserByUsername: mockGetUserByUsername,
     getUserCount: mockGetUserCount,
     insertUser: mockInsertUser,
     getUserById: mockGetUserById,
@@ -28,58 +28,56 @@ describe("auth service", () => {
   }))
 
   beforeEach(() => {
-    mockGetUserByEmail.mockClear()
+    mockGetUserByUsername.mockClear()
     mockGetUserCount.mockClear()
     mockInsertUser.mockClear()
   })
 
   it("registers first user as master when no users exist", async () => {
-    mockGetUserByEmail.mockResolvedValue(null)
+    mockGetUserByUsername.mockResolvedValue(null)
     mockGetUserCount.mockResolvedValue(0)
 
     const { registerUser } = await import("../src/modules/auth/auth.service")
-    const result = await registerUser("admin@test.com", "password123")
+    const result = await registerUser("admin", "password123")
 
     expect(mockInsertUser).toHaveBeenCalledWith(expect.objectContaining({ role: "master" }))
     expect(result).toBeDefined()
   })
 
   it("registers subsequent users as regular user role", async () => {
-    mockGetUserByEmail.mockResolvedValue(null)
+    mockGetUserByUsername.mockResolvedValue(null)
     mockGetUserCount.mockResolvedValue(1)
 
     const { registerUser } = await import("../src/modules/auth/auth.service")
-    await registerUser("user@test.com", "password123")
+    await registerUser("user1", "password123")
 
     expect(mockInsertUser).toHaveBeenCalledWith(expect.objectContaining({ role: "user" }))
   })
 
-  it("throws when email already exists", async () => {
-    mockGetUserByEmail.mockResolvedValue({
+  it("throws when username already exists", async () => {
+    mockGetUserByUsername.mockResolvedValue({
       id: "existing-1",
-      email: "taken@test.com",
+      username: "taken",
       role: "user",
     })
 
     const { registerUser } = await import("../src/modules/auth/auth.service")
 
-    await expect(registerUser("taken@test.com", "password123")).rejects.toThrow(
-      "Email already in use",
-    )
+    await expect(registerUser("taken", "password123")).rejects.toThrow("Username already in use")
   })
 
   it("throws when user not found during login", async () => {
-    mockGetUserByEmail.mockResolvedValue(null)
+    mockGetUserByUsername.mockResolvedValue(null)
 
     const { loginUser } = await import("../src/modules/auth/auth.service")
 
-    await expect(loginUser("noone@test.com", "pass")).rejects.toThrow("Invalid credentials")
+    await expect(loginUser("noone", "pass")).rejects.toThrow("Invalid credentials")
   })
 
   it("throws when password is incorrect during login", async () => {
-    mockGetUserByEmail.mockResolvedValue({
+    mockGetUserByUsername.mockResolvedValue({
       id: "user-1",
-      email: "test@test.com",
+      username: "testuser",
       passwordHash: "wrong-hash",
       role: "user",
       isActive: true,
@@ -90,6 +88,6 @@ describe("auth service", () => {
 
     const { loginUser } = await import("../src/modules/auth/auth.service")
 
-    await expect(loginUser("test@test.com", "wrongpass")).rejects.toThrow("Invalid credentials")
+    await expect(loginUser("testuser", "wrongpass")).rejects.toThrow("Invalid credentials")
   })
 })

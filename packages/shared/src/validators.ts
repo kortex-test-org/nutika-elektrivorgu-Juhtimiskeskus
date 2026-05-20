@@ -3,23 +3,23 @@ import { FormatRegistry, Type } from "@sinclair/typebox"
 FormatRegistry.Set("email", (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
 
 export const LoginSchema = Type.Object({
-  email: Type.String({ format: "email" }),
+  username: Type.String({ minLength: 1 }),
   password: Type.String({ minLength: 1 }),
 })
 
 export const RegisterSchema = Type.Object({
-  email: Type.String({ format: "email" }),
+  username: Type.String({ minLength: 1 }),
   password: Type.String({ minLength: 8 }),
 })
 
 export const CreateUserSchema = Type.Object({
-  email: Type.String({ format: "email" }),
+  username: Type.String({ minLength: 1 }),
   password: Type.String({ minLength: 8 }),
   role: Type.Optional(Type.Union([Type.Literal("master"), Type.Literal("user")])),
 })
 
 export const UpdateUserSchema = Type.Object({
-  email: Type.Optional(Type.String({ format: "email" })),
+  username: Type.Optional(Type.String({ minLength: 1 })),
   password: Type.Optional(Type.String({ minLength: 8 })),
   isActive: Type.Optional(Type.Boolean()),
   role: Type.Optional(Type.Union([Type.Literal("master"), Type.Literal("user")])),
@@ -65,10 +65,11 @@ export const SavingsConfigSchema = Type.Object({
 })
 
 export const NotificationSettingsSchema = Type.Object({
-  channel: Type.Optional(
-    Type.Union([Type.Literal("telegram"), Type.Literal("discord"), Type.Null()]),
-  ),
-  telegramChatId: Type.Optional(Type.String()),
-  discordWebhookUrl: Type.Optional(Type.String()),
-  criticalPriceThreshold: Type.Optional(Type.Number()),
+  telegramEnabled: Type.Optional(Type.Boolean()),
+  discordEnabled: Type.Optional(Type.Boolean()),
+  telegramBotToken: Type.Optional(Type.Union([Type.String(), Type.Null()])),
+  discordWebhookUrl: Type.Optional(Type.Union([Type.String(), Type.Null()])),
+  telegramWhitelistEnabled: Type.Optional(Type.Boolean()),
+  telegramWhitelist: Type.Optional(Type.Union([Type.String(), Type.Null()])),
+  criticalPriceThreshold: Type.Optional(Type.Union([Type.Number(), Type.Null()])),
 })

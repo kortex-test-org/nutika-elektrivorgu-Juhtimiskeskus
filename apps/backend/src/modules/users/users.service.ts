@@ -11,17 +11,17 @@ export const listUsers = async () => {
   return getAllUsers()
 }
 
-export const createUser = async (email: string, password: string, role = "user") => {
+export const createUser = async (username: string, password: string, role = "user") => {
   const passwordHash = await hash(password)
-  const user = await insertUser({ email, passwordHash, role })
+  const user = await insertUser({ username, passwordHash, role })
   if (!user) throw new Error("Failed to create user")
-  return { id: user.id, email: user.email, role: user.role }
+  return { id: user.id, username: user.username, role: user.role }
 }
 
 export const patchUser = async (
   id: string,
   data: Partial<{
-    email: string
+    username: string
     password: string
     role: string
     isActive: boolean
@@ -32,7 +32,7 @@ export const patchUser = async (
 
   const updateData: Parameters<typeof updateUser>[1] = {}
 
-  if (data.email) updateData.email = data.email
+  if (data.username) updateData.username = data.username
   if (data.password) updateData.passwordHash = await hash(data.password)
   if (data.role) updateData.role = data.role
   if (data.isActive !== undefined) updateData.isActive = data.isActive

@@ -11,6 +11,7 @@ mock.module("../src/db/repository/savings", () => ({
 mock.module("../src/db/repository/price", () => ({
   getPricesByRange: mockGetPricesByRange,
   getLatestPrice: mock(() => Promise.resolve(null)),
+  getCurrentPrice: mock(() => Promise.resolve(null)),
   upsertPrices: mock(() => Promise.resolve()),
 }))
 

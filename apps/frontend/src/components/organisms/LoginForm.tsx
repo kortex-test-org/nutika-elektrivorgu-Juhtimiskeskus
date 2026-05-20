@@ -18,7 +18,7 @@ interface LoginResponse {
   token: string
   user: {
     id: string
-    email: string
+    username: string
     role: "master" | "user"
     isActive: boolean
   }
@@ -70,20 +70,20 @@ export function LoginForm() {
           className="flex flex-col gap-[clamp(0.875rem,3vw,1.25rem)]"
         >
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="email" className="text-[clamp(0.8125rem,2.5vw,0.9375rem)]">
-              {t("email")}
+            <Label htmlFor="username" className="text-[clamp(0.8125rem,2.5vw,0.9375rem)]">
+              {t("username")}
             </Label>
             <Input
-              id="email"
-              type="email"
-              placeholder="admin@example.com"
-              autoComplete="email"
+              id="username"
+              type="text"
+              placeholder="admin"
+              autoComplete="username"
               className="h-11 text-base"
-              {...register("email")}
+              {...register("username")}
             />
-            {errors.email && (
+            {errors.username && (
               <span className="text-destructive text-[clamp(0.6875rem,2vw,0.8125rem)]">
-                {errors.email.message as string}
+                {errors.username.message as string}
               </span>
             )}
           </div>

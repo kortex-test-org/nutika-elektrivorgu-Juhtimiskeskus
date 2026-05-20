@@ -11,7 +11,7 @@ export const usersController = new Elysia({ prefix: "/api/users" })
   .post(
     "/",
     async ({ body, set }) => {
-      const user = await createUser(body.email, body.password, body.role ?? "user").catch(
+      const user = await createUser(body.username, body.password, body.role ?? "user").catch(
         (error: Error) => {
           set.status = 400
           throw new Error(error.message)

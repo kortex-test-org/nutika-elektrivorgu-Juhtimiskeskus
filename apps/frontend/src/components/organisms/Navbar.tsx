@@ -1,6 +1,6 @@
 "use client"
 
-import { LogOut, Menu, X, Zap } from "lucide-react"
+import { LogOut, Menu, Settings, X, Zap } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
@@ -56,6 +56,15 @@ export function Navbar() {
 
   const actions = (
     <>
+      <Link href="/settings" title={t("settings")}>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+        >
+          <Settings className="h-3.5 w-3.5" />
+        </Button>
+      </Link>
       <LanguageSwitcher />
       <ThemeToggle />
     </>
@@ -81,12 +90,11 @@ export function Navbar() {
           <NavLink href="/devices">{t("devices")}</NavLink>
           <NavLink href="/forecast">{t("forecast")}</NavLink>
           <NavLink href="/savings">{t("savings")}</NavLink>
-          {user.role === "master" && <NavLink href="/admin/users">{t("admin")}</NavLink>}
         </nav>
 
         {/* Desktop actions */}
         <div className="hidden min-[840px]:flex items-center gap-2 ml-auto">
-          <span className="text-xs text-muted-foreground mr-1">{user.email}</span>
+          <span className="text-xs text-muted-foreground mr-1">{user.username}</span>
           {actions}
           <Button
             size="sm"
@@ -120,9 +128,8 @@ export function Navbar() {
           <NavLink href="/devices">{t("devices")}</NavLink>
           <NavLink href="/forecast">{t("forecast")}</NavLink>
           <NavLink href="/savings">{t("savings")}</NavLink>
-          {user.role === "master" && <NavLink href="/admin/users">{t("admin")}</NavLink>}
           <div className="mt-3 pt-3 border-t border-border flex items-center justify-between flex-wrap gap-2">
-            <span className="text-xs text-muted-foreground">{user.email}</span>
+            <span className="text-xs text-muted-foreground">{user.username}</span>
             <div className="flex items-center gap-1">
               {actions}
               <Button

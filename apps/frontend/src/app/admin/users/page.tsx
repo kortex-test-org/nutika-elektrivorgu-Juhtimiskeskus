@@ -70,10 +70,10 @@ function CreateUserDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="email">{t("email")}</Label>
-            <Input id="email" type="email" {...register("email")} />
-            {errors.email && (
-              <span className="text-destructive text-xs">{errors.email.message as string}</span>
+            <Label htmlFor="username">{t("username")}</Label>
+            <Input id="username" type="text" {...register("username")} />
+            {errors.username && (
+              <span className="text-destructive text-xs">{errors.username.message as string}</span>
             )}
           </div>
           <div className="flex flex-col gap-1.5">
@@ -101,8 +101,8 @@ export default function AdminUsersPage() {
   const deactivateMutation = useDeactivateUser()
   const { toast } = useToast()
 
-  const handleDelete = (id: string, email: string) => {
-    if (!confirm(t("confirmDelete", { email }))) return
+  const handleDelete = (id: string, username: string) => {
+    if (!confirm(t("confirmDelete", { username }))) return
     deleteMutation.mutate(id, {
       onSuccess: () => toast({ title: t("deleteSuccess") }),
       onError: (err) =>
@@ -144,7 +144,7 @@ export default function AdminUsersPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("email")}</TableHead>
+                <TableHead>{t("username")}</TableHead>
                 <TableHead>{t("role")}</TableHead>
                 <TableHead>{t("status")}</TableHead>
                 <TableHead>{t("createdAt")}</TableHead>
@@ -161,7 +161,7 @@ export default function AdminUsersPage() {
               )}
               {users.map((user) => (
                 <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.email}</TableCell>
+                  <TableCell className="font-medium">{user.username}</TableCell>
                   <TableCell>
                     <Badge variant={user.role === "master" ? "default" : "secondary"}>
                       {user.role === "master" ? t("roleAdmin") : t("roleUser")}
@@ -190,7 +190,7 @@ export default function AdminUsersPage() {
                       <Button
                         size="sm"
                         variant="destructive"
-                        onClick={() => handleDelete(user.id, user.email)}
+                        onClick={() => handleDelete(user.id, user.username)}
                         disabled={deleteMutation.isPending}
                       >
                         <Trash2 className="h-3 w-3" />

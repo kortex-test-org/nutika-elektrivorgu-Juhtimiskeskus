@@ -15,6 +15,34 @@
       "when": 1778743529493,
       "tag": "0001_aromatic_hex",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779258076849,
+      "tag": "0002_free_kronos",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1779260735886,
+      "tag": "0003_nasty_malcolm_colcord",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1779260753302,
+      "tag": "0004_mighty_franklin_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1779261898309,
+      "tag": "0005_icy_sister_grimm",
+      "breakpoints": true
     }
   ]
 }

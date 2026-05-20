@@ -4,7 +4,7 @@ import { api } from "@/lib/api"
 
 interface User {
   id: string
-  email: string
+  username: string
   role: string
   isActive: boolean
   createdAt: string
