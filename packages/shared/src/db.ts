@@ -6,8 +6,9 @@ import { migrate } from "drizzle-orm/pglite/migrator"
 import * as schema from "./schema"
 
 const isPg = Boolean(process.env.DATABASE_URL)
+const isTest = process.env.NODE_ENV === "test"
 
-const pgliteClient = isPg ? null : new PGlite("./local.db")
+const pgliteClient = isPg ? null : isTest ? new PGlite() : new PGlite("./local.db")
 
 export const db = isPg
   ? drizzlePg(process.env.DATABASE_URL as string, { schema })
