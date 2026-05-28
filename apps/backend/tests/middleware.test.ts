@@ -58,6 +58,15 @@ describe("middleware tests", () => {
     mockGetUserById.mockClear()
   })
 
+  const generateToken = async (payload: { id: string }): Promise<string> => {
+    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: "test-secret" }))
+    const appTemp = jwtHelper.get("/", async ({ jwt }) => {
+      return await jwt.sign(payload)
+    })
+    const res = await appTemp.handle(new Request("http://localhost/"))
+    return await res.text()
+  }
+
   it("authMiddleware throws 401 when no authorization header is present", async () => {
     const app = new Elysia().use(authMiddleware).get("/test", () => "success")
 
@@ -77,15 +86,7 @@ describe("middleware tests", () => {
   })
 
   it("authMiddleware throws 401 if user does not exist in DB", async () => {
-    // Generate a valid JWT token
-    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: "test-secret" }))
-    let token = ""
-    const appTemp = jwtHelper.get("/", async ({ jwt }) => {
-      token = await jwt.sign({ id: "non-existent-user-id" })
-      return token
-    })
-    const res = await appTemp.handle(new Request("http://localhost/"))
-    await res.text() // Force handler evaluation to assign the token closure
+    const token = await generateToken({ id: "non-existent-user-id" })
 
     const app = new Elysia().use(authMiddleware).get("/test", () => "success")
 
@@ -100,14 +101,7 @@ describe("middleware tests", () => {
   })
 
   it("authMiddleware throws 401 if user is deactivated", async () => {
-    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: "test-secret" }))
-    let token = ""
-    const appTemp = jwtHelper.get("/", async ({ jwt }) => {
-      token = await jwt.sign({ id: "deactivated-user-id" })
-      return token
-    })
-    const res = await appTemp.handle(new Request("http://localhost/"))
-    await res.text() // Force handler evaluation
+    const token = await generateToken({ id: "deactivated-user-id" })
 
     const app = new Elysia().use(authMiddleware).get("/test", () => "success")
 
@@ -121,14 +115,7 @@ describe("middleware tests", () => {
   })
 
   it("authMiddleware resolves user details and returns 200", async () => {
-    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: "test-secret" }))
-    let token = ""
-    const appTemp = jwtHelper.get("/", async ({ jwt }) => {
-      token = await jwt.sign({ id: "active-user-id" })
-      return token
-    })
-    const res = await appTemp.handle(new Request("http://localhost/"))
-    await res.text() // Force handler evaluation
+    const token = await generateToken({ id: "active-user-id" })
 
     const app = new Elysia().use(authMiddleware).get("/test", ({ user }) => {
       return { user }
@@ -147,14 +134,7 @@ describe("middleware tests", () => {
   })
 
   it("roleMiddleware throws 403 for user role", async () => {
-    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: "test-secret" }))
-    let token = ""
-    const appTemp = jwtHelper.get("/", async ({ jwt }) => {
-      token = await jwt.sign({ id: "user-id" })
-      return token
-    })
-    const res = await appTemp.handle(new Request("http://localhost/"))
-    await res.text() // Force handler evaluation
+    const token = await generateToken({ id: "user-id" })
 
     const app = new Elysia()
       .use(authMiddleware)
@@ -171,14 +151,7 @@ describe("middleware tests", () => {
   })
 
   it("roleMiddleware returns 200 for master role", async () => {
-    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: "test-secret" }))
-    let token = ""
-    const appTemp = jwtHelper.get("/", async ({ jwt }) => {
-      token = await jwt.sign({ id: "admin-id" })
-      return token
-    })
-    const res = await appTemp.handle(new Request("http://localhost/"))
-    await res.text() // Force handler evaluation
+    const token = await generateToken({ id: "admin-id" })
 
     const app = new Elysia()
       .use(authMiddleware)
