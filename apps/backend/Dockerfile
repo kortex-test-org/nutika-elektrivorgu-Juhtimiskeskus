@@ -27,13 +27,22 @@ RUN cd apps/backend && bun run build
 FROM oven/bun:1.3-slim AS runtime
 WORKDIR /app
 
-COPY --from=build /app/apps/backend/dist ./dist
-COPY --from=build /app/apps/backend/package.json ./package.json
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/drizzle ./drizzle
-COPY --from=build /app/drizzle-local ./drizzle-local
-
 ENV NODE_ENV=production
 EXPOSE 3001
 
+# Copy workspace packages so symlinks in node_modules can resolve them correctly
+COPY --from=build /app/packages ./packages
+
+# Copy workspace root metadata and node_modules
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/node_modules ./node_modules
+
+# Copy backend application files, build outputs (dist), and its node_modules containing @node-rs/argon2
+COPY --from=build /app/apps/backend/package.json ./apps/backend/package.json
+COPY --from=build /app/apps/backend/dist ./apps/backend/dist
+COPY --from=build /app/apps/backend/node_modules ./apps/backend/node_modules
+COPY --from=build /app/drizzle ./drizzle
+COPY --from=build /app/drizzle-local ./drizzle-local
+
+WORKDIR /app/apps/backend
 CMD ["bun", "run", "dist/index.js"]
