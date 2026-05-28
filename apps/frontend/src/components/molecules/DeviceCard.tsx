@@ -1,6 +1,7 @@
 "use client"
 
 import { Power } from "lucide-react"
+import { SleepingCat, ActiveCat } from "@/components/atoms/CatComponents"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
@@ -61,7 +62,14 @@ export function DeviceCard({ device }: DeviceCardProps) {
             <span className="text-xs text-muted-foreground">{device.description}</span>
           )}
         </div>
-        <StatusBadge status={status} />
+        <div className="flex items-center gap-2">
+          {device.currentState ? (
+            <ActiveCat className="h-10 w-10" />
+          ) : (
+            <SleepingCat className="h-10 w-10" />
+          )}
+          <StatusBadge status={status} />
+        </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-3">
         <div className="flex flex-col gap-1">

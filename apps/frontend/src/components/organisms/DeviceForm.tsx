@@ -66,6 +66,10 @@ export function DeviceForm(props: DeviceFormProps) {
         typeof data.threshold === "number" && !Number.isNaN(data.threshold)
           ? data.threshold
           : undefined,
+      powerConsumption:
+        typeof data.powerConsumption === "number" && !Number.isNaN(data.powerConsumption)
+          ? data.powerConsumption
+          : undefined,
       // If strings are empty, send undefined
       description: data.description || undefined,
       host: data.host || undefined,
@@ -138,6 +142,23 @@ export function DeviceForm(props: DeviceFormProps) {
           <span className="text-destructive text-xs">{errors.threshold.message as string}</span>
         )}
         <span className="text-xs text-muted-foreground">{t("thresholdHint")}</span>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="powerConsumption">{t("powerConsumption")}</Label>
+        <Input
+          id="powerConsumption"
+          type="number"
+          step="0.01"
+          placeholder="1.50"
+          {...register("powerConsumption", {
+            setValueAs: (v) => (v === "" || v === null ? undefined : Number(v)),
+          })}
+        />
+        {errors.powerConsumption && (
+          <span className="text-destructive text-xs">{errors.powerConsumption.message as string}</span>
+        )}
+        <span className="text-xs text-muted-foreground">{t("powerConsumptionHint")}</span>
       </div>
 
       <div className="flex items-center gap-2">

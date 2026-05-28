@@ -17,6 +17,27 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
+  if (pathname.startsWith("/admin")) {
+    try {
+      const parts = token.split(".")
+      const payloadPart = parts[1]
+      if (parts.length === 3 && payloadPart) {
+        const payload = JSON.parse(atob(payloadPart.replace(/-/g, "+").replace(/_/g, "/")))
+        if (payload.role !== "master") {
+          return NextResponse.redirect(new URL("/", request.url))
+        }
+      } else {
+        const loginUrl = new URL("/login", request.url)
+        loginUrl.searchParams.set("from", pathname)
+        return NextResponse.redirect(loginUrl)
+      }
+    } catch (e) {
+      const loginUrl = new URL("/login", request.url)
+      loginUrl.searchParams.set("from", pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
+
   return NextResponse.next()
 }
 

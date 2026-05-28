@@ -20,12 +20,12 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "latest",
+    "@biomejs/biome": "^2.4.16",
     "drizzle-kit": "^0.31.10",
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
-    "turbo": "^2.9.9",
-    "typescript": "5.9.2"
+    "lint-staged": "^17.0.5",
+    "turbo": "^2.9.15",
+    "typescript": "6.0.3"
   },
   "engines": {
     "node": ">=18"

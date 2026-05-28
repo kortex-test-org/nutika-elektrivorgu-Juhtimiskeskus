@@ -3,7 +3,7 @@
 import { AlertTriangle, Edit2, Plane, Power, Server, Trash2, Zap } from "lucide-react"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
-import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
+import { getDeviceStatus, StatusBadge, CatModeBadge } from "@/components/atoms/StatusBadge"
 import { AddDeviceModal } from "@/components/organisms/AddDeviceModal"
 import { EditDeviceModal } from "@/components/organisms/EditDeviceModal"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import { useDeleteDevice, useDevices, useOverrideDevice, useToggleDevice } from 
 import { cn } from "@/lib/utils"
 
 import { useSettingsStore } from "@/stores/settingsStore"
+import { CatSpinner, EmptyCat, SleepingCat, ActiveCat } from "@/components/atoms/CatComponents"
 
 export default function DevicesPage() {
   const t = useTranslations("devices")
@@ -20,7 +21,7 @@ export default function DevicesPage() {
   const toggleMutation = useToggleDevice()
   const overrideMutation = useOverrideDevice()
   const { toast } = useToast()
-  const { isVacationMode, vacationDeviceIds, setVacationMode } = useSettingsStore()
+  const { isVacationMode, vacationDevices, setVacationMode } = useSettingsStore()
 
   const handleDelete = (id: string, name: string) => {
     if (!confirm(t("deleteConfirm", { name }))) return
@@ -46,7 +47,7 @@ export default function DevicesPage() {
 
     if (!isVacationMode) {
       // Enabling Vacation Mode: turn off non-critical ON devices
-      const toDisable = devices.filter((d) => !d.isCritical && d.currentState === true)
+      const toDisable = devices.filter((d) => !d.isCritical && (d.overrideActive ? d.overrideState : d.currentState) === true)
       if (toDisable.length === 0) {
         setVacationMode(true, [])
         toast({ title: t("vacationMode") })
@@ -54,11 +55,16 @@ export default function DevicesPage() {
       }
 
       try {
-        const ids = toDisable.map((d) => d.id)
+        const savedStates = toDisable.map((d) => ({
+          id: d.id,
+          overrideActive: d.overrideActive,
+          overrideState: d.overrideState,
+          currentState: d.currentState,
+        }))
         await Promise.all(
           toDisable.map((d) => toggleMutation.mutateAsync({ id: d.id, data: { state: false } })),
         )
-        setVacationMode(true, ids)
+        setVacationMode(true, savedStates)
         toast({ title: t("vacationMode"), description: t("vacationModeHint") })
       } catch (err) {
         toast({
@@ -68,8 +74,8 @@ export default function DevicesPage() {
         })
       }
     } else {
-      // Disabling Vacation Mode: turn back on previously disabled devices
-      if (vacationDeviceIds.length === 0) {
+      // Disabling Vacation Mode: restore original parameters for each device individually
+      if (vacationDevices.length === 0) {
         setVacationMode(false)
         toast({ title: t("vacationMode") + " OFF" })
         return
@@ -77,7 +83,15 @@ export default function DevicesPage() {
 
       try {
         await Promise.all(
-          vacationDeviceIds.map((id) => toggleMutation.mutateAsync({ id, data: { state: true } })),
+          vacationDevices.map((d) =>
+            overrideMutation.mutateAsync({
+              id: d.id,
+              data: {
+                active: d.overrideActive,
+                state: d.overrideActive ? (d.overrideState ?? undefined) : undefined,
+              },
+            })
+          ),
         )
         setVacationMode(false)
         toast({ title: t("vacationMode") + " OFF" })
@@ -153,10 +167,8 @@ export default function DevicesPage() {
 
         {/* Loading */}
         {isLoading && (
-          <div className="flex flex-col gap-2">
-            {([1, 2, 3] as const).map((k) => (
-              <div key={k} className="h-16 animate-pulse rounded-xl bg-muted" />
-            ))}
+          <div className="flex justify-center py-10">
+            <CatSpinner />
           </div>
         )}
 
@@ -182,7 +194,7 @@ export default function DevicesPage() {
 
             {devices.length === 0 ? (
               <div className="py-16 flex flex-col items-center gap-3 text-muted-foreground">
-                <Server className="h-10 w-10 opacity-30" />
+                <EmptyCat />
                 <p className="font-medium">{t("empty")}</p>
                 <p className="text-sm">{t("emptyHint")}</p>
               </div>
@@ -215,16 +227,9 @@ export default function DevicesPage() {
                     <div className="flex items-center justify-center gap-2">
                       <Button
                         size="sm"
-                        variant={
-                          (device.overrideActive ? device.overrideState : device.currentState)
-                            ? "default"
-                            : "outline"
-                        }
+                        variant="ghost"
                         className={cn(
-                          "h-8 w-8 p-0 rounded-full transition-all",
-                          (device.overrideActive ? device.overrideState : device.currentState)
-                            ? "bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-900/20"
-                            : "hover:border-emerald-500/50 hover:text-emerald-500",
+                          "h-10 w-10 p-0 rounded-full transition-all flex items-center justify-center hover:bg-muted/40",
                         )}
                         onClick={() => {
                           if (isVacationMode) return
@@ -239,7 +244,11 @@ export default function DevicesPage() {
                         }}
                         disabled={toggleMutation.isPending || isVacationMode}
                       >
-                        <Power className="h-4 w-4" />
+                        {(device.overrideActive ? device.overrideState : device.currentState) ? (
+                          <ActiveCat className="h-8 w-8" />
+                        ) : (
+                          <SleepingCat className="h-8 w-8" />
+                        )}
                       </Button>
                     </div>
 
@@ -261,7 +270,11 @@ export default function DevicesPage() {
                           title="Switch to Auto"
                           disabled={isVacationMode}
                         >
-                          <StatusBadge status="override" />
+                          <CatModeBadge
+                            overrideActive={device.overrideActive}
+                            currentState={device.currentState}
+                            overrideState={device.overrideState}
+                          />
                         </button>
                       ) : (
                         <button
@@ -280,7 +293,11 @@ export default function DevicesPage() {
                           title="Switch to Manual"
                           disabled={isVacationMode}
                         >
-                          <StatusBadge status="auto" />
+                          <CatModeBadge
+                            overrideActive={device.overrideActive}
+                            currentState={device.currentState}
+                            overrideState={device.overrideState}
+                          />
                         </button>
                       )}
                     </div>

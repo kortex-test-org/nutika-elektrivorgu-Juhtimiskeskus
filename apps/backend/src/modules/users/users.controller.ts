@@ -1,9 +1,11 @@
 import { CreateUserSchema, UpdateUserSchema } from "@smartgrid/shared"
 import { Elysia } from "elysia"
+import { authMiddleware } from "../../middleware/auth"
 import { roleMiddleware } from "../../middleware/role"
 import { createUser, deactivateUser, listUsers, patchUser, removeUser } from "./users.service"
 
 export const usersController = new Elysia({ prefix: "/api/users" })
+  .use(authMiddleware)
   .use(roleMiddleware)
   .get("/", async () => {
     return { users: await listUsers() }

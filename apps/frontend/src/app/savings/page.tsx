@@ -6,6 +6,7 @@ import { SavingsConfigSchema } from "@smartgrid/shared"
 import { useTranslations } from "next-intl"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { CatSpinner, EmptyCat } from "@/components/atoms/CatComponents"
 import { SavingsChart } from "@/components/organisms/SavingsChart"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -19,9 +20,22 @@ function SavingsPeriodTab({ period }: { period: SavingsPeriod }) {
   const t = useTranslations("savings")
   const { data, isLoading } = useSavings(period)
 
-  if (isLoading) return <div className="h-48 animate-pulse bg-muted rounded-lg" />
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-10">
+        <CatSpinner />
+      </div>
+    )
+  }
 
-  if (!data) return <div className="text-muted-foreground text-sm">{t("noData")}</div>
+  if (!data || data.details.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 py-12 text-muted-foreground">
+        <EmptyCat />
+        <p className="font-medium">{t("noData")}</p>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-4">

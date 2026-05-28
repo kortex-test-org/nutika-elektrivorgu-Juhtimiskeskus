@@ -1,11 +1,19 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
+export interface SavedDeviceState {
+  id: string
+  overrideActive: boolean
+  overrideState: boolean | null
+  currentState: boolean | null
+}
+
 interface SettingsState {
   isVacationMode: boolean
   vacationDeviceIds: string[]
+  vacationDevices: SavedDeviceState[]
   priceUnit: "mwh" | "kwh"
-  setVacationMode: (active: boolean, deviceIds?: string[]) => void
+  setVacationMode: (active: boolean, devices?: SavedDeviceState[]) => void
   setPriceUnit: (unit: "mwh" | "kwh") => void
 }
 
@@ -14,11 +22,13 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       isVacationMode: false,
       vacationDeviceIds: [],
+      vacationDevices: [],
       priceUnit: "mwh",
-      setVacationMode: (active, deviceIds = []) =>
+      setVacationMode: (active, devices = []) =>
         set({
           isVacationMode: active,
-          vacationDeviceIds: active ? deviceIds : [],
+          vacationDevices: active ? devices : [],
+          vacationDeviceIds: active ? devices.map((d) => d.id) : [],
         }),
       setPriceUnit: (unit) => set({ priceUnit: unit }),
     }),

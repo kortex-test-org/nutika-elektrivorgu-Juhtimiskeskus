@@ -1,6 +1,6 @@
 "use client"
 
-import { LogOut, Menu, Settings, X, Zap } from "lucide-react"
+import { LogOut, Menu, PawPrint, Settings, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
@@ -78,7 +78,7 @@ export function Navbar() {
           href="/"
           className="flex items-center gap-2 text-sm font-semibold text-violet-500 dark:text-violet-400 shrink-0"
         >
-          <Zap className="h-4 w-4" />
+          <PawPrint className="h-4 w-4 hover:animate-bounce" />
           SmartGrid
         </Link>
 
@@ -90,6 +90,9 @@ export function Navbar() {
           <NavLink href="/devices">{t("devices")}</NavLink>
           <NavLink href="/forecast">{t("forecast")}</NavLink>
           <NavLink href="/savings">{t("savings")}</NavLink>
+          {user.role === "master" && (
+            <NavLink href="/admin/users">{t("admin")}</NavLink>
+          )}
         </nav>
 
         {/* Desktop actions */}
@@ -128,6 +131,9 @@ export function Navbar() {
           <NavLink href="/devices">{t("devices")}</NavLink>
           <NavLink href="/forecast">{t("forecast")}</NavLink>
           <NavLink href="/savings">{t("savings")}</NavLink>
+          {user.role === "master" && (
+            <NavLink href="/admin/users">{t("admin")}</NavLink>
+          )}
           <div className="mt-3 pt-3 border-t border-border flex items-center justify-between flex-wrap gap-2">
             <span className="text-xs text-muted-foreground">{user.username}</span>
             <div className="flex items-center gap-1">

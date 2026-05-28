@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3 } from "lucide-react"
+import { CatSpinner, EmptyCat } from "@/components/atoms/CatComponents"
 import { useFormatter, useTranslations } from "next-intl"
 import { PriceIndicator } from "@/components/atoms/PriceIndicator"
 import { ForecastChart } from "@/components/organisms/ForecastChart"
@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useForecast } from "@/hooks/usePrices"
+import { DeviceSwitchPlan } from "@/components/organisms/DeviceSwitchPlan"
 
 export default function ForecastPage() {
   const t = useTranslations("forecast")
@@ -29,7 +30,11 @@ export default function ForecastPage() {
     <main className="mx-auto w-full max-w-7xl px-4 py-8 flex flex-col gap-8">
       <h1 className="text-2xl font-bold animate-fade-up w-fit heading-gradient">{t("title")}</h1>
 
-      {isLoading && <div className="h-64 animate-pulse bg-muted rounded-xl" />}
+      {isLoading && (
+        <div className="flex justify-center py-12">
+          <CatSpinner />
+        </div>
+      )}
       {error && (
         <div className="text-destructive text-sm">
           {t("loadError")}: {error.message}
@@ -38,7 +43,7 @@ export default function ForecastPage() {
 
       {!isLoading && !error && forecast && forecast.length === 0 && (
         <div className="flex flex-col items-center justify-center gap-3 py-24 text-muted-foreground animate-fade-up [animation-delay:80ms]">
-          <BarChart3 className="h-12 w-12 opacity-30" />
+          <EmptyCat />
           <p className="font-medium">{t("empty")}</p>
           <p className="text-sm">{t("emptyHint")}</p>
         </div>
@@ -54,6 +59,10 @@ export default function ForecastPage() {
               <ForecastChart data={forecast} />
             </CardContent>
           </Card>
+
+          <div className="animate-fade-up [animation-delay:120ms]">
+            <DeviceSwitchPlan forecast={forecast} />
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-up [animation-delay:160ms]">
             <Card>
