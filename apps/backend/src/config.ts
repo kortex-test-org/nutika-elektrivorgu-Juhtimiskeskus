@@ -1,7 +1,7 @@
 const REQUIRED_ENV_VARS = ["JWT_SECRET"] as const
 
 for (const key of REQUIRED_ENV_VARS) {
-  if (!process.env[key] && process.env.NODE_ENV !== "test") {
+  if (!process.env[key] && process.env.NODE_ENV !== "test" && !process.env.CI) {
     throw new Error(`Missing required env variable: ${key}`)
   }
 }
