@@ -27,8 +27,17 @@ WORKDIR /app
 ENV NODE_ENV=production
 EXPOSE 3000
 
-COPY --from=build /app/apps/frontend/.next ./.next
-COPY --from=build /app/apps/frontend/package.json ./package.json
+# Copy workspace packages so symlinks in node_modules can resolve them correctly
+COPY --from=build /app/packages ./packages
+
+# Copy workspace root metadata and node_modules
+COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
 
+# Copy frontend application files, build outputs (dist), and its node_modules containing vinext
+COPY --from=build /app/apps/frontend/package.json ./apps/frontend/package.json
+COPY --from=build /app/apps/frontend/dist ./apps/frontend/dist
+COPY --from=build /app/apps/frontend/node_modules ./apps/frontend/node_modules
+
+WORKDIR /app/apps/frontend
 CMD ["node_modules/.bin/vinext", "start"]
