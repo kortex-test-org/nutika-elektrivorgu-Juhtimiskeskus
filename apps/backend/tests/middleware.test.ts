@@ -46,10 +46,11 @@ mock.module("../src/db/repository/user", () => ({
 }))
 
 mock.module("../src/config", () => ({
-  config: { jwtSecret: "test-secret", port: 3000 },
+  config: { jwtSecret: "test-secret-key-for-unit-testing-purposes", port: 3000 },
 }))
 
 import { jwt } from "@elysiajs/jwt"
+import { config } from "../src/config"
 import { authMiddleware } from "../src/middleware/auth"
 import { roleMiddleware } from "../src/middleware/role"
 
@@ -59,7 +60,7 @@ describe("middleware tests", () => {
   })
 
   const generateToken = async (payload: { id: string }): Promise<string> => {
-    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: "test-secret" }))
+    const jwtHelper = new Elysia().use(jwt({ name: "jwt", secret: config.jwtSecret }))
     const appTemp = jwtHelper.get("/", async ({ jwt }) => {
       return await jwt.sign(payload)
     })

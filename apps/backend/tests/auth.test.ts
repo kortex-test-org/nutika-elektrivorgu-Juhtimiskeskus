@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, mock } from "bun:test"
 
 mock.module("../src/config", () => ({
-  config: { jwtSecret: "test-secret", port: 3000 },
+  config: { jwtSecret: "test-secret-key-for-unit-testing-purposes", port: 3000 },
 }))
 
 describe("auth service", () => {
