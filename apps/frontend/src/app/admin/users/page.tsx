@@ -4,13 +4,12 @@ import { typeboxResolver } from "@hookform/resolvers/typebox"
 import type { CreateUserDto } from "@smartgrid/shared"
 import { CreateUserSchema } from "@smartgrid/shared"
 import { Plus, Trash2, UserX } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useFormatter, useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { useAuthStore } from "@/stores/authStore"
-import { useRouter } from "next/navigation"
 import {
   Dialog,
   DialogContent,
@@ -30,6 +29,7 @@ import {
 } from "@/components/ui/table"
 import { useToast } from "@/hooks/use-toast"
 import { useCreateUser, useDeactivateUser, useDeleteUser, useUsers } from "@/hooks/useUsers"
+import { useAuthStore } from "@/stores/authStore"
 
 function CreateUserDialog({
   open,
@@ -123,7 +123,12 @@ export default function AdminUsersPage() {
     return (
       <main className="mx-auto w-full max-w-7xl px-4 py-16 flex flex-col items-center justify-center gap-6 text-center animate-fade-up">
         <div className="w-40 h-40">
-          <svg className="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 100 100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <ellipse cx="50" cy="65" rx="20" ry="25" fill="#64748B" />
             <circle cx="50" cy="35" r="18" fill="#64748B" />
             <circle cx="43" cy="33" r="5" fill="#FFFFFF" />
@@ -134,7 +139,9 @@ export default function AdminUsersPage() {
             <polygon points="34,30 26,12 42,22" fill="#475569" />
             <polygon points="66,30 74,12 58,22" fill="#475569" />
             <circle cx="50" cy="75" r="8" fill="#FDA4AF" />
-            <text x="46" y="79" fill="#1E293B" fontSize="10" fontWeight="bold">🛑</text>
+            <text x="46" y="79" fill="#1E293B" fontSize="10" fontWeight="bold">
+              🛑
+            </text>
           </svg>
         </div>
         <h1 className="text-2xl font-bold text-destructive">{t("insufficientPermissions")}</h1>

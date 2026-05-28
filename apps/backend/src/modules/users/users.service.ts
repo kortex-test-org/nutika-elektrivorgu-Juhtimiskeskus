@@ -45,7 +45,9 @@ export const removeUser = async (id: string) => {
   const user = await getUserById(id)
   if (!user) throw new Error("User not found")
   if (user.role === "master") {
-    throw new Error("Cannot delete master administrator account! / Невозможно удалить главного администратора! 🐾")
+    throw new Error(
+      "Cannot delete master administrator account! / Невозможно удалить главного администратора! 🐾",
+    )
   }
   await deleteUser(id)
 }
@@ -54,7 +56,9 @@ export const deactivateUser = async (id: string) => {
   const user = await getUserById(id)
   if (!user) throw new Error("User not found")
   if (user.role === "master") {
-    throw new Error("Cannot deactivate master administrator account! / Невозможно деактивировать главного администратора! 🐾")
+    throw new Error(
+      "Cannot deactivate master administrator account! / Невозможно деактивировать главного администратора! 🐾",
+    )
   }
   return updateUser(id, { isActive: false })
 }

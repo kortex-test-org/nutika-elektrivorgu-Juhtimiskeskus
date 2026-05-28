@@ -20,7 +20,7 @@ export const authMiddleware = new Elysia({ name: "auth-middleware" })
     const token = authorization.slice(7)
     const payload = await jwtInstance.verify(token)
 
-    if (!payload || !payload.id) {
+    if (!payload?.id) {
       set.status = 401
       throw new Error("Invalid or expired token")
     }

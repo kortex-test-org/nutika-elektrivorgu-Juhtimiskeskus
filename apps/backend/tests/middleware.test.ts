@@ -1,4 +1,5 @@
 process.env.JWT_SECRET = "test-secret"
+
 import { beforeEach, describe, expect, it, mock } from "bun:test"
 import { Elysia } from "elysia"
 
@@ -48,9 +49,9 @@ mock.module("../src/config", () => ({
   config: { jwtSecret: "test-secret", port: 3000 },
 }))
 
+import { jwt } from "@elysiajs/jwt"
 import { authMiddleware } from "../src/middleware/auth"
 import { roleMiddleware } from "../src/middleware/role"
-import { jwt } from "@elysiajs/jwt"
 
 describe("middleware tests", () => {
   beforeEach(() => {
@@ -58,22 +59,20 @@ describe("middleware tests", () => {
   })
 
   it("authMiddleware throws 401 when no authorization header is present", async () => {
-    const app = new Elysia()
-      .use(authMiddleware)
-      .get("/test", () => "success")
+    const app = new Elysia().use(authMiddleware).get("/test", () => "success")
 
     const response = await app.handle(new Request("http://localhost/test"))
     expect(response.status).toBe(401)
   })
 
   it("authMiddleware throws 401 with invalid authorization header format", async () => {
-    const app = new Elysia()
-      .use(authMiddleware)
-      .get("/test", () => "success")
+    const app = new Elysia().use(authMiddleware).get("/test", () => "success")
 
-    const response = await app.handle(new Request("http://localhost/test", {
-      headers: { authorization: "InvalidToken" }
-    }))
+    const response = await app.handle(
+      new Request("http://localhost/test", {
+        headers: { authorization: "InvalidToken" },
+      }),
+    )
     expect(response.status).toBe(401)
   })
 
@@ -88,13 +87,13 @@ describe("middleware tests", () => {
     const res = await appTemp.handle(new Request("http://localhost/"))
     await res.text() // Force handler evaluation to assign the token closure
 
-    const app = new Elysia()
-      .use(authMiddleware)
-      .get("/test", () => "success")
+    const app = new Elysia().use(authMiddleware).get("/test", () => "success")
 
-    const response = await app.handle(new Request("http://localhost/test", {
-      headers: { authorization: `Bearer ${token}` }
-    }))
+    const response = await app.handle(
+      new Request("http://localhost/test", {
+        headers: { authorization: `Bearer ${token}` },
+      }),
+    )
 
     expect(response.status).toBe(401)
     expect(mockGetUserById).toHaveBeenCalledWith("non-existent-user-id")
@@ -110,13 +109,13 @@ describe("middleware tests", () => {
     const res = await appTemp.handle(new Request("http://localhost/"))
     await res.text() // Force handler evaluation
 
-    const app = new Elysia()
-      .use(authMiddleware)
-      .get("/test", () => "success")
+    const app = new Elysia().use(authMiddleware).get("/test", () => "success")
 
-    const response = await app.handle(new Request("http://localhost/test", {
-      headers: { authorization: `Bearer ${token}` }
-    }))
+    const response = await app.handle(
+      new Request("http://localhost/test", {
+        headers: { authorization: `Bearer ${token}` },
+      }),
+    )
 
     expect(response.status).toBe(401)
   })
@@ -131,15 +130,15 @@ describe("middleware tests", () => {
     const res = await appTemp.handle(new Request("http://localhost/"))
     await res.text() // Force handler evaluation
 
-    const app = new Elysia()
-      .use(authMiddleware)
-      .get("/test", ({ user }) => {
-        return { user }
-      })
+    const app = new Elysia().use(authMiddleware).get("/test", ({ user }) => {
+      return { user }
+    })
 
-    const response = await app.handle(new Request("http://localhost/test", {
-      headers: { authorization: `Bearer ${token}` }
-    }))
+    const response = await app.handle(
+      new Request("http://localhost/test", {
+        headers: { authorization: `Bearer ${token}` },
+      }),
+    )
 
     expect(response.status).toBe(200)
     const json = (await response.json()) as any
@@ -162,9 +161,11 @@ describe("middleware tests", () => {
       .use(roleMiddleware)
       .get("/admin", () => "admin-success")
 
-    const response = await app.handle(new Request("http://localhost/admin", {
-      headers: { authorization: `Bearer ${token}` }
-    }))
+    const response = await app.handle(
+      new Request("http://localhost/admin", {
+        headers: { authorization: `Bearer ${token}` },
+      }),
+    )
 
     expect(response.status).toBe(403)
   })
@@ -184,9 +185,11 @@ describe("middleware tests", () => {
       .use(roleMiddleware)
       .get("/admin", () => "admin-success")
 
-    const response = await app.handle(new Request("http://localhost/admin", {
-      headers: { authorization: `Bearer ${token}` }
-    }))
+    const response = await app.handle(
+      new Request("http://localhost/admin", {
+        headers: { authorization: `Bearer ${token}` },
+      }),
+    )
 
     expect(response.status).toBe(200)
   })

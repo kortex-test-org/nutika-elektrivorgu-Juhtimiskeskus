@@ -1,11 +1,11 @@
 "use client"
 
+import { Calendar, Info } from "lucide-react"
 import { useFormatter, useTranslations } from "next-intl"
 import { useState } from "react"
-import { useDevices } from "@/hooks/useDevices"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, HelpCircle, Info, Zap } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useDevices } from "@/hooks/useDevices"
 
 interface ForecastEntry {
   id: string
@@ -40,7 +40,9 @@ export function DeviceSwitchPlan({ forecast }: DeviceSwitchPlanProps) {
         <CardContent className="h-40 flex items-center justify-center">
           <div className="flex flex-col items-center gap-2">
             <span className="text-2xl animate-pulse">🐾</span>
-            <p className="text-xs text-muted-foreground animate-pulse">Загружаем кошачий план... Мяу!</p>
+            <p className="text-xs text-muted-foreground animate-pulse">
+              Загружаем кошачий план... Мяу!
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -48,20 +50,43 @@ export function DeviceSwitchPlan({ forecast }: DeviceSwitchPlanProps) {
   }
 
   // Only show devices that have a threshold configured
-  const thresholdDevices = devices?.filter((d) => d.threshold !== null && d.threshold !== undefined) || []
+  const thresholdDevices =
+    devices?.filter((d) => d.threshold !== null && d.threshold !== undefined) || []
 
   if (thresholdDevices.length === 0) {
     return (
       <Card className="w-full border-dashed border-2">
         <CardContent className="py-12 flex flex-col items-center justify-center text-center gap-4">
           <div className="w-20 h-20 text-muted-foreground opacity-50">
-            <svg className="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="3" strokeDasharray="6 6" />
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="30"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeDasharray="6 6"
+              />
               {/* Cute sleeping cat outline */}
-              <path d="M 40 55 C 40 45, 60 45, 60 55" stroke="currentColor" strokeWidth="3" fill="none" />
+              <path
+                d="M 40 55 C 40 45, 60 45, 60 55"
+                stroke="currentColor"
+                strokeWidth="3"
+                fill="none"
+              />
               <path d="M 45 48 L 41 38 L 49 43" stroke="currentColor" strokeWidth="2" fill="none" />
               <path d="M 55 48 L 59 38 L 51 43" stroke="currentColor" strokeWidth="2" fill="none" />
-              <path d="M 46 51 A 1.5 1.5 0 0 0 49 51 M 51 51 A 1.5 1.5 0 0 0 54 51" stroke="currentColor" strokeWidth="2" fill="none" />
+              <path
+                d="M 46 51 A 1.5 1.5 0 0 0 49 51 M 51 51 A 1.5 1.5 0 0 0 54 51"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+              />
             </svg>
           </div>
           <div className="max-w-md">
@@ -164,13 +189,26 @@ export function DeviceSwitchPlan({ forecast }: DeviceSwitchPlanProps) {
                       )
                     })}
                   </div>
-                  
+
                   {/* Hours timeline ticks */}
                   {forecast.length > 0 && (
                     <div className="flex justify-between text-[9px] text-muted-foreground font-mono px-1">
-                      <span>{format.dateTime(new Date(forecast[0]?.timestamp || ""), { hour: "2-digit" })}</span>
-                      <span>{format.dateTime(new Date(forecast[Math.floor(forecast.length / 2)]?.timestamp || ""), { hour: "2-digit" })}</span>
-                      <span>{format.dateTime(new Date(forecast[forecast.length - 1]?.timestamp || ""), { hour: "2-digit" })}</span>
+                      <span>
+                        {format.dateTime(new Date(forecast[0]?.timestamp || ""), {
+                          hour: "2-digit",
+                        })}
+                      </span>
+                      <span>
+                        {format.dateTime(
+                          new Date(forecast[Math.floor(forecast.length / 2)]?.timestamp || ""),
+                          { hour: "2-digit" },
+                        )}
+                      </span>
+                      <span>
+                        {format.dateTime(new Date(forecast[forecast.length - 1]?.timestamp || ""), {
+                          hour: "2-digit",
+                        })}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -187,9 +225,14 @@ export function DeviceSwitchPlan({ forecast }: DeviceSwitchPlanProps) {
               <span className="text-muted-foreground">|</span>
               <span className="font-mono">🕒 {hoveredHour.hourStr}</span>
               <span className="text-muted-foreground">|</span>
-              <span>Цена: <strong className="font-mono">{hoveredHour.price.toFixed(1)} €/MWh</strong></span>
+              <span>
+                Цена: <strong className="font-mono">{hoveredHour.price.toFixed(1)} €/MWh</strong>
+              </span>
               <span className="text-muted-foreground">|</span>
-              <span>Порог: <strong className="font-mono">{hoveredHour.threshold.toFixed(1)} €/MWh</strong></span>
+              <span>
+                Порог:{" "}
+                <strong className="font-mono">{hoveredHour.threshold.toFixed(1)} €/MWh</strong>
+              </span>
               <span className="text-muted-foreground">|</span>
               <span
                 className={`font-semibold px-2 py-0.5 rounded ${
@@ -204,7 +247,9 @@ export function DeviceSwitchPlan({ forecast }: DeviceSwitchPlanProps) {
           ) : (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Info className="h-4 w-4 text-violet-500 animate-pulse" />
-              <span>Наведите на сегмент временной шкалы, чтобы увидеть подробности работы прибора! 🐾</span>
+              <span>
+                Наведите на сегмент временной шкалы, чтобы увидеть подробности работы прибора! 🐾
+              </span>
             </div>
           )}
         </div>

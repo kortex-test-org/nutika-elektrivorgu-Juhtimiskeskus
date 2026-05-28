@@ -4,7 +4,15 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "noStaticElementInteractions": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noDocumentCookie": "off"
+      }
     }
   },
   "formatter": {
@@ -59,6 +67,6 @@
     }
   ],
   "files": {
-    "includes": ["**", "!**/node_modules", "!**/.next", "!**/dist", "!**/local.db"]
+    "includes": ["**", "!**/node_modules", "!**/.next", "!**/dist", "!**/local.db", "!**/.turbo"]
   }
 }

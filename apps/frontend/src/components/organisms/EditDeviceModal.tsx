@@ -36,7 +36,7 @@ interface EditDeviceModalProps {
 
 export function EditDeviceModal({ device }: EditDeviceModalProps) {
   const tDetail = useTranslations("deviceDetail")
-  const tDevices = useTranslations("devices")
+  const _tDevices = useTranslations("devices")
   const [open, setOpen] = useState(false)
   const { toast } = useToast()
   const updateMutation = useUpdateDevice(device.id)

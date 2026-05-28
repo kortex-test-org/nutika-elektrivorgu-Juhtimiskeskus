@@ -16,9 +16,9 @@ mock.module("../src/db/repository/price", () => ({
 }))
 
 mock.module("../src/db/repository/device", () => ({
-  getDevicesByUserId: mock(() => Promise.resolve([
-    { id: "device-1", powerConsumption: "1.00", currentState: true }
-  ])),
+  getDevicesByUserId: mock(() =>
+    Promise.resolve([{ id: "device-1", powerConsumption: "1.00", currentState: true }]),
+  ),
   updateDevice: mock(() => Promise.resolve()),
   getAllActiveDevices: mock(() => Promise.resolve([])),
   getDeviceById: mock(() => Promise.resolve(null)),
@@ -32,11 +32,11 @@ mock.module("@smartgrid/shared/db", () => ({
     select: mock(() => ({
       from: mock(() => ({
         where: mock(() => ({
-          orderBy: mock(() => Promise.resolve([]))
-        }))
-      }))
-    }))
-  }
+          orderBy: mock(() => Promise.resolve([])),
+        })),
+      })),
+    })),
+  },
 }))
 
 const { calculateSavings } = await import("../src/services/savings")

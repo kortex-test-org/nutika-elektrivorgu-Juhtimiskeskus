@@ -9,13 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
 interface DeviceFormCreateProps {
   mode: "create"
@@ -45,7 +38,6 @@ export function DeviceForm(props: DeviceFormProps) {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<CreateDeviceDto>({
-    // biome-ignore lint/suspicious/noExplicitAny: union of Create/Update schemas
     resolver: typeboxResolver(schema) as any,
     defaultValues: isEdit
       ? (props as DeviceFormEditProps).defaultValues
@@ -77,7 +69,6 @@ export function DeviceForm(props: DeviceFormProps) {
       topic: data.topic || undefined,
     }
 
-    // biome-ignore lint/suspicious/noExplicitAny: union of two schemas
     await (props.onSubmit as (d: any) => Promise<void>)(cleanedData)
   }
 
@@ -156,7 +147,9 @@ export function DeviceForm(props: DeviceFormProps) {
           })}
         />
         {errors.powerConsumption && (
-          <span className="text-destructive text-xs">{errors.powerConsumption.message as string}</span>
+          <span className="text-destructive text-xs">
+            {errors.powerConsumption.message as string}
+          </span>
         )}
         <span className="text-xs text-muted-foreground">{t("powerConsumptionHint")}</span>
       </div>

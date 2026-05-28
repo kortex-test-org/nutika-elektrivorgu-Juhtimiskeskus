@@ -1,8 +1,9 @@
 "use client"
 
-import { CatSpinner, EmptyCat } from "@/components/atoms/CatComponents"
 import { useFormatter, useTranslations } from "next-intl"
+import { CatSpinner, EmptyCat } from "@/components/atoms/CatComponents"
 import { PriceIndicator } from "@/components/atoms/PriceIndicator"
+import { DeviceSwitchPlan } from "@/components/organisms/DeviceSwitchPlan"
 import { ForecastChart } from "@/components/organisms/ForecastChart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -14,7 +15,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useForecast } from "@/hooks/usePrices"
-import { DeviceSwitchPlan } from "@/components/organisms/DeviceSwitchPlan"
 
 export default function ForecastPage() {
   const t = useTranslations("forecast")

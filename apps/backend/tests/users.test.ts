@@ -41,8 +41,10 @@ describe("users service", () => {
     })
 
     const { removeUser } = await import("../src/modules/users/users.service")
-    
-    await expect(removeUser("user-admin")).rejects.toThrow("Cannot delete master administrator account")
+
+    await expect(removeUser("user-admin")).rejects.toThrow(
+      "Cannot delete master administrator account",
+    )
     expect(mockDeleteUser).not.toHaveBeenCalled()
   })
 
@@ -70,8 +72,10 @@ describe("users service", () => {
     })
 
     const { deactivateUser } = await import("../src/modules/users/users.service")
-    
-    await expect(deactivateUser("user-admin")).rejects.toThrow("Cannot deactivate master administrator account")
+
+    await expect(deactivateUser("user-admin")).rejects.toThrow(
+      "Cannot deactivate master administrator account",
+    )
     expect(mockUpdateUser).not.toHaveBeenCalled()
   })
 })

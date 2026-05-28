@@ -90,9 +90,7 @@ export function Navbar() {
           <NavLink href="/devices">{t("devices")}</NavLink>
           <NavLink href="/forecast">{t("forecast")}</NavLink>
           <NavLink href="/savings">{t("savings")}</NavLink>
-          {user.role === "master" && (
-            <NavLink href="/admin/users">{t("admin")}</NavLink>
-          )}
+          {user.role === "master" && <NavLink href="/admin/users">{t("admin")}</NavLink>}
         </nav>
 
         {/* Desktop actions */}
@@ -131,9 +129,7 @@ export function Navbar() {
           <NavLink href="/devices">{t("devices")}</NavLink>
           <NavLink href="/forecast">{t("forecast")}</NavLink>
           <NavLink href="/savings">{t("savings")}</NavLink>
-          {user.role === "master" && (
-            <NavLink href="/admin/users">{t("admin")}</NavLink>
-          )}
+          {user.role === "master" && <NavLink href="/admin/users">{t("admin")}</NavLink>}
           <div className="mt-3 pt-3 border-t border-border flex items-center justify-between flex-wrap gap-2">
             <span className="text-xs text-muted-foreground">{user.username}</span>
             <div className="flex items-center gap-1">

@@ -31,7 +31,7 @@ export function proxy(request: NextRequest) {
         loginUrl.searchParams.set("from", pathname)
         return NextResponse.redirect(loginUrl)
       }
-    } catch (e) {
+    } catch (_e) {
       const loginUrl = new URL("/login", request.url)
       loginUrl.searchParams.set("from", pathname)
       return NextResponse.redirect(loginUrl)

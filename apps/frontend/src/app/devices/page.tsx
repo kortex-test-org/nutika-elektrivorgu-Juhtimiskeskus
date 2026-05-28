@@ -1,18 +1,16 @@
 "use client"
 
-import { AlertTriangle, Edit2, Plane, Power, Server, Trash2, Zap } from "lucide-react"
-import Link from "next/link"
+import { AlertTriangle, Plane, Server, Trash2, Zap } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { getDeviceStatus, StatusBadge, CatModeBadge } from "@/components/atoms/StatusBadge"
+import { ActiveCat, CatSpinner, EmptyCat, SleepingCat } from "@/components/atoms/CatComponents"
+import { CatModeBadge } from "@/components/atoms/StatusBadge"
 import { AddDeviceModal } from "@/components/organisms/AddDeviceModal"
 import { EditDeviceModal } from "@/components/organisms/EditDeviceModal"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { useDeleteDevice, useDevices, useOverrideDevice, useToggleDevice } from "@/hooks/useDevices"
 import { cn } from "@/lib/utils"
-
 import { useSettingsStore } from "@/stores/settingsStore"
-import { CatSpinner, EmptyCat, SleepingCat, ActiveCat } from "@/components/atoms/CatComponents"
 
 export default function DevicesPage() {
   const t = useTranslations("devices")
@@ -47,7 +45,9 @@ export default function DevicesPage() {
 
     if (!isVacationMode) {
       // Enabling Vacation Mode: turn off non-critical ON devices
-      const toDisable = devices.filter((d) => !d.isCritical && (d.overrideActive ? d.overrideState : d.currentState) === true)
+      const toDisable = devices.filter(
+        (d) => !d.isCritical && (d.overrideActive ? d.overrideState : d.currentState) === true,
+      )
       if (toDisable.length === 0) {
         setVacationMode(true, [])
         toast({ title: t("vacationMode") })
@@ -66,7 +66,7 @@ export default function DevicesPage() {
         )
         setVacationMode(true, savedStates)
         toast({ title: t("vacationMode"), description: t("vacationModeHint") })
-      } catch (err) {
+      } catch (_err) {
         toast({
           title: t("error"),
           description: "Failed to enable vacation mode",
@@ -77,7 +77,7 @@ export default function DevicesPage() {
       // Disabling Vacation Mode: restore original parameters for each device individually
       if (vacationDevices.length === 0) {
         setVacationMode(false)
-        toast({ title: t("vacationMode") + " OFF" })
+        toast({ title: `${t("vacationMode")} OFF` })
         return
       }
 
@@ -90,12 +90,12 @@ export default function DevicesPage() {
                 active: d.overrideActive,
                 state: d.overrideActive ? (d.overrideState ?? undefined) : undefined,
               },
-            })
+            }),
           ),
         )
         setVacationMode(false)
-        toast({ title: t("vacationMode") + " OFF" })
-      } catch (err) {
+        toast({ title: `${t("vacationMode")} OFF` })
+      } catch (_err) {
         toast({
           title: t("error"),
           description: "Failed to disable vacation mode",

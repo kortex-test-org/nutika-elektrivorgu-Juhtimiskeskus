@@ -38,7 +38,7 @@ const log = (level: LogLevel, message: string, context?: Record<string, unknown>
       message,
       ...context,
     }
-    process.stdout.write(JSON.stringify(entry) + "\n")
+    process.stdout.write(`${JSON.stringify(entry)}\n`)
   }
 }
 

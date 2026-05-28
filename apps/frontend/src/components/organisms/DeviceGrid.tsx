@@ -1,7 +1,7 @@
 "use client"
 
-import { CatSpinner, EmptyCat } from "@/components/atoms/CatComponents"
 import { useTranslations } from "next-intl"
+import { CatSpinner, EmptyCat } from "@/components/atoms/CatComponents"
 import { DeviceCard } from "@/components/molecules/DeviceCard"
 import { AddDeviceModal } from "@/components/organisms/AddDeviceModal"
 import { useDevices } from "@/hooks/useDevices"

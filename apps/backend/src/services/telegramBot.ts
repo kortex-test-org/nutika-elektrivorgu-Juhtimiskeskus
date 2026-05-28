@@ -55,7 +55,7 @@ export const pollAllTelegramBots = async (): Promise<void> => {
           // If the bot token is invalid, Telegram API returns 401/404, we catch it gracefully
           logger.warning("Telegram getUpdates returned error status for token", {
             status: response.status,
-            tokenExcerpt: token.slice(0, 10) + "...",
+            tokenExcerpt: `${token.slice(0, 10)}...`,
           })
           continue
         }
@@ -87,7 +87,7 @@ export const pollAllTelegramBots = async (): Promise<void> => {
               const text = update.message.text || ""
 
               // Register user in the database
-              const subscriber = await addTelegramChat(
+              const _subscriber = await addTelegramChat(
                 bot.userId,
                 chatIdStr,
                 chat.username || null,
@@ -113,7 +113,7 @@ export const pollAllTelegramBots = async (): Promise<void> => {
         }
       } catch (botErr) {
         logger.error("Error polling updates for specific Telegram bot", {
-          tokenExcerpt: token.slice(0, 10) + "...",
+          tokenExcerpt: `${token.slice(0, 10)}...`,
           error: String(botErr),
         })
       }

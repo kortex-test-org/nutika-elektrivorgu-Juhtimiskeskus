@@ -1,9 +1,9 @@
 "use client"
 
 import { Power } from "lucide-react"
-import { SleepingCat, ActiveCat } from "@/components/atoms/CatComponents"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
+import { ActiveCat, SleepingCat } from "@/components/atoms/CatComponents"
 import { getDeviceStatus, StatusBadge } from "@/components/atoms/StatusBadge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"

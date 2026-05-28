@@ -1,10 +1,10 @@
 import type { SavingsPeriod } from "@smartgrid/shared"
-import { db } from "@smartgrid/shared/db"
 import { deviceCommandsLog } from "@smartgrid/shared"
+import { db } from "@smartgrid/shared/db"
 import { asc, eq } from "drizzle-orm"
+import { getDevicesByUserId } from "../db/repository/device"
 import { getPricesByRange } from "../db/repository/price"
 import { getSavingsConfig } from "../db/repository/savings"
-import { getDevicesByUserId } from "../db/repository/device"
 
 const PERIOD_RANGES: Record<SavingsPeriod, () => { from: Date; to: Date }> = {
   day: () => {
@@ -27,7 +27,7 @@ const PERIOD_RANGES: Record<SavingsPeriod, () => { from: Date; to: Date }> = {
 function getDeviceStateAt(
   deviceLogs: any[],
   priceTimestamp: Date,
-  deviceCurrentState: boolean | null
+  deviceCurrentState: boolean | null,
 ): boolean {
   // Find the last log before or equal to this timestamp
   let lastLog: any = null
@@ -82,7 +82,7 @@ export const calculateSavings = async (userId: string, period: SavingsPeriod) =>
         device,
         logs,
       }
-    })
+    }),
   )
 
   let totalSavingsEur = 0
