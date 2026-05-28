@@ -40,4 +40,4 @@ COPY --from=build /app/apps/frontend/dist ./apps/frontend/dist
 COPY --from=build /app/apps/frontend/node_modules ./apps/frontend/node_modules
 
 WORKDIR /app/apps/frontend
-CMD ["node_modules/.bin/vinext", "start"]
+CMD ["npm", "start"]
