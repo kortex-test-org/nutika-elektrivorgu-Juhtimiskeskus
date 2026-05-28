@@ -5,8 +5,10 @@ WORKDIR /app
 # Copy workspace manifests to resolve internal packages
 COPY package.json bun.lock ./
 COPY apps/backend/package.json ./apps/backend/
+COPY apps/frontend/package.json ./apps/frontend/
 COPY packages/shared/package.json ./packages/shared/
 COPY packages/config/package.json ./packages/config/
+
 
 RUN bun install --frozen-lockfile
 
