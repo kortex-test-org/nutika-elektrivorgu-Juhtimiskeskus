@@ -14,7 +14,7 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
+  server:
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
@@ -35,7 +35,7 @@ services:
       dockerfile: apps/frontend/Dockerfile
     restart: unless-stopped
     depends_on:
-      - backend
+      - server
     environment:
       NODE_ENV: production
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
