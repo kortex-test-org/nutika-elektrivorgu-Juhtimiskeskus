@@ -61,7 +61,7 @@ if (userCount === 0) {
 const app = new Elysia()
   .use(
     cors({
-      origin: true,
+      origin: () => true,
       credentials: true,
       allowedHeaders: ["content-type", "authorization"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
