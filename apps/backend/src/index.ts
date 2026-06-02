@@ -59,7 +59,14 @@ if (userCount === 0) {
 }
 
 const app = new Elysia()
-  .use(cors())
+  .use(
+    cors({
+      origin: true,
+      credentials: true,
+      allowedHeaders: ["content-type", "authorization"],
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    }),
+  )
   .use(swagger({ path: "/docs" }))
   .onError(({ error, set }) => {
     const message = error instanceof Error ? error.message : "Internal server error"
