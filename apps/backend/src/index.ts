@@ -1,5 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
+import { cors } from "@elysiajs/cors"
 import { swagger } from "@elysiajs/swagger"
 import { runMigrations } from "@smartgrid/shared/db"
 import { logger } from "@smartgrid/shared/logger"
@@ -58,23 +59,14 @@ if (userCount === 0) {
 }
 
 const app = new Elysia()
-  .onRequest(({ request, set }) => {
-    const origin = request.headers.get("origin")
-    if (origin) {
-      set.headers["Access-Control-Allow-Origin"] = origin
-      set.headers["Access-Control-Allow-Credentials"] = "true"
-    } else {
-      set.headers["Access-Control-Allow-Origin"] = "*"
-    }
-
-    if (request.method === "OPTIONS") {
-      set.status = 204
-      set.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-      set.headers["Access-Control-Allow-Headers"] =
-        request.headers.get("access-control-request-headers") ?? "Content-Type, Authorization"
-      return new Response(null, { status: 204 })
-    }
-  })
+  .use(
+    cors({
+      origin: true,
+      credentials: true,
+      allowedHeaders: ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    }),
+  )
   .use(swagger({ path: "/docs" }))
   .onError(({ error, set, request }) => {
     const message = error instanceof Error ? error.message : "Internal server error"
