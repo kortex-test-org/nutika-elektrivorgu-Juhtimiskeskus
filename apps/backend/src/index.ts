@@ -1,6 +1,5 @@
 import fs from "node:fs"
 import path from "node:path"
-import { cors } from "@elysiajs/cors"
 import { swagger } from "@elysiajs/swagger"
 import { runMigrations } from "@smartgrid/shared/db"
 import { logger } from "@smartgrid/shared/logger"
@@ -59,17 +58,6 @@ if (userCount === 0) {
 }
 
 const app = new Elysia()
-  .use(
-    cors({
-      origin: (request) => {
-        const origin = request.headers.get("origin")
-        return origin ? true : false
-      },
-      credentials: true,
-      allowedHeaders: ["content-type", "authorization"],
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    }),
-  )
   .use(swagger({ path: "/docs" }))
   .onError(({ error, set }) => {
     const message = error instanceof Error ? error.message : "Internal server error"

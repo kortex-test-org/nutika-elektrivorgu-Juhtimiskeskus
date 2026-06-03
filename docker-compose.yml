@@ -29,17 +29,15 @@ services:
       DATABASE_URL: postgresql://smartgrid:${POSTGRES_PASSWORD:-changeme}@postgres:5432/smartgrid
       ELERING_API_URL: ${ELERING_API_URL:-https://dashboard.elering.ee/api/nps/price}
 
-  frontend:
+  nginx:
     build:
       context: .
-      dockerfile: apps/frontend/Dockerfile
+      dockerfile: nginx/Dockerfile
     restart: unless-stopped
     depends_on:
       - backend
-    environment:
-      NODE_ENV: production
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
-      NEXT_PUBLIC_WS_URL: ${NEXT_PUBLIC_WS_URL:-ws://localhost:3001}
+    ports:
+      - "80"
 
 volumes:
   postgres_data:

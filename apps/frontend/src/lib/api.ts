@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/stores/authStore"
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001"
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? ""
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const token = useAuthStore.getState().token

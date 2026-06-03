@@ -4,10 +4,14 @@ import type { WSEvent } from "@smartgrid/shared"
 import { useEffect, useRef } from "react"
 import { useWsStore } from "@/stores/wsStore"
 
-const WS_URL =
-  typeof window !== "undefined"
-    ? (process.env.NEXT_PUBLIC_WS_URL ?? "ws://localhost:3001/ws")
-    : "ws://localhost:3001/ws"
+const getWsUrl = () => {
+  if (typeof window === "undefined") return "ws://localhost:3001/ws"
+  if (process.env.NEXT_PUBLIC_WS_URL) return process.env.NEXT_PUBLIC_WS_URL
+  const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
+  return `${protocol}//${window.location.host}/ws`
+}
+
+const WS_URL = getWsUrl()
 
 const INITIAL_DELAY_MS = 1_000
 const MAX_DELAY_MS = 30_000
