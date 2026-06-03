@@ -46,11 +46,16 @@ export function PriceBanner() {
         {isLoading && price === null ? (
           <div className="h-10 w-48 animate-pulse rounded bg-muted/50" />
         ) : price !== null ? (
-          <div className="flex items-baseline gap-2">
-            <span className="text-5xl font-black tracking-tighter text-violet-600 dark:text-violet-400">
-              {priceEurKwh}
+          <div className="flex flex-col gap-0.5">
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-black tracking-tighter text-violet-600 dark:text-violet-400">
+                {priceEurKwh}
+              </span>
+              <span className="text-xl font-bold text-muted-foreground">€/kWh</span>
+            </div>
+            <span className="text-xs text-muted-foreground/60 font-medium">
+              {price.toFixed(2)} EUR/MWh
             </span>
-            <span className="text-xl font-bold text-muted-foreground">€/kWh</span>
           </div>
         ) : (
           <span className="text-muted-foreground text-sm font-medium italic">
