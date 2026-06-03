@@ -140,7 +140,7 @@ export function DeviceSwitchPlan({ forecast }: DeviceSwitchPlanProps) {
                       ⚡ {powerVal.toFixed(2)} кВт
                     </span>
                     <span className="bg-muted px-1.5 py-0.5 rounded">
-                      🏷️ &lt; {thresholdVal.toFixed(1)} €
+                      🏷️ &lt; {(thresholdVal / 1000).toFixed(4)} €/kWh
                     </span>
                   </div>
                 </div>
@@ -226,12 +226,15 @@ export function DeviceSwitchPlan({ forecast }: DeviceSwitchPlanProps) {
               <span className="font-mono">🕒 {hoveredHour.hourStr}</span>
               <span className="text-muted-foreground">|</span>
               <span>
-                Цена: <strong className="font-mono">{hoveredHour.price.toFixed(1)} €/MWh</strong>
+                Цена:{" "}
+                <strong className="font-mono">{(hoveredHour.price / 1000).toFixed(4)} €/kWh</strong>
               </span>
               <span className="text-muted-foreground">|</span>
               <span>
                 Порог:{" "}
-                <strong className="font-mono">{hoveredHour.threshold.toFixed(1)} €/MWh</strong>
+                <strong className="font-mono">
+                  {(hoveredHour.threshold / 1000).toFixed(4)} €/kWh
+                </strong>
               </span>
               <span className="text-muted-foreground">|</span>
               <span

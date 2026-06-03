@@ -76,7 +76,9 @@ export function DeviceCard({ device }: DeviceCardProps) {
           {device.threshold && (
             <div className="text-xs text-muted-foreground">
               {t("threshold")}:{" "}
-              <span className="font-mono">{Number(device.threshold).toFixed(2)} €/MWh</span>
+              <span className="font-mono">
+                {(Number(device.threshold) / 1000).toFixed(4)} €/kWh
+              </span>
             </div>
           )}
         </div>

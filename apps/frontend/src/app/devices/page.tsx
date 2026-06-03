@@ -222,7 +222,9 @@ export default function DevicesPage() {
                       {device.host || "—"}
                     </span>
                     <span className="text-sm text-muted-foreground">
-                      {device.threshold ? `${Number(device.threshold).toFixed(2)}` : "—"}
+                      {device.threshold
+                        ? `${(Number(device.threshold) / 1000).toFixed(4)} €/kWh`
+                        : "—"}
                     </span>
                     <div className="flex items-center justify-center gap-2">
                       <Button
