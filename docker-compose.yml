@@ -20,8 +20,7 @@ services:
       dockerfile: apps/backend/Dockerfile
     restart: unless-stopped
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
     environment:
       NODE_ENV: production
       PORT: 3001
@@ -36,8 +35,6 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
-    ports:
-      - "80"
 
 volumes:
   postgres_data:
