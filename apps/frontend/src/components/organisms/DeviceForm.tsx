@@ -31,14 +31,6 @@ export function DeviceForm(props: DeviceFormProps) {
 
   const schema = isEdit ? UpdateDeviceSchema : CreateDeviceSchema
 
-  const rawDefaults = isEdit ? (props as DeviceFormEditProps).defaultValues : undefined
-  const defaultValues = rawDefaults
-    ? {
-        ...rawDefaults,
-        threshold: rawDefaults.threshold ? rawDefaults.threshold / 1000 : undefined,
-      }
-    : { connectionType: "mock" as const, isCritical: false }
-
   const {
     register,
     handleSubmit,
@@ -47,7 +39,9 @@ export function DeviceForm(props: DeviceFormProps) {
     formState: { errors, isSubmitting },
   } = useForm<CreateDeviceDto>({
     resolver: typeboxResolver(schema) as any,
-    defaultValues,
+    defaultValues: isEdit
+      ? (props as DeviceFormEditProps).defaultValues
+      : { connectionType: "mock", isCritical: false },
   })
 
   // Log errors to console for debugging
@@ -62,7 +56,7 @@ export function DeviceForm(props: DeviceFormProps) {
       connectionType: "mock",
       threshold:
         typeof data.threshold === "number" && !Number.isNaN(data.threshold)
-          ? data.threshold * 1000
+          ? data.threshold
           : undefined,
       powerConsumption:
         typeof data.powerConsumption === "number" && !Number.isNaN(data.powerConsumption)
@@ -79,7 +73,7 @@ export function DeviceForm(props: DeviceFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit as any)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="name">{t("name")}</Label>
         <Input id="name" placeholder={t("namePlaceholder")} {...register("name")} />
@@ -130,7 +124,7 @@ export function DeviceForm(props: DeviceFormProps) {
           id="threshold"
           type="number"
           step="0.01"
-          placeholder={t("thresholdPlaceholder")}
+          placeholder="100"
           {...register("threshold", {
             setValueAs: (v) => (v === "" || v === null ? undefined : Number(v)),
           })}
