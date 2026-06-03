@@ -31,6 +31,7 @@ export const insertDevice = async (data: {
   threshold?: string | null
   powerConsumption?: string | null
   isCritical?: boolean
+  currentState?: boolean
 }) => {
   const result = await db.insert(devices).values(data).returning()
   return result[0]

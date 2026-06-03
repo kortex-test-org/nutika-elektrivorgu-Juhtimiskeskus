@@ -35,6 +35,16 @@ const testDeviceConnection = async (
 export const addDevice = async (userId: string, data: CreateDeviceDto) => {
   const connected = await testDeviceConnection(data.host, data.port, data.connectionType)
 
+  let initialState = false
+  if (data.threshold !== undefined) {
+    const latestPrice = await getCurrentPrice()
+    if (latestPrice) {
+      const currentPrice = Number(latestPrice.priceEurMwh)
+      const threshold = data.threshold
+      initialState = currentPrice < threshold
+    }
+  }
+
   const device = await insertDevice({
     userId,
     name: data.name,
@@ -46,9 +56,26 @@ export const addDevice = async (userId: string, data: CreateDeviceDto) => {
     threshold: data.threshold?.toFixed(2) ?? null,
     powerConsumption: data.powerConsumption?.toFixed(2) ?? null,
     isCritical: data.isCritical ?? false,
+    currentState: initialState,
   })
 
   if (!device) throw new Error("Failed to create device")
+
+  if (data.threshold !== undefined) {
+    const latestPrice = await getCurrentPrice()
+    if (latestPrice) {
+      await sendDeviceCommand({
+        deviceId: device.id,
+        host: device.host,
+        port: device.port,
+        topic: device.topic,
+        connectionType: device.connectionType,
+        command: initialState ? "on" : "off",
+        triggeredBy: "auto",
+        priceAtTime: Number(latestPrice.priceEurMwh),
+      })
+    }
+  }
 
   return { ...device, connectionTest: connected }
 }
