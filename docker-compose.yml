@@ -36,5 +36,15 @@ services:
     depends_on:
       - backend
 
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: production
+
 volumes:
   postgres_data:
