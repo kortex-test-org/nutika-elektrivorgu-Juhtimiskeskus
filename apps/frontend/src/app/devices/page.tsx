@@ -274,6 +274,7 @@ export default function DevicesPage() {
                             overrideActive={device.overrideActive}
                             currentState={device.currentState}
                             overrideState={device.overrideState}
+                            isVacationMode={isVacationMode}
                           />
                         </button>
                       ) : (
@@ -297,6 +298,7 @@ export default function DevicesPage() {
                             overrideActive={device.overrideActive}
                             currentState={device.currentState}
                             overrideState={device.overrideState}
+                            isVacationMode={isVacationMode}
                           />
                         </button>
                       )}

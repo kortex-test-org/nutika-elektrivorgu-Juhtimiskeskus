@@ -97,7 +97,8 @@
     "off": "Väljas",
     "override": "Manuaalne",
     "auto": "Automaatne",
-    "disconnected": "Ühenduseta"
+    "disconnected": "Ühenduseta",
+    "vacation": "Puhkus"
   },
   "forecast": {
     "title": "Hinnprognoos",

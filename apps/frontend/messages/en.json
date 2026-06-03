@@ -97,7 +97,8 @@
     "off": "Off",
     "override": "Manual",
     "auto": "Auto",
-    "disconnected": "Disconnected"
+    "disconnected": "Disconnected",
+    "vacation": "Vacation"
   },
   "forecast": {
     "title": "Price Forecast",

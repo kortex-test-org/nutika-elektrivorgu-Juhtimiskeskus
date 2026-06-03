@@ -148,9 +148,15 @@ interface CatModeBadgeProps {
   overrideActive: boolean
   currentState: boolean | null
   overrideState: boolean | null
+  isVacationMode?: boolean
 }
 
-export function CatModeBadge({ overrideActive, currentState, overrideState }: CatModeBadgeProps) {
+export function CatModeBadge({
+  overrideActive,
+  currentState,
+  overrideState,
+  isVacationMode,
+}: CatModeBadgeProps) {
   const t = useTranslations("status")
 
   if (!overrideActive) {
@@ -172,16 +178,25 @@ export function CatModeBadge({ overrideActive, currentState, overrideState }: Ca
         </span>
       </span>
     )
-  } else {
+  }
+
+  if (isVacationMode) {
     return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-500/10 border border-slate-500/20 text-slate-600 dark:text-slate-400 shadow-sm shadow-slate-500/5 transition-all hover:bg-slate-500/15">
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 shadow-sm shadow-amber-500/5 transition-all hover:bg-amber-500/15">
         <TinySleepingCatIcon />
-        <span>
-          {t("override")} ({t("off")}) 💤🐾
-        </span>
+        <span>💤 {t("vacation") ?? "Отпуск"} 🐾</span>
       </span>
     )
   }
+
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-500/10 border border-slate-500/20 text-slate-600 dark:text-slate-400 shadow-sm shadow-slate-500/5 transition-all hover:bg-slate-500/15">
+      <TinySleepingCatIcon />
+      <span>
+        {t("override")} ({t("off")}) 💤🐾
+      </span>
+    </span>
+  )
 }
 
 export function getDeviceStatus(device: {

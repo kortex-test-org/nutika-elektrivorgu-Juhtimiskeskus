@@ -97,7 +97,8 @@
     "off": "Выкл",
     "override": "Ручной",
     "auto": "Авто",
-    "disconnected": "Нет связи"
+    "disconnected": "Нет связи",
+    "vacation": "Отпуск"
   },
   "forecast": {
     "title": "Прогноз цен",
