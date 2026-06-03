@@ -69,6 +69,30 @@ export const modifyDevice = async (id: string, userId: string, data: UpdateDevic
     isCritical: data.isCritical,
   })
 
+  if (!updated) throw new Error("Device update failed")
+
+  // If threshold was changed and device is in auto mode, recalculate state immediately
+  if (data.threshold !== undefined && !device.overrideActive && updated.threshold) {
+    const latestPrice = await getCurrentPrice()
+    if (latestPrice) {
+      const currentPrice = Number(latestPrice.priceEurMwh)
+      const threshold = Number(updated.threshold)
+      const shouldBeOn = currentPrice < threshold
+      if (device.currentState !== shouldBeOn) {
+        await sendDeviceCommand({
+          deviceId: device.id,
+          host: device.host,
+          port: device.port,
+          topic: device.topic,
+          connectionType: device.connectionType,
+          command: shouldBeOn ? "on" : "off",
+          triggeredBy: "auto",
+          priceAtTime: currentPrice,
+        })
+      }
+    }
+  }
+
   return updated
 }
 
