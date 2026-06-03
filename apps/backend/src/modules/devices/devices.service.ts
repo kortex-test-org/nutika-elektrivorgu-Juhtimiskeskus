@@ -181,13 +181,17 @@ export const setDeviceOverride = async (
   let finalState = state ?? null
 
   // If switching back to Auto (active: false), calculate state based on price
-  if (!active && device.threshold) {
-    const latestPrice = await getCurrentPrice()
-    if (latestPrice) {
-      const currentPrice = Number(latestPrice.priceEurMwh)
-      const threshold = Number(device.threshold)
-      // Compare directly in EUR/MWh
-      finalState = currentPrice < threshold
+  if (!active) {
+    if (device.threshold) {
+      const latestPrice = await getCurrentPrice()
+      if (latestPrice) {
+        const currentPrice = Number(latestPrice.priceEurMwh)
+        const threshold = Number(device.threshold)
+        finalState = currentPrice < threshold
+      }
+    } else if (finalState === null) {
+      // No threshold and no explicit state -> turn on in auto mode
+      finalState = true
     }
   }
 
