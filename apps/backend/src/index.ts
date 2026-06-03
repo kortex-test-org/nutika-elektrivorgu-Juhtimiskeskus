@@ -63,26 +63,16 @@ const app = new Elysia()
     cors({
       origin: true,
       credentials: true,
-      allowedHeaders: ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
+      allowedHeaders: ["content-type", "authorization"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     }),
   )
   .use(swagger({ path: "/docs" }))
-  .onError(({ error, set, request }) => {
+  .onError(({ error, set }) => {
     const message = error instanceof Error ? error.message : "Internal server error"
     if (!(error instanceof Error) || !set.status || Number(set.status) < 400) {
       set.status = 500
     }
-
-    // Set CORS headers for error responses
-    const origin = request.headers.get("origin")
-    if (origin) {
-      set.headers["Access-Control-Allow-Origin"] = origin
-      set.headers["Access-Control-Allow-Credentials"] = "true"
-    } else {
-      set.headers["Access-Control-Allow-Origin"] = "*"
-    }
-
     return { error: message }
   })
   .use(authController)
