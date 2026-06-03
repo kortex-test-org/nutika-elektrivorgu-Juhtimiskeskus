@@ -40,14 +40,40 @@ export const runAutomationCycle = async (): Promise<void> => {
   }
 
   const allDevices = await getAllActiveDevices()
+  logger.info("Automation cycle started", {
+    deviceCount: allDevices.length,
+    currentPriceEurMwh: currentPrice,
+  })
 
   for (const device of allDevices) {
-    if (device.overrideActive) continue
-    if (device.threshold === null || device.threshold === undefined) continue
+    logger.info("Checking device", {
+      deviceId: device.id,
+      name: device.name,
+      overrideActive: device.overrideActive,
+      threshold: device.threshold,
+      currentState: device.currentState,
+    })
+
+    if (device.overrideActive) {
+      logger.info("Skipping device — override active", { deviceId: device.id })
+      continue
+    }
+    if (device.threshold === null || device.threshold === undefined) {
+      logger.info("Skipping device — no threshold", { deviceId: device.id })
+      continue
+    }
 
     const threshold = Number(device.threshold)
-    // Compare prices directly in EUR/MWh
     const shouldBeOn = currentPrice < threshold
+
+    logger.info("Evaluating device state", {
+      deviceId: device.id,
+      currentPriceEurMwh: currentPrice,
+      thresholdEurMwh: threshold,
+      shouldBeOn,
+      currentState: device.currentState,
+      willToggle: device.currentState !== shouldBeOn,
+    })
 
     if (device.currentState !== shouldBeOn) {
       await sendDeviceCommand({

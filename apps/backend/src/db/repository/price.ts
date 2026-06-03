@@ -1,6 +1,6 @@
 import { prices } from "@smartgrid/shared"
 import { db } from "@smartgrid/shared/db"
-import { and, desc, gte, lte } from "drizzle-orm"
+import { and, desc, gte, lte, sql } from "drizzle-orm"
 
 export const getLatestPrice = async () => {
   return db.query.prices.findFirst({
@@ -33,6 +33,6 @@ export const upsertPrices = async (
     .values(data)
     .onConflictDoUpdate({
       target: prices.timestamp,
-      set: { priceEurMwh: prices.priceEurMwh },
+      set: { priceEurMwh: sql`excluded.price_eur_mwh` },
     })
 }
